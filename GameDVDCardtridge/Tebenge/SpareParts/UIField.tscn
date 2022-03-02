@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.gd" type="Script" id=3]
+
+[node name="UIField" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuLagrange" parent="." instance=ExtResource( 1 )]
+script = null

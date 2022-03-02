@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.gd" type="Script" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/WallVertical.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BillboardBarrier.tscn" type="PackedScene" id=5]
+
+[node name="Tebenge" type="Node"]
+script = ExtResource( 2 )
+
+[node name="PlayField" type="Node2D" parent="."]
+
+[node name="TebengePlayer" parent="PlayField" instance=ExtResource( 3 )]
+position = Vector2( 960, 540 )
+
+[node name="Camera2D" type="Camera2D" parent="PlayField"]
+position = Vector2( 960, 540 )
+
+[node name="Board" type="Node2D" parent="PlayField"]
+
+[node name="WallVertical" parent="PlayField/Board" instance=ExtResource( 4 )]
+
+[node name="WallVertical2" parent="PlayField/Board" instance=ExtResource( 4 )]
+position = Vector2( 1920, 0 )
+
+[node name="BillboardBarrier" parent="PlayField/Board" instance=ExtResource( 5 )]
+
+[node name="BillboardBarrier2" parent="PlayField/Board" instance=ExtResource( 5 )]
+position = Vector2( 0, 1080 )
+
+[node name="UIField" parent="." instance=ExtResource( 1 )]
