@@ -1,9 +1,11 @@
 extends RigidBody2D
 
 var active:bool = false
-export(float) var speed:float = 50
+export(float) var speed:float = 500
 export(bool) var moves_wildly:bool = false
 export(float) var lifespanTimer = 10
+export(int) var damageLevel:int = 1
+export(float) var enemyMode = false
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -44,6 +46,17 @@ func _on_Timer_timeout():
 	amDestroy()
 	pass # Replace with function body.
 
+func skinBullet(gambar:Texture):
+	$Sprite.texture = gambar
 
 func _on_TebengeBullet_body_entered(body):
+	if body.is_in_group("Tebenge_Enemy") && !enemyMode:
+		# Because on that Enemy (based on Player) already has Tebenge_Player, can't remove parent's group, we first check this Tebenge_Enemy group first.
+		body.inflictDamage(damageLevel)
+		queue_free()
+		pass
+	elif body.is_in_group("Tebenge_Player") && enemyMode:
+		body.inflictDamage(damageLevel)
+		queue_free()
+		pass
 	pass # Replace with function body.

@@ -12,3 +12,7 @@ data_*/
 
 # admob datas
 *.admob
+android/build/AndroidManifest.xml
+android/build/AndroidManifest.xml
+android/build/res/admob/admob.xml
+android/backup/res/admob/admob.xml
