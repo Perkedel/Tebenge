@@ -15,9 +15,9 @@ extends BaseLagrange
 #func _process(delta):
 #	pass
 
-func _receiveOdeePressOption(named:String, fromLagrangeOf:String):
+func _receiveOdeePressOption(named:String,fromOD:String, fromLagrangeOf:String):
 	print("weha")
-	match(fromLagrangeOf):
+	match(fromOD):
 		"MainMenuOD":
 			print("You selected %s" % [named])
 			match(named):
@@ -46,8 +46,8 @@ func _receiveOdeePressOption(named:String, fromLagrangeOf:String):
 					pass
 		_:
 			pass
+	emit_signal("LagrangeWantsTo",named,fromOD,fromLagrangeOf)
 	pass
 
-
-func _on_MainMenuOD_pressedOption(nameOf):
+func _on_MainMenuOD_pressedOption(nameOf, oDName):
 	pass # Replace with function body.

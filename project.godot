@@ -34,10 +34,15 @@ _global_script_class_icons={
 
 config/name="Tebenge"
 config/description="Rogue shoot left right game"
-run/main_scene="res://GameDVDCardtridge/Tebenge/Tebenge.tscn"
+run/main_scene="res://TebengeLoneLoader.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Perkedel Technologies/Tebenge"
 config/icon="res://GameDVDCardtridge/Tebenge/Assets/images/MrTebenge.png"
+config/quit_on_go_back=false
+
+[autoload]
+
+TebengeGlobals="*res://GameDVDCardtridge/Tebenge/TebengeGlobals.gd"
 
 [display]
 

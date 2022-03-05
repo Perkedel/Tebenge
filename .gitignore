@@ -16,3 +16,5 @@ android/build/AndroidManifest.xml
 android/build/AndroidManifest.xml
 android/build/res/admob/admob.xml
 android/backup/res/admob/admob.xml
+android_backup/backup/res/admob/admob.xml
+android/build/build/outputs/apk/debug/android_debug.apk

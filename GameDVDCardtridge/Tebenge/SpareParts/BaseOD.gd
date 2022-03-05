@@ -10,7 +10,7 @@ extends HBoxContainer
 func _ready():
 	for thingThere in get_children():
 		if thingThere.has_signal("pressedName"):
-			thingThere.connect("pressedName", self, "sendPressedOption")
+			thingThere.connect("pressedName", self, "sendPressedOption", [name])
 			pass
 		pass
 	pass # Replace with function body.
@@ -20,9 +20,9 @@ func _ready():
 #func _process(delta):
 #	pass
 
-signal pressedOption(nameOf)
+signal pressedOption(nameOf,oDName)
 
-func sendPressedOption(name:String):
-	print("Pressed %s" % [name])
-	emit_signal("pressedOption",name)
+func sendPressedOption(named:String, oDName:String):
+	print("Pressed %s" % [named])
+	emit_signal("pressedOption",named,oDName)
 	pass

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Windoeng.gd" type="Script" id=1]
+
+[node name="WindowDialog" type="WindowDialog"]
+visible = true
+margin_right = 1325.0
+margin_bottom = 678.0
+window_title = "Notification"
+script = ExtResource( 1 )

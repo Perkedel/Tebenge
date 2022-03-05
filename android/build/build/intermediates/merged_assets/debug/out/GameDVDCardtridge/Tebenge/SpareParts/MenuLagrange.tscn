@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/MainMenuOD.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseLagrange.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/QuitDialogOD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.gd" type="Script" id=4]
+
+[node name="MenuLagrange" instance=ExtResource( 2 )]
+script = ExtResource( 4 )
+
+[node name="MainMenuOD" parent="." index="0" instance=ExtResource( 1 )]
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 930.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="QuitDialogOD" parent="." index="1" instance=ExtResource( 3 )]
+visible = false
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 930.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[connection signal="pressedOption" from="MainMenuOD" to="." method="_on_MainMenuOD_pressedOption"]
+
+[editable path="QuitDialogOD"]

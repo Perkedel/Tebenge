@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/QuitTypeChecker.gd" type="Script" id=1]
+
+[node name="QuitTypeChecker" type="Node"]
+script = ExtResource( 1 )

@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeTester.gd" type="Script" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BillboardBarrier.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/EikSerkat.png" type="Texture" id=5]
+
+[node name="TebengeTester" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="TebengePlayer" parent="." instance=ExtResource( 1 )]
+position = Vector2( 998, 589 )
+
+[node name="BillboardBarrier" parent="." instance=ExtResource( 3 )]
+
+[node name="TebengeEnemy" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1451, 589 )
+bulletImage = null
+deathImage = null
+
+[node name="EikSerkatTest" type="Sprite" parent="."]
+position = Vector2( 790, 572 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 5 )

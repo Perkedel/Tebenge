@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2bfb09bc-59b4-486f-a08d-00c54e3f7592" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backup/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backup/libs/debug/godot-lib.debug.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backup/libs/release/godot-lib.release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backup/res/admob/put_admob-xml_here.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/debug/godot-lib.debug.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/release/godot-lib.release.aar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/res/admob/put_admob-xml_here.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="25w03wYSpPpCrcI8V16kpEZQpw4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2bfb09bc-59b4-486f-a08d-00c54e3f7592" name="Default Changelist" comment="" />
+      <created>1646422645882</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646422645882</updated>
+    </task>
+    <servers />
+  </component>
+</project>

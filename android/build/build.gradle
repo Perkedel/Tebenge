@@ -183,7 +183,6 @@ android {
             res.srcDirs = [
                 'res'
 //DIR_RES_BEGIN
-,'C:/Users/joelr/Documents/starring codes/Godot Projects/Tebenge/android/backup/res'
 //DIR_RES_END
             ]
             aidl.srcDirs = [

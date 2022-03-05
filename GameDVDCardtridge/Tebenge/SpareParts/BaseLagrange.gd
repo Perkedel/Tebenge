@@ -10,7 +10,7 @@ class_name BaseLagrange
 func _ready():
 	for Odees in get_children():
 		if Odees.has_signal("pressedOption"):
-			Odees.connect("pressedOption",self,"_receiveOdeePressOption",[Odees.get_name()])
+			Odees.connect("pressedOption",self,"_receiveOdeePressOption",[ name])
 		pass
 	pass # Replace with function body.
 
@@ -18,6 +18,9 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _receiveOdeePressOption(named:String, fromLagrangeOf:String):
-	print("Pressed %s from Node %s" % [named, fromLagrangeOf])
+signal LagrangeWantsTo(nameOf,fromOD, fromLagrange)
+
+func _receiveOdeePressOption(named:String, fromOD:String, fromLagrangeOf:String):
+	print("Pressed %s from Node %s" % [named, fromLagrangeOf,fromOD])
+	emit_signal("LagrangeWantsTo",named,fromOD,fromLagrangeOf)
 	pass

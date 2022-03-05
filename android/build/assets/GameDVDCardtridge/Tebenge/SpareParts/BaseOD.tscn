@@ -9,6 +9,3 @@ anchor_bottom = 0.5
 rect_min_size = Vector2( 0, 150 )
 alignment = 1
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
