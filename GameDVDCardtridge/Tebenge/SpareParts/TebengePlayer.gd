@@ -1,9 +1,14 @@
 extends KinematicBody2D
 
 export(int) var initHP:int = 3
+export(bool) var initActivate:bool = false
 export(float) var speed:float = 5
+var _pointRightNow:int = 0
 var movening:Vector2 = Vector2(0,0)
+var autoMovening:Vector2 = Vector2(0,0)
+var excuseMeY:float = 0
 var active:bool = false
+var doingExcuseMe:bool = false
 export (bool) var enemyMode:bool = false
 export(bool) var movesToLeft:bool = false
 export(PackedScene) var theBeluru = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBullet.tscn")
@@ -17,6 +22,8 @@ export(int) var maximumBullet:int = 5
 export(int) var bulletDamage:int = 3
 export(float) var autoShootPeriodTime = 6
 var currentBulletOnScreen:int = 0
+var arrayedBulletOnScreen:Array
+var hasCollidenKinematic:KinematicCollision2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -24,17 +31,21 @@ var currentBulletOnScreen:int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	hp = initHP
-	$AutoShootPeriods.start(autoShootPeriodTime)
+	
 	pass # Replace with function body.
 
+func _enter_tree():
+	reset(false)
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	movening = Vector2(Input.get_axis("Tebenge_Kiri","Tebenge_Kanan"),Input.get_axis("Tebenge_Atas","Tebenge_Bawah"))
+	excuseMeY = ((1 if movesToLeft else -1) * speed * 10) if doingExcuseMe else 0
+	autoMovening = Vector2(speed * (-1 if movesToLeft else 1),excuseMeY)
 	if active:
 		if enemyMode:
-			move_and_collide(Vector2(speed * (-1 if movesToLeft else 1),0),true)
+			hasCollidenKinematic = move_and_collide(autoMovening,true)
 			facingLeft = movesToLeft
 			changeFace(movesToLeft)
 			pass
@@ -42,7 +53,7 @@ func _process(delta):
 			# TODO: check hp 0 then destroy
 		else:
 			if movening != Vector2.ZERO:
-				move_and_collide(movening*speed,true)
+				hasCollidenKinematic = move_and_collide(movening*speed,true)
 #				move_and_slide(movening * speed)
 			
 			if Input.is_action_just_pressed("Tebenge_Kiri"):
@@ -55,11 +66,52 @@ func _process(delta):
 				shootNow()
 	pass
 
-func shootNow():
-	if currentBulletOnScreen >= maximumBullet:
-		return
+func _physics_process(delta: float) -> void:
+#	if hasCollidenKinematic:
+#		var metadataing = hasCollidenKinematic.collider
+#		if metadataing:
+#			if metadataing.is_in_group("Tebenge_Enemy"):
+#				if enemyMode:
+##					doingExcuseMe = true
+##					$ExcuseMeTimer.start(2)
+##					position = Vector2(position.x + (-200 if movesToLeft else 200), position.y)
+#					movesToLeft != movesToLeft
+#					pass
+#
+	pass
+
+func plsExcuseMe():
+	doingExcuseMe = true
+	$ExcuseMeTimer.start(.15)
+	pass
+
+func reset(withResetTimer:bool = false):
+	hp = initHP
+	$dedd.hide()
+	$Form.show()
+	$Collide.set_deferred("disabled", false)
+	if withResetTimer:
+		$DyingTimer.stop()
+	set_active(initActivate,withResetTimer)
+	pass
+
+func set_active(itIs:bool = false, timerStart:bool = true):
+	active = itIs
+	if active:
+		if enemyMode:
+			if timerStart:
+				$AutoShootPeriods.start(autoShootPeriodTime)
+			pass
+		pass
 	else:
-		_spawnBullet()
+		$AutoShootPeriods.stop()
+		pass
+	pass
+
+func shootNow():
+	if arrayedBulletOnScreen.size() >= maximumBullet:
+		return
+	_spawnBullet()
 	pass
 
 func _input(event):
@@ -73,9 +125,28 @@ func changeFace(toTheLeft:bool = false):
 	$Form.flip_h = toTheLeft
 	pass
 
+func _checkWhoCollide(handover:Node):
+	if handover.is_in_group("Tebenge_Enemy"):
+		if enemyMode:
+			plsExcuseMe()
+			pass
+		pass
+	pass
+
+signal pointItIsNow(howMany)
+func receivePoint(howMany:int):
+	_pointRightNow += howMany
+	emit_signal("pointItIsNow", _pointRightNow)
+	pass
+
+func getPoint() -> int:
+	return _pointRightNow
+
+signal eikSerkat()
 func _interpretHP():
+	$FloatingHUD.setHPsay(String(hp))
 	if hp <= 0:
-		active = false
+		set_active(false)
 		var duarInstance = theDuarParticle.instance()
 		duarInstance.position = position
 		get_parent().add_child(duarInstance,true)
@@ -86,12 +157,14 @@ func _interpretHP():
 		$Form.hide()
 		$dedd.show() # screw this! I must make money because my parents gonna pension soon
 		$Collide.set_deferred("disabled", true)
+		emit_signal("eikSerkat")
 		pass
 	pass
 
 func _spawnBullet():
 	currentBulletOnScreen += 1
 	var bullet = theBeluru.instance()
+	arrayedBulletOnScreen.append(bullet)
 	bullet.connect("destroying",self,"_bulletDestroyed")
 	bullet.skinBullet(bulletImage)
 	bullet.damageLevel = bulletDamage
@@ -101,13 +174,33 @@ func _spawnBullet():
 	else:
 		pass
 	bullet.positionNow(position + Vector2(spaceBetweenBullet * (-1 if facingLeft else 1),0))
-	bullet.runNow(Vector2(-1 if facingLeft else 1,0))
 	get_parent().add_child(bullet,true)
+	bullet.runNow(Vector2(-1 if facingLeft else 1,0))
 	pass
 
-func _bulletDestroyed():
+func _bulletDestroyed(itself:Node, hitWho:Node, hitWhoRaw:Node):
 	currentBulletOnScreen -= 1
+	if currentBulletOnScreen < 0:
+		currentBulletOnScreen = 0
+	__removeBulletItself(itself)
+	
+	# which thing this bullet hit?
+	if hitWho.is_in_group("Tebenge_Enemy"):
+		if enemyMode:
+			pass
+		else:
+			receivePoint(1)
+			pass
+		pass
+	elif hitWho.is_in_group("Tebenge_Player") && !hitWho.is_in_group("Tebenge_Enemy"):
+		pass
+	elif hitWho.is_in_group("Tebenge_Bullet"):
+		
+		pass
 	pass
+
+func __removeBulletItself(handover):
+	arrayedBulletOnScreen.erase(handover)
 
 func inflictDamage(howMany:int):
 	hp -= howMany
@@ -120,13 +213,27 @@ func _eikSerkat():
 	pass
 
 func _on_DyingTimer_timeout():
-	if enemyMode:
-		queue_free()
+	if hp <= 0:
+		if enemyMode:
+			queue_free()
 	pass # Replace with function body.
-
 
 func _on_AutoShootPeriods_timeout():
 	if enemyMode:
 		_spawnBullet()
 		pass
+	pass # Replace with function body.
+
+func _on_ExcuseMeTimer_timeout() -> void:
+	doingExcuseMe = false
+	pass # Replace with function body.
+
+func _on_LeftSensorg_body_entered(body: Node) -> void:
+	if movesToLeft:
+		_checkWhoCollide(body)
+	pass # Replace with function body.
+
+func _on_RightSensorg_body_entered(body: Node) -> void:
+	if !movesToLeft:
+		_checkWhoCollide(body)
 	pass # Replace with function body.

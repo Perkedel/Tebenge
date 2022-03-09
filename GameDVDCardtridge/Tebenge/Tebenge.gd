@@ -79,3 +79,6 @@ func pauseNow(isIt:bool = false):
 func _on_UIField_uiWantsTo(nameOf:String, fromOD:String, fromLagrange:String):
 	readUISignalWantsTo(nameOf, fromOD,fromLagrange)
 	pass # Replace with function body.
+
+func _on_PlayField_game_over() -> void:
+	pass # Replace with function body.

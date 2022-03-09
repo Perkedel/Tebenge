@@ -5,7 +5,10 @@ export(float) var speed:float = 500
 export(bool) var moves_wildly:bool = false
 export(float) var lifespanTimer = 10
 export(int) var damageLevel:int = 1
-export(float) var enemyMode = false
+export(bool) var enemyMode:bool = false
+export(bool) var itemMode:bool = false #item adds 2 score if not enemy, else -1 score
+var iHitWhoRaw:Node
+var iHitWhoSpecific:Node
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -13,9 +16,12 @@ export(float) var enemyMode = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Timer.wait_time = lifespanTimer
+	
 	pass # Replace with function body.
 
+func _enter_tree():
+	$Timer.wait_time = lifespanTimer
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -36,9 +42,9 @@ func runNow(velocite:Vector2):
 	$Timer.start()
 	pass
 
-signal destroying()
+signal destroying(myself)
 func amDestroy():
-	emit_signal("destroying")
+	emit_signal("destroying",self,iHitWhoSpecific,iHitWhoRaw)
 	queue_free()
 	pass
 
@@ -49,14 +55,64 @@ func _on_Timer_timeout():
 func skinBullet(gambar:Texture):
 	$Sprite.texture = gambar
 
-func _on_TebengeBullet_body_entered(body):
-	if body.is_in_group("Tebenge_Enemy") && !enemyMode:
-		# Because on that Enemy (based on Player) already has Tebenge_Player, can't remove parent's group, we first check this Tebenge_Enemy group first.
-		body.inflictDamage(damageLevel)
-		queue_free()
-		pass
-	elif body.is_in_group("Tebenge_Player") && enemyMode:
-		body.inflictDamage(damageLevel)
-		queue_free()
-		pass
+func _on_TebengeBullet_body_entered(body:Node):
+	iHitWhoRaw = body
+	if enemyMode:
+		if body.is_in_group("Tebenge_Player") && !body.is_in_group("Tebenge_Enemy"):
+			if itemMode:
+				# victim get -1 point
+				body.receivePoint(-1)
+				pass
+			else:
+				body.inflictDamage(damageLevel)
+			iHitWhoSpecific = body
+			amDestroy()
+			pass
+		elif body.is_in_group("Tebenge_Enemy"):
+			# hit by own bullet
+			pass
+		elif body.is_in_group("Tebenge_Bullet"):
+			# enemy bullet bounces other enemy bullet but destroy player bullet & destroy itself
+			if body.enemyMode:
+				pass
+			else:
+				iHitWhoSpecific = body
+				body.amDestroy()
+				amDestroy()
+			pass
+	else:
+		if body.is_in_group("Tebenge_Enemy"):
+			# Because on that Enemy (based on Player) already has Tebenge_Player, can't remove parent's group, we first check this Tebenge_Enemy group first.
+			if itemMode:
+				# uh, maybe steal HP from the victim, and put it to bullet owner?
+				# yess, vampire!
+				pass
+			else:
+				body.inflictDamage(damageLevel)
+			iHitWhoSpecific = body
+			amDestroy()
+			pass
+		elif body.is_in_group("Tebenge_Player") && !body.is_in_group("Tebenge_Enemy"):
+			# when hit by own bullet / took item
+			if itemMode:
+				# add the body 2 point
+				body.receivePoint(2)
+				iHitWhoSpecific = body
+				amDestroy()
+				pass
+			else:
+				pass
+			# no don't destroy!
+			pass
+		elif body.is_in_group("Tebenge_Bullet"):
+			# player bullet bounces player bullet but destroy enemy bullet & destroy itself
+			if body.enemyMode:
+				iHitWhoSpecific = body
+				body.amDestroy()
+				amDestroy()
+				pass
+			else:
+				pass
+			pass
+		
 	pass # Replace with function body.

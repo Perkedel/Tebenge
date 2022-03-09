@@ -24,6 +24,7 @@ banner_size = "SMART_BANNER"
 visible = false
 
 [node name="AcceptDialog" parent="BuiltInSystemer" instance=ExtResource( 5 )]
+visible = false
 popup_exclusive = true
 dialog_text = "It is now safe to close this app. 
 (iOS does not support auto-quit per interface guidelines)

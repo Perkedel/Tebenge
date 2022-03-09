@@ -6,6 +6,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/BeluruEnemy.png" type="Texture" id=4]
 
 [node name="TebengeEnemy" groups=["Tebenge_Enemy"] instance=ExtResource( 1 )]
+initActivate = true
 speed = 2.0
 enemyMode = true
 movesToLeft = true
@@ -16,5 +17,14 @@ bulletDamage = 1
 [node name="Form" parent="." index="0"]
 texture = ExtResource( 2 )
 
+[node name="DyingTimer" parent="." index="2"]
+one_shot = true
+
 [node name="dedd" parent="." index="3"]
 texture = ExtResource( 3 )
+
+[node name="FloatingHUD" parent="." index="5"]
+visible = false
+
+[connection signal="body_entered" from="LeftSensorg" to="." method="_on_LeftSensorg_body_entered"]
+[connection signal="body_entered" from="RightSensorg" to="." method="_on_RightSensorg_body_entered"]
