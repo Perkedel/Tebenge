@@ -1,25 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/DuarParticleWhite.png" type="Texture" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeDuar.gd" type="Script" id=2]
-
-[sub_resource type="ParticlesMaterial" id=1]
-lifetime_randomness = 1.0
-emission_shape = 1
-emission_sphere_radius = 0.01
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 1000.0
-initial_velocity_random = 1.0
-angular_velocity = 720.0
-angular_velocity_random = 1.0
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 0.1
-color = Color( 0, 1, 1, 1 )
-hue_variation = 1.0
-hue_variation_random = 1.0
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/bouff.wav" type="AudioStream" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeDuarParticleResource.tres" type="Material" id=4]
 
 [node name="TebengeDuar" type="Particles2D"]
 emitting = false
@@ -28,7 +12,7 @@ lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
-process_material = SubResource( 1 )
+process_material = ExtResource( 4 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
@@ -38,6 +22,6 @@ one_shot = true
 autostart = true
 
 [node name="DuarSound" type="AudioStreamPlayer2D" parent="."]
-autoplay = true
+stream = ExtResource( 3 )
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

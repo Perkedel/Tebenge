@@ -14,6 +14,9 @@ func setHPsay(value:String):
 	$ContainsThingy/HPBar.set_Label_say(value)
 	pass
 
+func setPointsay(value:String):
+	$ContainsThingy/PointBar.set_Label_say(value)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass

@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 export(int) var initHP:int = 3
 export(bool) var initActivate:bool = false
+var lastHPBefore = 3
 export(float) var speed:float = 5
 var _pointRightNow:int = 0
 var movening:Vector2 = Vector2(0,0)
@@ -24,6 +25,10 @@ export(float) var autoShootPeriodTime = 6
 var currentBulletOnScreen:int = 0
 var arrayedBulletOnScreen:Array
 var hasCollidenKinematic:KinematicCollision2D
+export(AudioStream) var bulletCollisionSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/do-amarac.wav")
+export(AudioStream) var huertSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/huert-keoust.wav")
+export(AudioStream) var shootSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/tararot.wav")
+export(AudioStream) var eikSerkatDuarSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/grefrhhruhumhumhmhm.wav")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -31,7 +36,8 @@ var hasCollidenKinematic:KinematicCollision2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	$GunShotSounder.stream = shootSound
+	$HuertWoundeSounder.stream = huertSound
 	pass # Replace with function body.
 
 func _enter_tree():
@@ -136,6 +142,7 @@ func _checkWhoCollide(handover:Node):
 signal pointItIsNow(howMany)
 func receivePoint(howMany:int):
 	_pointRightNow += howMany
+	$FloatingHUD.setPointsay(String(_pointRightNow))
 	emit_signal("pointItIsNow", _pointRightNow)
 	pass
 
@@ -148,6 +155,7 @@ func _interpretHP():
 	if hp <= 0:
 		set_active(false)
 		var duarInstance = theDuarParticle.instance()
+		duarInstance.changeDuarSound(eikSerkatDuarSound)
 		duarInstance.position = position
 		get_parent().add_child(duarInstance,true)
 		$DyingTimer.start(1)
@@ -159,6 +167,16 @@ func _interpretHP():
 		$Collide.set_deferred("disabled", true)
 		emit_signal("eikSerkat")
 		pass
+	else:
+		if lastHPBefore > hp:
+			# means lost hp
+			$HuertWoundeSounder.play()
+			pass
+		elif lastHPBefore < hp:
+			# means add hp
+			pass
+		pass
+	lastHPBefore = hp
 	pass
 
 func _spawnBullet():
@@ -167,6 +185,7 @@ func _spawnBullet():
 	arrayedBulletOnScreen.append(bullet)
 	bullet.connect("destroying",self,"_bulletDestroyed")
 	bullet.skinBullet(bulletImage)
+	bullet.changeCollideSound(bulletCollisionSound)
 	bullet.damageLevel = bulletDamage
 	bullet.enemyMode = enemyMode
 	if facingLeft:
@@ -175,6 +194,7 @@ func _spawnBullet():
 		pass
 	bullet.positionNow(position + Vector2(spaceBetweenBullet * (-1 if facingLeft else 1),0))
 	get_parent().add_child(bullet,true)
+	$GunShotSounder.play()
 	bullet.runNow(Vector2(-1 if facingLeft else 1,0))
 	pass
 
@@ -185,18 +205,19 @@ func _bulletDestroyed(itself:Node, hitWho:Node, hitWhoRaw:Node):
 	__removeBulletItself(itself)
 	
 	# which thing this bullet hit?
-	if hitWho.is_in_group("Tebenge_Enemy"):
-		if enemyMode:
+	if hitWho:
+		if hitWho.is_in_group("Tebenge_Enemy"):
+			if enemyMode:
+				pass
+			else:
+				receivePoint(1)
+				pass
 			pass
-		else:
-			receivePoint(1)
+		elif hitWho.is_in_group("Tebenge_Player") && !hitWho.is_in_group("Tebenge_Enemy"):
 			pass
-		pass
-	elif hitWho.is_in_group("Tebenge_Player") && !hitWho.is_in_group("Tebenge_Enemy"):
-		pass
-	elif hitWho.is_in_group("Tebenge_Bullet"):
-		
-		pass
+		elif hitWho.is_in_group("Tebenge_Bullet"):
+			
+			pass
 	pass
 
 func __removeBulletItself(handover):

@@ -7,6 +7,8 @@ export(float) var lifespanTimer = 10
 export(int) var damageLevel:int = 1
 export(bool) var enemyMode:bool = false
 export(bool) var itemMode:bool = false #item adds 2 score if not enemy, else -1 score
+export(AudioStream) var collideSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/do-amarac.wav")
+export(PackedScene) var sparkParticle:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/BulletCrashed.tscn")
 var iHitWhoRaw:Node
 var iHitWhoSpecific:Node
 # Declare member variables here. Examples:
@@ -16,8 +18,12 @@ var iHitWhoSpecific:Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+#	$BulletCollideSound.stream = collideSound
 	pass # Replace with function body.
+
+func changeCollideSound(intoThis:AudioStream):
+	$BulletCollideSound.stream = intoThis
+	pass
 
 func _enter_tree():
 	$Timer.wait_time = lifespanTimer
@@ -40,6 +46,12 @@ func runNow(velocite:Vector2):
 #	apply_central_impulse(velocite * speed)
 	linear_velocity = velocite * speed
 	$Timer.start()
+	pass
+
+func _spawnSpark():
+	var particled = sparkParticle.instance()
+	particled.position = position
+	get_parent().add_child(particled,true)
 	pass
 
 signal destroying(myself)
@@ -70,15 +82,25 @@ func _on_TebengeBullet_body_entered(body:Node):
 			pass
 		elif body.is_in_group("Tebenge_Enemy"):
 			# hit by own bullet
+			if itemMode:
+				pass
+			else:
+				$BulletCollideSound.play()
+				pass
 			pass
 		elif body.is_in_group("Tebenge_Bullet"):
 			# enemy bullet bounces other enemy bullet but destroy player bullet & destroy itself
 			if body.enemyMode:
+				$BulletCollideSound.play()
 				pass
 			else:
+				_spawnSpark()
 				iHitWhoSpecific = body
 				body.amDestroy()
 				amDestroy()
+			pass
+		else:
+			$BulletCollideSound.play()
 			pass
 	else:
 		if body.is_in_group("Tebenge_Enemy"):
@@ -101,18 +123,23 @@ func _on_TebengeBullet_body_entered(body:Node):
 				amDestroy()
 				pass
 			else:
+				$BulletCollideSound.play()
 				pass
 			# no don't destroy!
 			pass
 		elif body.is_in_group("Tebenge_Bullet"):
 			# player bullet bounces player bullet but destroy enemy bullet & destroy itself
 			if body.enemyMode:
+				_spawnSpark()
 				iHitWhoSpecific = body
 				body.amDestroy()
 				amDestroy()
 				pass
 			else:
+				$BulletCollideSound.play()
 				pass
 			pass
-		
+		else:
+			$BulletCollideSound.play()
+			pass
 	pass # Replace with function body.
