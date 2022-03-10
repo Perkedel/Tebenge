@@ -41,4 +41,6 @@ The following are tab links opened during this development. Some of which are as
 - https://developers.google.com/admob/android/banner
 - https://developer.android.com/studio/publish/app-signing 
 - https://godotengine.org/qa/234/how-to-get-the-screen-dimensions-in-gdscript
-- https://sfbgames.itch.io/chiptone
+- https://sfbgames.itch.io/chiptone (WARNING: PROPRIETARY?) Gratis sfxr inspired tone generator
+- https://godotengine.org/asset-library/asset/398 Marco Fazio. Virtual Joystick plugin yey! MIT
+- https://github.com/MarcoFazioRandom/Virtual-Joystick-Godot Marco Fazio. Virtual Joystick GitHub repo

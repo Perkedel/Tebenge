@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "TebengeMenuButton",
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.gd"
+}, {
+"base": "Control",
+"class": "VirtualJoystick",
+"language": "GDScript",
+"path": "res://joystick/virtual_joystick.gd"
 } ]
 _global_script_class_icons={
 "AdMob": "res://admob-lib/icon.png",
 "BaseLagrange": "",
-"TebengeMenuButton": ""
+"TebengeMenuButton": "",
+"VirtualJoystick": ""
 }
 
 [application]
@@ -118,6 +124,7 @@ Tebenge_Bawah={
 [input_devices]
 
 buffering/agile_event_flushing=true
+pointing/emulate_mouse_from_touch=false
 
 [physics]
 
