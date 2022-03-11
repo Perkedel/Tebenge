@@ -39,6 +39,7 @@ func _testAdbmobio():
 #	pass
 
 func _on_AdMob_banner_loaded():
+	$DVDsolder/Tebenge.receive_AdBanner_success()
 	pass # Replace with function body.
 
 
@@ -51,6 +52,7 @@ func _on_AdMob_interstitial_failed_to_load(error_code):
 
 
 func _on_AdMob_interstitial_loaded():
+	$DVDsolder/Tebenge.receive_AdInterstitial_success()
 	pass # Replace with function body.
 
 func _on_AdMob_banner_failed_to_load(error_code):
@@ -72,4 +74,11 @@ func _on_Tebenge_Shutdown_Exec():
 		pass
 	
 	get_tree().quit()
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdInterstitial_Exec() -> void:
+	pass # Replace with function body.
+
+func _on_Tebenge_AdRewarded_Exec() -> void:
 	pass # Replace with function body.

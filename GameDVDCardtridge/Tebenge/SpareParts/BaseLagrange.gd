@@ -10,7 +10,7 @@ class_name BaseLagrange
 func _ready():
 	for Odees in get_children():
 		if Odees.has_signal("pressedOption"):
-			Odees.connect("pressedOption",self,"_receiveOdeePressOption",[ name])
+			Odees.connect("pressedOption",self,"_receiveOdeePressOption",[name])
 		pass
 	pass # Replace with function body.
 

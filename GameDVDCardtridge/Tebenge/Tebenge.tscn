@@ -11,7 +11,13 @@ script = ExtResource( 2 )
 active = false
 preActivateTest = false
 
-[node name="UIField" parent="." instance=ExtResource( 1 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="UIField" parent="CanvasLayer" instance=ExtResource( 1 )]
 
 [connection signal="game_over" from="PlayField" to="." method="_on_PlayField_game_over"]
-[connection signal="uiWantsTo" from="UIField" to="." method="_on_UIField_uiWantsTo"]
+[connection signal="uiWantsTo" from="CanvasLayer/UIField" to="." method="_on_UIField_uiWantsTo"]
+[connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
+[connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]
+[connection signal="wantsToShutdown" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToShutdown"]

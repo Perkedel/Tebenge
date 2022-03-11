@@ -2,10 +2,14 @@ extends Node
 
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
+signal AdInterstitial_Exec()
+signal AdRewarded_Exec()
+signal AdBanner_Exec()
 onready var loadedHexagonEngine:bool = true
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var wantsToContinue:bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -14,6 +18,13 @@ func _ready():
 
 func _enter_tree():
 	
+	pass
+
+func _frigginCheckContinue():
+	if wantsToContinue:
+		# continue game. check if credit inserted is there.
+		
+		wantsToContinue = false
 	pass
 
 func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String):
@@ -82,3 +93,40 @@ func _on_UIField_uiWantsTo(nameOf:String, fromOD:String, fromLagrange:String):
 
 func _on_PlayField_game_over() -> void:
 	pass # Replace with function body.
+
+
+func _on_UIField_wantsToPlay() -> void:
+	pass # Replace with function body.
+
+
+func _on_UIField_wantsToQuit() -> void:
+	pass # Replace with function body.
+
+
+func _on_UIField_wantsToShutdown() -> void:
+	pass # Replace with function body.
+
+func receive_AdInterstitial_success() -> void:
+	_frigginCheckContinue()
+	pass
+
+func receive_AdInterstitial_closed() -> void:
+	pass
+
+func receive_AdInterstitial_failed() -> void:
+	_frigginCheckContinue()
+	pass
+
+func receive_AdRewarded_success() -> void:
+	pass
+
+func receive_AdRewarded_failed() -> void:
+	pass
+
+func receive_AdBanner_success() -> void:
+	
+	pass
+
+func receive_AdBanner_failed() -> void:
+	# DO NOT LIMIT ANYTHING JUST BECAUSE THIS BANNER FAIL TO LOAD!!!
+	pass

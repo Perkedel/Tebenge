@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://TebengeLoneLoader.gd" type="Script" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.tscn" type="PackedScene" id=2]
-[ext_resource path="res://admob-lib/admob.gd" type="Script" id=3]
-[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Windoeng.tscn" type="PackedScene" id=4]
-[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/AcceptDialogWindoeng.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BuiltInSystemer.tscn" type="PackedScene" id=3]
 
 [node name="TebengeLoneLoader" type="Node"]
 script = ExtResource( 1 )
@@ -13,28 +11,11 @@ script = ExtResource( 1 )
 
 [node name="Tebenge" parent="DVDsolder" instance=ExtResource( 2 )]
 
-[node name="BuiltInSystemer" type="Node" parent="."]
+[node name="BuiltInSystemer" parent="." instance=ExtResource( 3 )]
 
-[node name="AdMob" type="Node" parent="BuiltInSystemer"]
-script = ExtResource( 3 )
-is_real = true
-banner_size = "SMART_BANNER"
-
-[node name="WindowDialog" parent="BuiltInSystemer" instance=ExtResource( 4 )]
-visible = false
-
-[node name="AcceptDialog" parent="BuiltInSystemer" instance=ExtResource( 5 )]
-visible = false
-popup_exclusive = true
-dialog_text = "It is now safe to close this app. 
-(iOS does not support auto-quit per interface guidelines)
-(HTML5 does not support auto-quit / close tab)"
-dialog_hide_on_ok = false
-
+[connection signal="AdInterstitial_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdInterstitial_Exec"]
+[connection signal="AdRewarded_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdRewarded_Exec"]
 [connection signal="ChangeDVD_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_ChangeDVD_Exec"]
 [connection signal="Shutdown_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_Shutdown_Exec"]
-[connection signal="banner_failed_to_load" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_failed_to_load"]
-[connection signal="banner_loaded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_loaded"]
-[connection signal="interstitial_closed" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_interstitial_closed"]
-[connection signal="interstitial_failed_to_load" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_interstitial_failed_to_load"]
-[connection signal="interstitial_loaded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_interstitial_loaded"]
+
+[editable path="BuiltInSystemer"]
