@@ -10,6 +10,10 @@ extends BaseLagrange
 #func _ready():
 #	pass # Replace with function body.
 
+func mainMenuPls():
+	$MainMenuOD.show()
+	$QuitDialogOD.hide()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -39,11 +43,11 @@ func _receiveOdeePressOption(named:String,fromOD:String, fromLagrangeOf:String):
 				"ChangeDVD":
 					pass
 				"Cancel":
-					$MainMenuOD.show()
-					$QuitDialogOD.hide()
+					mainMenuPls()
 					pass
 				_:
 					pass
+					
 		_:
 			pass
 	emit_signal("LagrangeWantsTo",named,fromOD,fromLagrangeOf)

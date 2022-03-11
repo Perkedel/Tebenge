@@ -12,10 +12,19 @@ signal wantsToShutdown
 func _ready():
 	pass # Replace with function body.
 
+func mainMenuPls():
+	$MenuLagrange.show()
+	$GameplayLagrange.hide()
+	$MenuLagrange.mainMenuPls()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func setContinueNumber(say:String):
+	$GameplayLagrange.setContinueNumber(say)
+	pass
 
 signal uiWantsTo(nameOf,fromOD, fromLagrange)
 

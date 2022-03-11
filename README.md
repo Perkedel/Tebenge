@@ -44,3 +44,8 @@ The following are tab links opened during this development. Some of which are as
 - https://sfbgames.itch.io/chiptone (WARNING: PROPRIETARY?) Gratis sfxr inspired tone generator
 - https://godotengine.org/asset-library/asset/398 Marco Fazio. Virtual Joystick plugin yey! MIT
 - https://github.com/MarcoFazioRandom/Virtual-Joystick-Godot Marco Fazio. Virtual Joystick GitHub repo
+- https://godotforums.org/discussion/19533/adding-a-singleton-in-editor-via-script-godot-3-0
+- https://kidscancode.org/godot_recipes/recipes/singleton/
+- https://godotforums.org/discussion/22003/how-to-set-spawn-locations-after-a-loading-zone-3d
+- https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html
+- https://github.com/godotengine/godot/issues/6840

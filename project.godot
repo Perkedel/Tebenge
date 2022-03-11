@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.gd"
 }, {
+"base": "Node2D",
+"class": "TebengePlayField",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/PlayField.gd"
+}, {
 "base": "Control",
 "class": "VirtualJoystick",
 "language": "GDScript",
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "BaseLagrange": "",
 "ComplexDT": "",
 "TebengeMenuButton": "",
+"TebengePlayField": "",
 "VirtualJoystick": ""
 }
 

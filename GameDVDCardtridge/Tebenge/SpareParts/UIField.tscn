@@ -11,8 +11,8 @@ script = ExtResource( 3 )
 
 [node name="MenuLagrange" parent="." instance=ExtResource( 1 )]
 
-[node name="GameplayLangrange" parent="." instance=ExtResource( 2 )]
+[node name="GameplayLagrange" parent="." instance=ExtResource( 2 )]
 visible = false
 
 [connection signal="LagrangeWantsTo" from="MenuLagrange" to="." method="_on_MenuLagrange_LagrangeWantsTo"]
-[connection signal="LagrangeWantsTo" from="GameplayLangrange" to="." method="_on_GameplayLangrange_LagrangeWantsTo"]
+[connection signal="LagrangeWantsTo" from="GameplayLagrange" to="." method="_on_GameplayLangrange_LagrangeWantsTo"]

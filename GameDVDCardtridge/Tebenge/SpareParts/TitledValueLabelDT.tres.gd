@@ -1,3 +1,4 @@
+tool
 extends ComplexDT
 
 export(String) var title = "Title"
@@ -15,5 +16,5 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	$TitleLabel.text = title
-	$TitleLabel.text = value
+	$ValueLabel.text = value
 	pass

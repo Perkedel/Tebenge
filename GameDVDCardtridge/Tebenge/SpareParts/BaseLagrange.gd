@@ -12,7 +12,12 @@ func _ready():
 		if Odees.has_signal("pressedOption"):
 			Odees.connect("pressedOption",self,"_receiveOdeePressOption",[name])
 		pass
+	_readyCustom()
 	pass # Replace with function body.
+
+func _readyCustom()->void:
+	# There is no super. so override this instead.
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name TebengePlayField
+
 enum gameModes{Arcade,Endless}
 export(gameModes) var chooseGameMode
 export(NodePath) var PlayerThemselves:NodePath  #= get_node("TebengePlayer") # bug! it fails to compile!
