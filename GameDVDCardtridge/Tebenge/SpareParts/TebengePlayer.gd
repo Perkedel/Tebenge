@@ -101,6 +101,10 @@ func reset(withResetTimer:bool = false):
 	set_active(initActivate,withResetTimer)
 	pass
 
+func resurrect():
+	reset(true)
+#	set_active(true,true)
+
 func set_active(itIs:bool = false, timerStart:bool = true):
 	active = itIs
 	if active:

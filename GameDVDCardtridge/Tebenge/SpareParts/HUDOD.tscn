@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://joystick/virtual_joystick.tscn" type="PackedScene" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePositionedTouchScreenButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuPauseButton.tscn" type="PackedScene" id=4]
 
 [node name="HUDOD" instance=ExtResource( 1 )]
 margin_bottom = 300.0
@@ -24,12 +25,24 @@ action_down = "Tebenge_Bawah"
 
 [node name="Spacered" type="Control" parent="." index="1"]
 margin_left = 308.0
+margin_right = 802.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PauseButton" parent="." index="2" instance=ExtResource( 4 )]
+margin_left = 810.0
+margin_right = 1110.0
+margin_bottom = 300.0
+
+[node name="Spacered2" type="Control" parent="." index="3"]
+margin_left = 1118.0
 margin_right = 1612.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TebengePositionedTouchScreenButton" parent="." index="2" instance=ExtResource( 3 )]
+[node name="TebengePositionedTouchScreenButton" parent="." index="4" instance=ExtResource( 3 )]
 margin_left = 1620.0
 margin_right = 1920.0
 margin_bottom = 300.0

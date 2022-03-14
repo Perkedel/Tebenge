@@ -5,6 +5,9 @@ class_name BaseLagrange
 # var a = 2
 # var b = "text"
 
+func hideAllODs():
+	for ODs in get_children():
+		ODs.hide()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,6 +29,6 @@ func _readyCustom()->void:
 signal LagrangeWantsTo(nameOf,fromOD, fromLagrange)
 
 func _receiveOdeePressOption(named:String, fromOD:String, fromLagrangeOf:String):
-	print("Pressed %s from Node %s" % [named, fromLagrangeOf,fromOD])
+	print("Pressed %s from Lagrange %s from OD %s" % [String(named), String(fromLagrangeOf), String(fromOD)])
 	emit_signal("LagrangeWantsTo",named,fromOD,fromLagrangeOf)
 	pass

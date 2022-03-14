@@ -30,21 +30,62 @@ func _mainMenuPls():
 	$CanvasLayer/UIField.mainMenuPls()
 	pass
 
-func _iWantToContinue():
-	wantsToContinue = true
-	# play ad if there is one.
-	if Engine.has_singleton("GodotAdmob"):
-		emit_signal("AdInterstitial_Exec")
-		pass
-	else:
-		print("Admob Java singleton not found! that's okay. We hate ads too. just.. financial issues")
-		_frigginCheckContinue()
+func _intoGameMode():
+	$CanvasLayer/UIField.intoGameMode()
 	pass
 
-func _frigginCheckContinue():
-	if wantsToContinue:
-		# continue game. check if credit inserted is there.
-		
+func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
+	print("Start the game with mode %s" % [String(withMode)])
+#	if typeof(withMode) != TebengePlayField.gameModes:
+#		return
+	
+	gameMode = withMode
+#	$PlayField.chooseGameMode = withMode
+	$PlayField.startTheGame(withMode)
+	$CanvasLayer/UIField.startTheGame(withMode)
+	pass
+
+func _pauseTheGame(pauseIt:bool = false):
+	$PlayField.pauseTheGame(pauseIt)
+	$CanvasLayer/UIField.pauseTheGame(pauseIt)
+	pass
+
+func _receiveAskedContinue():
+	
+	$CanvasLayer/UIField.receiveAskedContinue()
+	pass
+
+func _receiveContinueTick(itSays:int):
+	$CanvasLayer/UIField.receiveContinueTick(itSays) #unused. we use set continue say instead idk.
+	setContinueNumber(String(itSays))
+	pass
+
+func _iWantToContinue(wantIt:bool = true):
+	if wantIt:
+		wantsToContinue = true
+		# play ad if there is one.
+		if Engine.has_singleton("GodotAdmob"):
+			# random chance this would spawn either regular interstitial or rewarded unskipable
+			var chance:float = rand_range(0,100)
+			if chance > 50.0:
+				emit_signal("AdInterstitial_Exec")
+			else:
+				emit_signal("AdRewarded_Exec")
+			pass
+		else:
+			print("Admob Java singleton not found! that's okay. We hate ads too. just.. financial issues")
+			_frigginCheckContinue()
+	pass
+
+func _frigginCheckContinue(chosenContinue:bool = true):
+	if chosenContinue:
+		if wantsToContinue:
+			# continue game. check if credit inserted is there.
+			$PlayField.selectedAContinue(true)
+			
+			wantsToContinue = false
+	else:
+		$PlayField.selectedAContinue(false)
 		wantsToContinue = false
 	pass
 
@@ -60,6 +101,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					match(nameToDo):
 						"Play":
 							print("Less go!!")
+							_intoGameMode()
 							pass
 						"Setting":
 							print("Settingeh")
@@ -95,22 +137,31 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 				"ModesOD":
 					match(nameToDo):
 						"Arcade":
+							_startTheGame(TebengePlayField.gameModes.Arcade)
 							pass
 						"Endless":
+							_startTheGame(TebengePlayField.gameModes.Endless)
 							pass
 						"Back":
 							_mainMenuPls()
 							pass
 					pass
 				"HUDOD":
+					match(nameToDo):
+						"Pause":
+							_pauseTheGame()
+							pass
+						_:
+							pass
 					pass
 				"ContinueOD":
 					match(nameToDo):
 						"YES":
 							# continue game (arcade only)
-							_iWantToContinue()
+							_iWantToContinue(true)
 							pass
 						"NO":
+							_iWantToContinue(false)
 							# game over
 							pass
 					pass
@@ -159,20 +210,23 @@ func _on_UIField_wantsToShutdown() -> void:
 	pass # Replace with function body.
 
 func receive_AdInterstitial_success() -> void:
-	_frigginCheckContinue()
+	_frigginCheckContinue(true)
 	pass
 
 func receive_AdInterstitial_closed() -> void:
 	pass
 
 func receive_AdInterstitial_failed() -> void:
-	_frigginCheckContinue()
+	_frigginCheckContinue(true)
 	pass
 
 func receive_AdRewarded_success() -> void:
+	_frigginCheckContinue(true)
 	pass
 
 func receive_AdRewarded_failed() -> void:
+	# dont be buthole
+	_frigginCheckContinue(true)
 	pass
 
 func receive_AdBanner_success() -> void:
@@ -182,3 +236,13 @@ func receive_AdBanner_success() -> void:
 func receive_AdBanner_failed() -> void:
 	# DO NOT LIMIT ANYTHING JUST BECAUSE THIS BANNER FAIL TO LOAD!!!
 	pass
+
+func _on_PlayField_askedContinue() -> void:
+	_receiveAskedContinue()
+	pass # Replace with function body.
+
+
+func _on_PlayField_continueCountdownTicked(remaining:int) -> void:
+	# remaining Int
+	_receiveContinueTick(remaining)
+	pass # Replace with function body.

@@ -49,3 +49,16 @@ The following are tab links opened during this development. Some of which are as
 - https://godotforums.org/discussion/22003/how-to-set-spawn-locations-after-a-loading-zone-3d
 - https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html
 - https://github.com/godotengine/godot/issues/6840
+- https://godotengine.org/qa/91750/invalid-get-index-bought-on-base-nil-why
+- https://godotengine.org/qa/89276/invalid-call-nonexistent-function-travel-in-base-nil
+- https://godotengine.org/qa/81679/set-index-position-on-base-nil
+- https://github.com/KoBeWi/Godot-Action-Icon
+- https://github.com/gabomdq/SDL_GameControllerDB/blob/master/gamecontrollerdb.txt
+- https://docs.godotengine.org/en/stable/tutorials/inputs/controllers_gamepads_joysticks.html
+- https://github.com/KoBeWi/Godot-Action-Icon
+- https://godotengine.org/asset-library/asset/1148
+- https://godotengine.org/asset-library/asset?max_results=500&page=0&sort=updated
+- https://github.com/godotengine/godot/issues/6840
+- https://godotengine.org/asset-library/asset/1152
+- https://godotengine.org/asset-library/asset?max_results=500&page=0&sort=updated
+- 

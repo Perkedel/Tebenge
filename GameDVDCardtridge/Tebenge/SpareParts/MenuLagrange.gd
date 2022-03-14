@@ -11,8 +11,9 @@ extends BaseLagrange
 #	pass # Replace with function body.
 
 func mainMenuPls():
+	hideAllODs()
 	$MainMenuOD.show()
-	$QuitDialogOD.hide()
+#	$QuitDialogOD.hide()
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

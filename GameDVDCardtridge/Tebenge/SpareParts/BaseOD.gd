@@ -5,6 +5,8 @@ extends HBoxContainer
 # var a = 2
 # var b = "text"
 
+func mainMenuPls():
+	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,3 +28,18 @@ func sendPressedOption(named:String, oDName:String):
 	print("Pressed %s" % [named])
 	emit_signal("pressedOption",named,oDName)
 	pass
+
+func _obtainButtonFocus(forChildNumber:int = 0):
+	if get_child(forChildNumber) is Button:
+			if get_child(forChildNumber).visible:
+				get_child(forChildNumber).grab_focus()
+			else:
+				_obtainButtonFocus(forChildNumber+1)
+	else:
+		_obtainButtonFocus(forChildNumber+1)
+	pass
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		_obtainButtonFocus(0)
+		pass
