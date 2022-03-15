@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-
+class_name BaseOD
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

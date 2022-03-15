@@ -45,6 +45,14 @@ func receiveContinueTick(with:int):
 	$GameplayLagrange.receiveContinueTick(with)
 	pass
 
+func receiveArcadeTimer(with:float):
+	$GameplayLagrange.receiveArcadeTimer(with)
+	pass
+
+func receiveGameDone(didIt:bool = false):
+	$GameplayLagrange.receiveGameDone(didIt)
+	pass
+
 func pauseTheGame(pauseIt:bool = false):
 	_hideAllLagranges()
 #	$MenuLagrange.hide()
@@ -53,7 +61,9 @@ func pauseTheGame(pauseIt:bool = false):
 	pass
 
 func selectedAContinue(saidYes:bool):
-	
+	_hideAllLagranges()
+	$GameplayLagrange.show()
+	$GameplayLagrange.selectedAContinue(saidYes)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,6 +73,9 @@ func selectedAContinue(saidYes:bool):
 func setContinueNumber(say:String):
 	$GameplayLagrange.setContinueNumber(say)
 	pass
+
+func setGameOverTickeySay(say:String):
+	$GameplayLagrange.setGameOverTicketSay(say)
 
 signal uiWantsTo(nameOf,fromOD, fromLagrange)
 

@@ -1,24 +1,43 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.tscn" type="PackedScene" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ContinueIndicatorDT.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ContinueOD.gd" type="Script" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=5]
 
 [node name="ContinueOD" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
 
-[node name="NOButton" parent="." index="0" instance=ExtResource( 2 )]
-margin_left = 502.0
-margin_right = 802.0
+[node name="ToNoLabel" parent="." index="0" instance=ExtResource( 5 )]
+margin_left = 176.0
+margin_top = 50.0
+margin_right = 505.0
+margin_bottom = 100.0
+text = "Press DOWN / LEFT + START ->"
+
+[node name="NOButton" parent="." index="1" instance=ExtResource( 2 )]
+margin_left = 513.0
+margin_right = 813.0
 margin_bottom = 150.0
+focus_mode = 0
 text = "NO"
 
-[node name="ContinueIndicatorDT" parent="." index="1" instance=ExtResource( 3 )]
-margin_left = 810.0
-margin_right = 1110.0
+[node name="ContinueIndicatorDT" parent="." index="2" instance=ExtResource( 3 )]
+margin_left = 821.0
+margin_right = 1121.0
 margin_bottom = 150.0
 
-[node name="YESButton" parent="." index="2" instance=ExtResource( 2 )]
-margin_left = 1118.0
-margin_right = 1418.0
+[node name="YESButton" parent="." index="3" instance=ExtResource( 2 )]
+margin_left = 1129.0
+margin_right = 1429.0
 margin_bottom = 150.0
+focus_mode = 0
 text = "YES"
+
+[node name="ToYesLabel" parent="." index="4" instance=ExtResource( 5 )]
+margin_left = 1437.0
+margin_top = 50.0
+margin_right = 1744.0
+margin_bottom = 100.0
+text = "<- Press UP / RIGHT + START"

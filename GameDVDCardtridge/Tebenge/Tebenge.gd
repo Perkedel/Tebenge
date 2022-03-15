@@ -6,11 +6,15 @@ signal AdInterstitial_Exec()
 signal AdRewarded_Exec()
 signal AdBanner_Exec()
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
+export(float) var arcadeTimeLimit = 120
 onready var loadedHexagonEngine:bool = true
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 var wantsToContinue:bool = false
+var _pointRightNow:int = 0 setget set_point_right_now
+var _multiPointRightNow:PoolIntArray = [0,0,0,0]
+var ticket:int = 0 # how many ticket rewarded. in Casino, it is chip $1
 
 func _init() -> void:
 	if !Engine.has_singleton("TebengeGlobals"):
@@ -28,6 +32,12 @@ func _enter_tree():
 
 func _mainMenuPls():
 	$CanvasLayer/UIField.mainMenuPls()
+	pass
+
+func _resetAfterGameDone():
+	_mainMenuPls()
+	$PlayField.resetPlayfield()
+	#add reset function
 	pass
 
 func _intoGameMode():
@@ -50,6 +60,14 @@ func _pauseTheGame(pauseIt:bool = false):
 	$CanvasLayer/UIField.pauseTheGame(pauseIt)
 	pass
 
+func set_point_right_now(howMany:int):
+	_pointRightNow = howMany
+	# ticket = floor (point / 10)
+	ticket = floor(_pointRightNow/10)
+	
+	$CanvasLayer/UIField.setGameOverTickeySay("Tickets %d" % [ticket])
+	pass
+
 func _receiveAskedContinue():
 	
 	$CanvasLayer/UIField.receiveAskedContinue()
@@ -60,33 +78,50 @@ func _receiveContinueTick(itSays:int):
 	setContinueNumber(String(itSays))
 	pass
 
+func _receiveArcadeTimer(itSays:float):
+	$CanvasLayer/UIField.receiveArcadeTimer(itSays)
+	pass
+
+func _receiveGameDone(didIt:bool = false):
+	$CanvasLayer/UIField.receiveGameDone(didIt)
+	pass
+
 func _iWantToContinue(wantIt:bool = true):
+	wantsToContinue = true
 	if wantIt:
-		wantsToContinue = true
 		# play ad if there is one.
-		if Engine.has_singleton("GodotAdmob"):
-			# random chance this would spawn either regular interstitial or rewarded unskipable
-			var chance:float = rand_range(0,100)
-			if chance > 50.0:
-				emit_signal("AdInterstitial_Exec")
+		if OS.get_name() == "Android":
+			if Engine.has_singleton("GodotAdmob"):
+				# random chance this would spawn either regular interstitial or rewarded unskipable
+				var chance:float = rand_range(0,100)
+				if chance > 50.0:
+					emit_signal("AdInterstitial_Exec")
+				else:
+					emit_signal("AdRewarded_Exec")
+				pass
 			else:
-				emit_signal("AdRewarded_Exec")
-			pass
+				print("Admob Java singleton not found! that's okay. We hate ads too. just.. financial issues")
+				_frigginCheckContinue(wantIt)
 		else:
-			print("Admob Java singleton not found! that's okay. We hate ads too. just.. financial issues")
-			_frigginCheckContinue()
+			print("Not android. no ad support. no money. it's okay, you can just go")
+			_frigginCheckContinue(wantIt)
+	else:
+		print("doesn't want to continue")
+		_frigginCheckContinue(wantIt)
 	pass
 
 func _frigginCheckContinue(chosenContinue:bool = true):
-	if chosenContinue:
-		if wantsToContinue:
-			# continue game. check if credit inserted is there.
-			$PlayField.selectedAContinue(true)
-			
-			wantsToContinue = false
-	else:
-		$PlayField.selectedAContinue(false)
+	if wantsToContinue:
+		# continue game. check if credit inserted is there.
+		$PlayField.selectedAContinue(chosenContinue)
+		$CanvasLayer/UIField.selectedAContinue(chosenContinue)
 		wantsToContinue = false
+#	if chosenContinue:
+#
+#	else:
+#		$PlayField.selectedAContinue(false)
+#		$CanvasLayer/UIField.selectedAContinue(false)
+#		wantsToContinue = false
 	pass
 
 func setContinueNumber(say:String)->void:
@@ -164,7 +199,16 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_iWantToContinue(false)
 							# game over
 							pass
+						_:
+							pass
 					pass
+				"GameOverOD":
+					match(nameToDo):
+						"Back":
+							_resetAfterGameDone()
+							pass
+						_:
+							pass
 				_:
 					pass
 			pass
@@ -195,6 +239,7 @@ func _on_UIField_uiWantsTo(nameOf:String, fromOD:String, fromLagrange:String):
 	pass # Replace with function body.
 
 func _on_PlayField_game_over() -> void:
+	_receiveGameDone(false)
 	pass # Replace with function body.
 
 
@@ -245,4 +290,23 @@ func _on_PlayField_askedContinue() -> void:
 func _on_PlayField_continueCountdownTicked(remaining:int) -> void:
 	# remaining Int
 	_receiveContinueTick(remaining)
+	pass # Replace with function body.
+
+func _on_PlayField_pointItIsNow(howMany:int,thatsForPlayer:int = 0) -> void:
+	_pointRightNow = howMany
+	_multiPointRightNow[thatsForPlayer] = howMany
+	pass # Replace with function body.
+
+func _on_PlayField_continuousArcadeTimer(timeSecond:float) -> void:
+#	_receiveArcadeTimer(timeSecond)
+	pass # Replace with function body.
+
+func _on_PlayField_game_finish() -> void:
+	_receiveGameDone(true)
+	pass # Replace with function body.
+
+
+func _on_PlayField_tickedArcadeTimer(timeSecond:float) -> void:
+	print("Time left %d" % [timeSecond])
+	_receiveArcadeTimer(timeSecond)
 	pass # Replace with function body.

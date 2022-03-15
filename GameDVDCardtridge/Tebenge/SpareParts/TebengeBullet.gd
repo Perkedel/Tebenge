@@ -9,6 +9,8 @@ export(bool) var enemyMode:bool = false
 export(bool) var itemMode:bool = false #item adds 2 score if not enemy, else -1 score
 export(AudioStream) var collideSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/do-amarac.wav")
 export(PackedScene) var sparkParticle:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/BulletCrashed.tscn")
+export(Texture) var textureToSkin = load("res://GameDVDCardtridge/Tebenge/Assets/images/Beluru.png")
+var ownering:Node
 var iHitWhoRaw:Node
 var iHitWhoSpecific:Node
 # Declare member variables here. Examples:
@@ -64,7 +66,7 @@ func _on_Timer_timeout():
 	amDestroy()
 	pass # Replace with function body.
 
-func skinBullet(gambar:Texture):
+func skinBullet(gambar:Texture = textureToSkin):
 	$Sprite.texture = gambar
 
 func _on_TebengeBullet_body_entered(body:Node):
@@ -89,16 +91,19 @@ func _on_TebengeBullet_body_entered(body:Node):
 				pass
 			pass
 		elif body.is_in_group("Tebenge_Bullet"):
-			# enemy bullet bounces other enemy bullet but destroy player bullet & destroy itself
-			if body.enemyMode:
-				$BulletCollideSound.play()
+			if itemMode:
 				pass
 			else:
-				_spawnSpark()
-				iHitWhoSpecific = body
-				body.amDestroy()
-				amDestroy()
-			pass
+				# enemy bullet bounces other enemy bullet but destroy player bullet & destroy itself
+				if body.enemyMode:
+					$BulletCollideSound.play()
+					pass
+				else:
+					_spawnSpark()
+					iHitWhoSpecific = body
+					body.amDestroy()
+					amDestroy()
+				pass
 		else:
 			$BulletCollideSound.play()
 			pass
@@ -129,14 +134,26 @@ func _on_TebengeBullet_body_entered(body:Node):
 			pass
 		elif body.is_in_group("Tebenge_Bullet"):
 			# player bullet bounces player bullet but destroy enemy bullet & destroy itself
-			if body.enemyMode:
-				_spawnSpark()
-				iHitWhoSpecific = body
-				body.amDestroy()
-				amDestroy()
+			if itemMode:
 				pass
 			else:
-				$BulletCollideSound.play()
+				if body.enemyMode:
+					_spawnSpark()
+					iHitWhoSpecific = body
+					body.amDestroy()
+					amDestroy()
+					pass
+				else:
+					if body.itemMode:
+						# treat as pickup item.
+						ownering.receive_point(2)
+						iHitWhoSpecific = body
+						body.amDestroy()
+						amDestroy()
+						pass
+					else:
+						$BulletCollideSound.play()
+					pass
 				pass
 			pass
 		else:

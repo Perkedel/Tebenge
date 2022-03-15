@@ -18,7 +18,11 @@ pause_mode = 2
 
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
 [connection signal="continueCountdownTicked" from="PlayField" to="." method="_on_PlayField_continueCountdownTicked"]
+[connection signal="continuousArcadeTimer" from="PlayField" to="." method="_on_PlayField_continuousArcadeTimer"]
+[connection signal="game_finish" from="PlayField" to="." method="_on_PlayField_game_finish"]
 [connection signal="game_over" from="PlayField" to="." method="_on_PlayField_game_over"]
+[connection signal="pointItIsNow" from="PlayField" to="." method="_on_PlayField_pointItIsNow"]
+[connection signal="tickedArcadeTimer" from="PlayField" to="." method="_on_PlayField_tickedArcadeTimer"]
 [connection signal="uiWantsTo" from="CanvasLayer/UIField" to="." method="_on_UIField_uiWantsTo"]
 [connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
 [connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]

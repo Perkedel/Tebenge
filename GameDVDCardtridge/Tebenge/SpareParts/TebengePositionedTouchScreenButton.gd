@@ -1,4 +1,4 @@
-tool
+#tool
 
 extends Control
 
@@ -25,13 +25,15 @@ onready var button = $TouchScreenButton
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Marco Fazio's autohide
-#	if not OS.has_touchscreen_ui_hint() and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
-#		hide()
+	if not OS.has_touchscreen_ui_hint() and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
+		hide()
 #	button.position = rect_position
 	_setThese()
 	pass # Replace with function body.
 
 func _setThese():
+	if button == null:
+		return
 	button.normal = normal
 	button.pressed = pressed
 	button.bitmask = bitmask
@@ -46,3 +48,12 @@ func _setThese():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		# Marco Fazio's autohide
+		if not OS.has_touchscreen_ui_hint() and visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
+			if visible:
+				hide()
+		_setThese()
+	pass

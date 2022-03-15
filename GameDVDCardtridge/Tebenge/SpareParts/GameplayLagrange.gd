@@ -31,14 +31,41 @@ func receiveAskedContinue():
 	$ContinueOD.show()
 
 func receiveContinueTick(with:int):
+	$ContinueOD.receiveContinueTick(with)
+	pass
+
+func receiveArcadeTimer(with:float):
+	$HUDOD/ArcadeTimeRemainingDT.value = String(int(with)) + " Seconds"
+	pass
+
+func receiveGameDone(didIt:bool):
+	hideAllODs()
+	if didIt:
+		$GameOverOD/GameOverDT.title = "Game FINISH"
+	else:
+		$GameOverOD/GameOverDT.title = "Game OVER"
 	pass
 
 func _readyCustom() -> void:
 	pass
 
+func selectedAContinue(saidYes:bool = false):
+	hideAllODs()
+	if saidYes:
+		$HUDOD.show()
+		pass
+	else:
+#		$GameOverOD.show() # let this alone?
+#		receiveGameDone(false)
+		pass
+	pass
+
 func setContinueNumber(say:String) -> void:
+	# damn! too late, I already decided to edit its children instead.
 	$ContinueOD/ContinueIndicatorDT.value
 
+func setGameOverTicketSay(say:String) -> void:
+	$GameOverOD/GameOverDT.value = say
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

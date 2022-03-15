@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+export(int) var playerNumber:int = 0 # Multiplayer number ID. from 0 to 3 or more idk.
 export(int) var initHP:int = 3
 export(bool) var initActivate:bool = false
 var lastHPBefore = 3
@@ -99,6 +100,7 @@ func reset(withResetTimer:bool = false):
 	if withResetTimer:
 		$DyingTimer.stop()
 	set_active(initActivate,withResetTimer)
+	_interpretHP()
 	pass
 
 func resurrect():
@@ -150,6 +152,12 @@ func receivePoint(howMany:int):
 	emit_signal("pointItIsNow", _pointRightNow)
 	pass
 
+func resetPoint():
+	_pointRightNow = 0
+	$FloatingHUD.setPointsay(String(_pointRightNow))
+	emit_signal("pointItIsNow", _pointRightNow)
+	pass
+
 func getPoint() -> int:
 	return _pointRightNow
 
@@ -192,6 +200,7 @@ func _spawnBullet():
 	bullet.changeCollideSound(bulletCollisionSound)
 	bullet.damageLevel = bulletDamage
 	bullet.enemyMode = enemyMode
+	bullet.ownering = self
 	if facingLeft:
 		pass
 	else:
