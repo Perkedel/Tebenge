@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeTester.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BillboardBarrier.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeEnemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/EikSerkat.png" type="Texture" id=5]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Board.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/BeluruEnemy.png" type="Texture" id=8]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBullet.tscn" type="PackedScene" id=9]
 
 [node name="TebengeTester" type="Node2D"]
 script = ExtResource( 2 )
@@ -16,10 +20,25 @@ position = Vector2( 998, 589 )
 
 [node name="TebengeEnemy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1451, 589 )
-bulletImage = null
-deathImage = null
 
 [node name="EikSerkatTest" type="Sprite" parent="."]
 position = Vector2( 790, 572 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 5 )
+
+[node name="TebengeBulletBonus" parent="." instance=ExtResource( 6 )]
+position = Vector2( 848, 437 )
+crashSparkParticle = null
+
+[node name="Board" parent="." instance=ExtResource( 7 )]
+
+[node name="TebengeEnemy2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1660, 406 )
+
+[node name="TebengeBullet" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1064, 323 )
+
+[node name="TebengeBulletEnemy" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1341, 342 )
+enemyMode = true
+textureToSkin = ExtResource( 8 )

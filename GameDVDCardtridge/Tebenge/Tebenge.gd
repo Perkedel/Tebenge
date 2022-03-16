@@ -307,6 +307,6 @@ func _on_PlayField_game_finish() -> void:
 
 
 func _on_PlayField_tickedArcadeTimer(timeSecond:float) -> void:
-	print("Time left %d" % [timeSecond])
+#	print("Time left %d" % [timeSecond])
 	_receiveArcadeTimer(timeSecond)
 	pass # Replace with function body.

@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/PlayField.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "TebengePlayer",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.gd"
+}, {
 "base": "Control",
 "class": "VirtualJoystick",
 "language": "GDScript",
@@ -51,6 +56,7 @@ _global_script_class_icons={
 "ComplexDT": "",
 "TebengeMenuButton": "",
 "TebengePlayField": "",
+"TebengePlayer": "",
 "VirtualJoystick": ""
 }
 
@@ -61,7 +67,8 @@ config/description="Rogue shoot left right game"
 run/main_scene="res://TebengeLoneLoader.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Perkedel Technologies/Tebenge"
-config/icon="res://GameDVDCardtridge/Tebenge/Assets/images/MrTebenge.png"
+boot_splash/image="res://GameDVDCardtridge/Tebenge/Assets/images/TebengeBootSplash.png"
+config/icon="res://GameDVDCardtridge/Tebenge/Assets/images/appIcon.png"
 config/quit_on_go_back=false
 
 [autoload]
@@ -72,6 +79,8 @@ TebengeGlobals="*res://GameDVDCardtridge/Tebenge/TebengeGlobals.gd"
 
 window/size/width=1920
 window/size/height=1080
+window/size/test_width=1280
+window/size/test_height=720
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"

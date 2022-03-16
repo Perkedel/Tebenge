@@ -15,7 +15,7 @@ export(float) var bonusMomentTimeLimit = 10
 # var a = 2
 # var b = "text"
 export(PackedScene) var Enemy:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeEnemy.tscn")
-export(PackedScene) var BonusBullet:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBullet.tscn")
+export(PackedScene) var BonusBullet:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn")
 var arcadeTimeLeft:float = 120
 var isPaused:bool = false
 var last_placed_position:Vector2 = Vector2(0,0)
@@ -81,8 +81,11 @@ func pauseTheGame(pauseIt:bool = false) -> void:
 signal askedContinue()
 func askContinue():
 	set_active(false)
-	_startContinueFate(true)
-	emit_signal("askedContinue")
+	if chooseGameMode == gameModes.Arcade:
+		_startContinueFate(true)
+		emit_signal("askedContinue")
+	else:
+		emit_signal("game_over")
 	pass
 
 func selectedAContinue(saidYes:bool = false):
@@ -293,7 +296,7 @@ func _notification(what: int) -> void:
 	pass
 
 func _on_ArcadeTickoutTimer_timeout() -> void:
-	print("tick arcade %d" % [arcadeTimeLeft])
+#	print("tick arcade %d" % [arcadeTimeLeft])
 #	emit_signal("tickedArcadeTimer", $ArcadeTimeoutTimer.time_left)
 	if active && chooseGameMode == gameModes.Arcade:
 		arcadeTimeLeft -= 1

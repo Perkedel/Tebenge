@@ -44,6 +44,7 @@ func receiveGameDone(didIt:bool):
 		$GameOverOD/GameOverDT.title = "Game FINISH"
 	else:
 		$GameOverOD/GameOverDT.title = "Game OVER"
+	$GameOverOD.show()
 	pass
 
 func _readyCustom() -> void:

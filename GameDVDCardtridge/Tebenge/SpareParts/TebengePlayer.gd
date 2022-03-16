@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name TebengePlayer
+
 export(int) var playerNumber:int = 0 # Multiplayer number ID. from 0 to 3 or more idk.
 export(int) var initHP:int = 3
 export(bool) var initActivate:bool = false

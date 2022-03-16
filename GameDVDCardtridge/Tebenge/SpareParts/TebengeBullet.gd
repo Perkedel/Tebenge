@@ -8,7 +8,9 @@ export(int) var damageLevel:int = 1
 export(bool) var enemyMode:bool = false
 export(bool) var itemMode:bool = false #item adds 2 score if not enemy, else -1 score
 export(AudioStream) var collideSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/do-amarac.wav")
-export(PackedScene) var sparkParticle:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/BulletCrashed.tscn")
+export(AudioStream) var crashParticleSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/do-amarac-harmonic.wav")
+export(PackedScene) var sparkParticle:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeDuar.tscn")
+export(PackedScene) var crashSparkParticle:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/BulletCrashed.tscn")
 export(Texture) var textureToSkin = load("res://GameDVDCardtridge/Tebenge/Assets/images/Beluru.png")
 var ownering:Node
 var iHitWhoRaw:Node
@@ -20,7 +22,9 @@ var iHitWhoSpecific:Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	$BulletCollideSound.stream = collideSound
+	if itemMode:
+#		$BulletCollideSound.stream = collideSound
+		changeCollideSound(collideSound)
 	pass # Replace with function body.
 
 func changeCollideSound(intoThis:AudioStream):
@@ -50,9 +54,10 @@ func runNow(velocite:Vector2):
 	$Timer.start()
 	pass
 
-func _spawnSpark():
-	var particled = sparkParticle.instance()
+func _spawnSpark(justCrash:bool = false):
+	var particled = sparkParticle.instance() if not justCrash else crashSparkParticle.instance()
 	particled.position = position
+	particled.changeDuarSound(crashParticleSound)
 	get_parent().add_child(particled,true)
 	pass
 
@@ -99,7 +104,7 @@ func _on_TebengeBullet_body_entered(body:Node):
 					$BulletCollideSound.play()
 					pass
 				else:
-					_spawnSpark()
+					_spawnSpark(true)
 					iHitWhoSpecific = body
 					body.amDestroy()
 					amDestroy()
@@ -123,6 +128,7 @@ func _on_TebengeBullet_body_entered(body:Node):
 			# when hit by own bullet / took item
 			if itemMode:
 				# add the body 2 point
+				_spawnSpark()
 				body.receivePoint(2)
 				iHitWhoSpecific = body
 				amDestroy()
@@ -138,7 +144,7 @@ func _on_TebengeBullet_body_entered(body:Node):
 				pass
 			else:
 				if body.enemyMode:
-					_spawnSpark()
+					_spawnSpark(true)
 					iHitWhoSpecific = body
 					body.amDestroy()
 					amDestroy()
@@ -146,7 +152,8 @@ func _on_TebengeBullet_body_entered(body:Node):
 				else:
 					if body.itemMode:
 						# treat as pickup item.
-						ownering.receive_point(2)
+						_spawnSpark()
+						ownering.receivePoint(2)
 						iHitWhoSpecific = body
 						body.amDestroy()
 						amDestroy()
