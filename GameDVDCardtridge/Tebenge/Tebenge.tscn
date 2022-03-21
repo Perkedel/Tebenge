@@ -16,6 +16,9 @@ pause_mode = 2
 
 [node name="UIField" parent="CanvasLayer" instance=ExtResource( 1 )]
 
+[node name="InternalSpeaker" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
 [connection signal="continueCountdownTicked" from="PlayField" to="." method="_on_PlayField_continueCountdownTicked"]
 [connection signal="continuousArcadeTimer" from="PlayField" to="." method="_on_PlayField_continuousArcadeTimer"]

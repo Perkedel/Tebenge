@@ -22,6 +22,9 @@ func _readyCustom()->void:
 	# There is no super. so override this instead.
 	pass
 
+func gotNewHiScore(isIt:bool = false, score:int = 0):
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

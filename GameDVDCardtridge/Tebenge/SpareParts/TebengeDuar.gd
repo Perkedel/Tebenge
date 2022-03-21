@@ -13,7 +13,7 @@ func _ready():
 
 func _enter_tree() -> void:
 #	$DuarSound.stream = DuarSound
-	$DuarSound.play()
+#	$DuarSound.play()
 	pass
 
 func changeDuarSound(withThis:AudioStream):
@@ -27,3 +27,10 @@ func changeDuarSound(withThis:AudioStream):
 func _on_Timer_timeout():
 	queue_free()
 	pass # Replace with function body.
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		if visible:
+			$DuarSound.play()
+			pass
+		pass

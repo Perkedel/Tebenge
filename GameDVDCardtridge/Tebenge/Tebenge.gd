@@ -1,5 +1,16 @@
 extends Node
 
+const savePath:String = "user://Simpan/Tebenge/Simpan.json"
+var _saveTemplate:Dictionary = {
+	kludgeHiScore = {
+		arcade = 0,
+		endless = 0,
+	},
+	saveState = {
+		arcade = {},
+		endless = {},
+	}
+}
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
 signal AdInterstitial_Exec()
@@ -7,16 +18,62 @@ signal AdRewarded_Exec()
 signal AdBanner_Exec()
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
+export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
+export(AudioStream) var unpauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseClose.wav")
 onready var loadedHexagonEngine:bool = true
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var saveDictionary:Dictionary = {
+	
+}
 var wantsToContinue:bool = false
+var youveGotNewHiScore:bool = false
+var kludgeHiScoreArcade:int = 0 # Highest number of kill
+var kludgeHiScoreEndless:int = 0
+var _anyKludgeHiScoreRightNow:int = 0
 var _pointRightNow:int = 0 setget set_point_right_now
 var _multiPointRightNow:PoolIntArray = [0,0,0,0]
 var ticket:int = 0 # how many ticket rewarded. in Casino, it is chip $1
 
+func _loadSave():
+	#load JSON
+	var thing:File = File.new()
+#	thing.open(savePath,_File.WRITE_READ)
+	if thing.file_exists(savePath):
+		#file exist
+		thing.open(savePath,File.READ)
+		saveDictionary = parse_json(thing.get_as_text())
+		thing.close()
+		# inject data
+		kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
+		kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
+		pass
+	else:
+		#file not exist
+		saveDictionary = _saveTemplate
+		_saveSave()
+		pass
+	# then inject data to here
+	pass
+
+func _saveSave():
+	# fill dictionary first!
+	saveDictionary["kludgeHiScore"]["arcade"] = kludgeHiScoreArcade
+	saveDictionary["kludgeHiScore"]["endless"] = kludgeHiScoreEndless
+	
+	var thing:File = File.new()
+	thing.open(savePath,File.WRITE_READ)
+	
+	# beautify JSON then store string!
+	var ingredient:String = JSONBeautifier.beautify_json(to_json(saveDictionary))
+	thing.store_string(ingredient)
+	
+	thing.close()
+	pass
+
 func _init() -> void:
+	_loadSave()
 	if !Engine.has_singleton("TebengeGlobals"):
 		# add singleton only exist for Editor plugin
 		pass
@@ -24,6 +81,7 @@ func _init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_interpresHiScore()
 	pass # Replace with function body.
 
 func _enter_tree():
@@ -66,6 +124,42 @@ func set_point_right_now(howMany:int):
 	ticket = floor(_pointRightNow/10)
 	
 	$CanvasLayer/UIField.setGameOverTickeySay("Tickets %d" % [ticket])
+	_interpresHiScore()
+	pass
+
+func _interpresHiScore():
+	match(gameMode):
+		TebengePlayField.gameModes.Arcade:
+			if _pointRightNow > kludgeHiScoreArcade:
+				youveGotNewHiScore = true
+				kludgeHiScoreArcade = _pointRightNow
+				_anyKludgeHiScoreRightNow = _pointRightNow
+			else:
+				youveGotNewHiScore = false
+				_anyKludgeHiScoreRightNow = kludgeHiScoreArcade
+				pass
+			pass
+		TebengePlayField.gameModes.Endless:
+			if _pointRightNow > kludgeHiScoreEndless:
+				youveGotNewHiScore = true
+				kludgeHiScoreEndless = _pointRightNow
+				_anyKludgeHiScoreRightNow = _pointRightNow
+			else:
+				youveGotNewHiScore = false
+				_anyKludgeHiScoreRightNow = kludgeHiScoreEndless
+				pass
+			pass
+		_:
+			pass
+	
+	$CanvasLayer/UIField.gotNewHiScore(youveGotNewHiScore, _anyKludgeHiScoreRightNow)
+	$CanvasLayer/UIField.updateKludgeHiScores(kludgeHiScoreArcade,kludgeHiScoreEndless)
+	
+	if youveGotNewHiScore:
+		
+		pass
+	else:
+		pass
 	pass
 
 func _receiveAskedContinue():
@@ -84,6 +178,20 @@ func _receiveArcadeTimer(itSays:float):
 
 func _receiveGameDone(didIt:bool = false):
 	$CanvasLayer/UIField.receiveGameDone(didIt)
+	# game has been done!
+	if didIt:
+		# Game Finish
+		pass
+	else:
+		# Game Over
+		pass
+	
+	# other things too
+	# Highscore!
+	_interpresHiScore()
+	
+	# finally, totally save.
+	_saveSave()
 	pass
 
 func _iWantToContinue(wantIt:bool = true):
@@ -184,7 +292,18 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 				"HUDOD":
 					match(nameToDo):
 						"Pause":
-							_pauseTheGame()
+#							_pauseTheGame()
+							pauseNow(true)
+							pass
+						_:
+							pass
+					pass
+				"PauseOD":
+					match(nameToDo):
+						"Resume":
+							pauseNow(false)
+							pass
+						"Quit":
 							pass
 						_:
 							pass
@@ -230,9 +349,13 @@ func _terminateThisDVD(changeDVD:bool = false):
 func pauseNow(isIt:bool = false):
 	pause_mode = isIt
 	if isIt:
+		$InternalSpeaker.stream = pauseSound
 		pass
 	else:
+		$InternalSpeaker.stream = unpauseSound
 		pass
+	$InternalSpeaker.play()
+	_pauseTheGame(isIt)
 
 func _on_UIField_uiWantsTo(nameOf:String, fromOD:String, fromLagrange:String):
 	readUISignalWantsTo(nameOf, fromOD,fromLagrange)
@@ -293,7 +416,8 @@ func _on_PlayField_continueCountdownTicked(remaining:int) -> void:
 	pass # Replace with function body.
 
 func _on_PlayField_pointItIsNow(howMany:int,thatsForPlayer:int = 0) -> void:
-	_pointRightNow = howMany
+#	_pointRightNow = howMany
+	set_point_right_now(howMany)
 	_multiPointRightNow[thatsForPlayer] = howMany
 	pass # Replace with function body.
 

@@ -35,6 +35,7 @@ func _init() -> void:
 	pass
 
 func startTheGame(withMode = gameModes.Arcade) -> void:
+	
 	chooseGameMode = withMode
 	arcadeTimeLeft = arcadePlayTimeLimit
 	match(chooseGameMode):

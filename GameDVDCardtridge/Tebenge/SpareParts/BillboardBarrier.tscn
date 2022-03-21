@@ -3,7 +3,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1500, 125 )
 
-[node name="BillboardBarrier" type="StaticBody2D"]
+[node name="BillboardBarrier" type="StaticBody2D" groups=["TebengeBillboardBarrier", "Tebenge_Billboard_Barrier"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 960, 0 )

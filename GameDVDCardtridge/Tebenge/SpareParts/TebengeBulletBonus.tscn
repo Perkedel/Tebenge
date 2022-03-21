@@ -11,6 +11,7 @@ itemMode = true
 collideSound = ExtResource( 4 )
 crashParticleSound = ExtResource( 5 )
 sparkParticle = ExtResource( 3 )
+crashSparkParticle = ExtResource( 3 )
 textureToSkin = ExtResource( 2 )
 
 [node name="Sprite" parent="." index="1"]

@@ -24,6 +24,14 @@ func mainMenuPls():
 	$MenuLagrange.mainMenuPls()
 	pass
 
+func gotNewHiScore(isIt:bool = false, score:int = 0):
+	$GameplayLagrange.gotNewHiScore(isIt,score)
+	pass
+
+func updateKludgeHiScores(arcadeOne:int=0,endlessOne:int=0):
+	$GameplayLagrange.updateKludgeHiScores(arcadeOne,endlessOne)
+	pass
+
 func intoGameMode():
 	_hideAllLagranges()
 #	$MenuLagrange.hide()

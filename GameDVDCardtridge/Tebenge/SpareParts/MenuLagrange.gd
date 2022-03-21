@@ -20,6 +20,9 @@ func mainMenuPls():
 #func _process(delta):
 #	pass
 
+func gotNewHiScore(isIt:bool = false, score:int = 0):
+	pass
+
 func _receiveOdeePressOption(named:String,fromOD:String, fromLagrangeOf:String):
 	print("weha")
 	match(fromOD):

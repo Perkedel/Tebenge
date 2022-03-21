@@ -57,6 +57,7 @@ func runNow(velocite:Vector2):
 func _spawnSpark(justCrash:bool = false):
 	var particled = sparkParticle.instance() if not justCrash else crashSparkParticle.instance()
 	particled.position = position
+	particled.DuarSound = crashParticleSound
 	particled.changeDuarSound(crashParticleSound)
 	get_parent().add_child(particled,true)
 	pass
@@ -144,6 +145,7 @@ func _on_TebengeBullet_body_entered(body:Node):
 				pass
 			else:
 				if body.enemyMode:
+#					print("cancel bullet")
 					_spawnSpark(true)
 					iHitWhoSpecific = body
 					body.amDestroy()
@@ -152,8 +154,11 @@ func _on_TebengeBullet_body_entered(body:Node):
 				else:
 					if body.itemMode:
 						# treat as pickup item.
-						_spawnSpark()
-						ownering.receivePoint(2)
+#						print("absorb bonus")
+#						_spawnSpark(false)
+						body._spawnSpark(false)
+						if ownering != null:
+							ownering.receivePoint(2)
 						iHitWhoSpecific = body
 						body.amDestroy()
 						amDestroy()

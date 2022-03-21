@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Board.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/PlayField.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/shader/TebengeHuertShaderCode.gdshader" type="Shader" id=4]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=7]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/redden = false
 
 [node name="PlayField" type="Node2D"]
 script = ExtResource( 2 )
@@ -14,6 +20,7 @@ BonusBullet = ExtResource( 3 )
 
 [node name="TebengePlayer" parent="." instance=ExtResource( 7 )]
 position = Vector2( 960, 540 )
+reddenHuertMaterial = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )

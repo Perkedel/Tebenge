@@ -13,6 +13,8 @@ var autoMovening:Vector2 = Vector2(0,0)
 var excuseMeY:float = 0
 var active:bool = false
 var doingExcuseMe:bool = false
+var momentaryInvincible:bool = false
+export(float) var momentaryInvincibleDuration:float = 3
 export (bool) var enemyMode:bool = false
 export(bool) var movesToLeft:bool = false
 export(PackedScene) var theBeluru = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBullet.tscn")
@@ -25,6 +27,7 @@ export(float) var spaceBetweenBullet:float = 100
 export(int) var maximumBullet:int = 5
 export(int) var bulletDamage:int = 3
 export(float) var autoShootPeriodTime = 6
+export(ShaderMaterial) var reddenHuertMaterial = load("res://GameDVDCardtridge/Tebenge/Assets/shader/TebengeHuertShaderMaterial.tres")
 var currentBulletOnScreen:int = 0
 var arrayedBulletOnScreen:Array
 var hasCollidenKinematic:KinematicCollision2D
@@ -94,6 +97,10 @@ func plsExcuseMe():
 	$ExcuseMeTimer.start(.15)
 	pass
 
+func plsTurnAround():
+	changeFace(!movesToLeft)
+	pass
+
 func reset(withResetTimer:bool = false):
 	hp = initHP
 	$dedd.hide()
@@ -145,6 +152,12 @@ func _checkWhoCollide(handover:Node):
 			plsExcuseMe()
 			pass
 		pass
+	elif handover.is_in_group("Tebenge_Wall_Vertical"):
+		if enemyMode:
+			plsTurnAround()
+			plsExcuseMe()
+			pass
+		pass
 	pass
 
 signal pointItIsNow(howMany)
@@ -162,6 +175,33 @@ func resetPoint():
 
 func getPoint() -> int:
 	return _pointRightNow
+
+func _reddens():
+	var tempModulate:Color = modulate
+#	modulate = Color.red
+#	reddenHuertMaterial.set_shader_param("redden",true)
+	$Form.material.set_shader_param("redden",true)
+	yield(get_tree().create_timer(.1),"timeout")
+#	reddenHuertMaterial.set_shader_param("redden",false)
+#	modulate = tempModulate
+	$Form.material.set_shader_param("redden",false)
+	pass
+
+func _startInvincibleMomentarily():
+	$MomentaryInvincibleTimer.start(momentaryInvincibleDuration)
+	$InvincibleBlink.start(-1)
+	momentaryInvincible = true
+	pass
+
+func _stoppedInvincibleMomentarily():
+	$InvincibleBlink.stop()
+	$Form.show()
+	momentaryInvincible = false
+	pass
+
+func _toggleBlinkForm():
+	$Form.visible = !$Form.visible
+	pass
 
 signal eikSerkat()
 func _interpretHP():
@@ -184,6 +224,10 @@ func _interpretHP():
 	else:
 		if lastHPBefore > hp:
 			# means lost hp
+			# invinciblize momentarily
+			_startInvincibleMomentarily()
+			_reddens() #and red minecraft huert!
+			
 			$HuertWoundeSounder.play()
 			pass
 		elif lastHPBefore < hp:
@@ -239,8 +283,16 @@ func __removeBulletItself(handover):
 	arrayedBulletOnScreen.erase(handover)
 
 func inflictDamage(howMany:int):
-	hp -= howMany
-	_interpretHP()
+	if !momentaryInvincible && howMany >= 0:
+		hp -= howMany
+		_interpretHP()
+	pass
+
+func addHP(howMany:int):
+	if howMany >= 0:
+		hp += howMany
+		_interpretHP()
+		pass
 	pass
 
 func _eikSerkat():
@@ -272,4 +324,14 @@ func _on_LeftSensorg_body_entered(body: Node) -> void:
 func _on_RightSensorg_body_entered(body: Node) -> void:
 	if !movesToLeft:
 		_checkWhoCollide(body)
+	pass # Replace with function body.
+
+
+func _on_MomentaryInvincibleTimer_timeout() -> void:
+	_stoppedInvincibleMomentarily()
+	pass # Replace with function body.
+
+
+func _on_InvincibleBlink_timeout() -> void:
+	_toggleBlinkForm()
 	pass # Replace with function body.

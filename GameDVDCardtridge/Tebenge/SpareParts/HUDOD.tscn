@@ -28,31 +28,38 @@ action_down = "Tebenge_Bawah"
 
 [node name="Spacered" type="Control" parent="." index="1"]
 margin_left = 308.0
-margin_right = 648.0
+margin_right = 494.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ArcadeTimeRemainingDT" parent="." index="2" instance=ExtResource( 6 )]
-margin_left = 656.0
-margin_right = 956.0
+margin_left = 502.0
+margin_right = 802.0
 margin_bottom = 300.0
 title = "Time Remaining"
 value = "120 Second"
 
-[node name="PauseButton" parent="." index="3" instance=ExtResource( 4 )]
-margin_left = 964.0
-margin_right = 1264.0
+[node name="HiScoreDT" parent="." index="3" instance=ExtResource( 6 )]
+margin_left = 810.0
+margin_right = 1110.0
+margin_bottom = 300.0
+title = "High Score"
+value = "43"
+
+[node name="PauseButton" parent="." index="4" instance=ExtResource( 4 )]
+margin_left = 1118.0
+margin_right = 1418.0
 margin_bottom = 300.0
 
-[node name="Spacered2" type="Control" parent="." index="4"]
-margin_left = 1272.0
+[node name="Spacered2" type="Control" parent="." index="5"]
+margin_left = 1426.0
 margin_right = 1612.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TebengePositionedTouchScreenButton" parent="." index="5" instance=ExtResource( 3 )]
+[node name="TebengePositionedTouchScreenButton" parent="." index="6" instance=ExtResource( 3 )]
 margin_left = 1620.0
 margin_right = 1920.0
 margin_bottom = 300.0

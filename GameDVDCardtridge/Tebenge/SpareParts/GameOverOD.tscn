@@ -16,15 +16,22 @@ margin_bottom = 100.0
 text = "GameOver!"
 
 [node name="GameOverDT" parent="." index="1" instance=ExtResource( 4 )]
-margin_left = 656.0
-margin_right = 956.0
+margin_left = 502.0
+margin_right = 802.0
 margin_bottom = 150.0
 title = "Game OVER/FINISH"
 value = "Ticket get: 15"
 
-[node name="BackToMenuButton" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 964.0
-margin_right = 1264.0
+[node name="HiScoreDT" parent="." index="2" instance=ExtResource( 4 )]
+margin_left = 810.0
+margin_right = 1110.0
+margin_bottom = 150.0
+title = "High Score"
+value = "43a"
+
+[node name="BackToMenuButton" parent="." index="3" instance=ExtResource( 3 )]
+margin_left = 1118.0
+margin_right = 1418.0
 margin_bottom = 150.0
 
-[node name="WhenPressBackSpawnInterstitial" type="Node" parent="." index="3"]
+[node name="WhenPressBackSpawnInterstitial" type="Node" parent="." index="4"]

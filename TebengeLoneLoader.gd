@@ -26,6 +26,7 @@ func _readAdmobio():
 	
 	$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
 	$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
+	$BuiltInSystemer/AdMob.interstitial_id = admobStrings[3]
 #	$BuiltInSystemer/AdMob.init()
 	$BuiltInSystemer/AdMob.load_banner()
 	pass

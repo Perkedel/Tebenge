@@ -17,6 +17,8 @@ func _ready():
 		pass
 	pass # Replace with function body.
 
+func gotNewHiScore(isIt:bool = false, score:int = 0):
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

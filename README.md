@@ -61,4 +61,13 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/godotengine/godot/issues/6840
 - https://godotengine.org/asset-library/asset/1152
 - https://godotengine.org/asset-library/asset?max_results=500&page=0&sort=updated
-- 
+- https://www.youtube.com/watch?v=xs8K0E9Qogk
+- https://www.youtube.com/watch?v=tHEr7x5Un9c BitBirdy . invincible effect
+- https://github.com/robyn3choi/godot-tutorial_hurtbox BitBirdy. invincible effect repo
+- https://www.youtube.com/watch?v=YL8apqN6IJM
+- https://www.youtube.com/watch?v=PMZ7yBwleik
+- https://www.youtube.com/watch?v=VmekmH0QJMs
+- https://www.youtube.com/watch?v=HW8j2hqUtlk
+- https://www.youtube.com/watch?v=U5qGj8qt7VU
+- https://www.youtube.com/watch?v=Lf3b7U6H2Mw
+- https://www.youtube.com/watch?v=rQw21ydy_VY
