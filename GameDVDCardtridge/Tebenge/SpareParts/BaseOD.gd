@@ -32,13 +32,14 @@ func sendPressedOption(named:String, oDName:String):
 	pass
 
 func _obtainButtonFocus(forChildNumber:int = 0):
-	if get_child(forChildNumber) is Button:
-			if get_child(forChildNumber).visible:
-				get_child(forChildNumber).grab_focus()
-			else:
-				_obtainButtonFocus(forChildNumber+1)
-	else:
-		_obtainButtonFocus(forChildNumber+1)
+	if forChildNumber < get_child_count():
+		if get_child(forChildNumber) is Button:
+				if get_child(forChildNumber).visible && get_child(forChildNumber).focus_mode != FOCUS_NONE:
+					get_child(forChildNumber).grab_focus()
+				else:
+					_obtainButtonFocus(forChildNumber+1)
+		else:
+			_obtainButtonFocus(forChildNumber+1)
 	pass
 
 func _notification(what: int) -> void:

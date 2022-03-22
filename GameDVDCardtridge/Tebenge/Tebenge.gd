@@ -92,6 +92,10 @@ func _mainMenuPls():
 	$CanvasLayer/UIField.mainMenuPls()
 	pass
 
+func _attemptAbortGame():
+	$CanvasLayer/UIField.attemptAbortGame()
+	pass
+
 func _resetAfterGameDone():
 	_mainMenuPls()
 	$PlayField.resetPlayfield()
@@ -111,6 +115,7 @@ func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
 #	$PlayField.chooseGameMode = withMode
 	$PlayField.startTheGame(withMode)
 	$CanvasLayer/UIField.startTheGame(withMode)
+	_interpresHiScore()
 	pass
 
 func _pauseTheGame(pauseIt:bool = false):
@@ -176,6 +181,10 @@ func _receiveArcadeTimer(itSays:float):
 	$CanvasLayer/UIField.receiveArcadeTimer(itSays)
 	pass
 
+func _receiveEndlessTimer(itSays:float):
+	$CanvasLayer/UIField.receiveEndlessTimer(itSays)
+	pass
+
 func _receiveGameDone(didIt:bool = false):
 	$CanvasLayer/UIField.receiveGameDone(didIt)
 	# game has been done!
@@ -194,6 +203,12 @@ func _receiveGameDone(didIt:bool = false):
 	_saveSave()
 	pass
 
+func _appearAdVideoTron(rewarded:bool = false):
+	#Philosophically, you are not allowed to integrate appear ad in functions!
+	#You may integrate this containing function inside another functions though.
+	emit_signal("AdRewarded_Exec" if rewarded else "AdInterstitial_Exec")
+	pass
+
 func _iWantToContinue(wantIt:bool = true):
 	wantsToContinue = true
 	if wantIt:
@@ -202,11 +217,7 @@ func _iWantToContinue(wantIt:bool = true):
 			if Engine.has_singleton("GodotAdmob"):
 				# random chance this would spawn either regular interstitial or rewarded unskipable
 				var chance:float = rand_range(0,100)
-				if chance > 50.0:
-					emit_signal("AdInterstitial_Exec")
-				else:
-					emit_signal("AdRewarded_Exec")
-				pass
+				_appearAdVideoTron(false if chance > 50.0 else true)
 			else:
 				print("Admob Java singleton not found! that's okay. We hate ads too. just.. financial issues")
 				_frigginCheckContinue(wantIt)
@@ -325,6 +336,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					match(nameToDo):
 						"Back":
 							_resetAfterGameDone()
+							_appearAdVideoTron(false)
 							pass
 						_:
 							pass
@@ -433,4 +445,14 @@ func _on_PlayField_game_finish() -> void:
 func _on_PlayField_tickedArcadeTimer(timeSecond:float) -> void:
 #	print("Time left %d" % [timeSecond])
 	_receiveArcadeTimer(timeSecond)
+	pass # Replace with function body.
+
+
+func _on_PlayField_continuousEndlessTimer(timeSecond) -> void:
+#	_receiveEndlessTimer(timeSecond)
+	pass # Replace with function body.
+
+
+func _on_PlayField_tickedEndlessTimer(timeSecond) -> void:
+	_receiveEndlessTimer(timeSecond)
 	pass # Replace with function body.

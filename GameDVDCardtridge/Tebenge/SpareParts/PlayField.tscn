@@ -44,6 +44,8 @@ pause_mode = 2
 
 [node name="ArcadeTickoutTimer" type="Timer" parent="."]
 
+[node name="EndlessTickoutTimer" type="Timer" parent="."]
+
 [connection signal="eikSerkat" from="TebengePlayer" to="." method="_on_TebengePlayer_eikSerkat"]
 [connection signal="pointItIsNow" from="TebengePlayer" to="." method="_on_TebengePlayer_pointItIsNow"]
 [connection signal="timeout" from="NewSpawnTimer" to="." method="_on_NewSpawnTimer_timeout"]
@@ -51,3 +53,4 @@ pause_mode = 2
 [connection signal="timeout" from="BonusTimerLimit" to="." method="_on_BonusTimerLimit_timeout"]
 [connection signal="timeout" from="ContinueTickCountdown" to="." method="_on_ContinueTickCountdown_timeout"]
 [connection signal="timeout" from="ArcadeTickoutTimer" to="." method="_on_ArcadeTickoutTimer_timeout"]
+[connection signal="timeout" from="EndlessTickoutTimer" to="." method="_on_EndlessTickoutTimer_timeout"]

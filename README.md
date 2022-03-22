@@ -71,3 +71,6 @@ The following are tab links opened during this development. Some of which are as
 - https://www.youtube.com/watch?v=U5qGj8qt7VU
 - https://www.youtube.com/watch?v=Lf3b7U6H2Mw
 - https://www.youtube.com/watch?v=rQw21ydy_VY
+- https://github.com/godotengine/godot/issues/10004 how to modulo?!?!?! fmod
+- https://godotengine.org/qa/22990/how-to-detect-when-the-game-loses-and-gains-focus
+- https://github.com/eumario/godot-manager

@@ -83,3 +83,17 @@ func _on_Tebenge_AdInterstitial_Exec() -> void:
 
 func _on_Tebenge_AdRewarded_Exec() -> void:
 	pass # Replace with function body.
+
+func _notification(what: int) -> void:
+	match(what):
+		NOTIFICATION_WM_GO_BACK_REQUEST:
+			var a = InputEventAction.new()
+			a.action = "ui_cancel"
+			a.pressed = true
+			Input.parse_input_event(a)
+			pass
+		NOTIFICATION_WM_QUIT_REQUEST:
+			pass
+		_:
+			pass
+	pass

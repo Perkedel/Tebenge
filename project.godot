@@ -75,6 +75,7 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="Perkedel Technologies/Tebenge"
 boot_splash/image="res://GameDVDCardtridge/Tebenge/Assets/images/TebengeBootSplash.png"
 config/icon="res://GameDVDCardtridge/Tebenge/Assets/images/appIcon.png"
+config/auto_accept_quit=false
 config/quit_on_go_back=false
 
 [autoload]

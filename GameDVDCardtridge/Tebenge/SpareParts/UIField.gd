@@ -24,6 +24,9 @@ func mainMenuPls():
 	$MenuLagrange.mainMenuPls()
 	pass
 
+func attemptAbortGame():
+	pass
+
 func gotNewHiScore(isIt:bool = false, score:int = 0):
 	$GameplayLagrange.gotNewHiScore(isIt,score)
 	pass
@@ -55,6 +58,10 @@ func receiveContinueTick(with:int):
 
 func receiveArcadeTimer(with:float):
 	$GameplayLagrange.receiveArcadeTimer(with)
+	pass
+
+func receiveEndlessTimer(with:float):
+	$GameplayLagrange.receiveEndlessTimer(with)
 	pass
 
 func receiveGameDone(didIt:bool = false):

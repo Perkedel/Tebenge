@@ -17,16 +17,21 @@ export(float) var bonusMomentTimeLimit = 10
 export(PackedScene) var Enemy:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeEnemy.tscn")
 export(PackedScene) var BonusBullet:PackedScene = load("res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn")
 var arcadeTimeLeft:float = 120
+var endlessTimeElapsed:float = 0
 var isPaused:bool = false
 var last_placed_position:Vector2 = Vector2(0,0)
 var gameplayStarted:bool = false
 var continueThreat:bool = false # whether or not you are in continue screen
 var continueRemaining:int = 10
+var abortedTheGame:bool = true
 signal continuousArcadeTimer(timeSecond)
+signal continuousEndlessTimer(timeSecond)
 signal tickedArcadeTimer(timeSecond)
+signal tickedEndlessTimer(timeSecond)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$NewSpawnTimer.wait_time = spawnEvery
 	last_placed_position = $TebengePlayer.position
 #	$ArcadeTimeoutTimer
 	pass # Replace with function body.
@@ -44,9 +49,11 @@ func startTheGame(withMode = gameModes.Arcade) -> void:
 			$ArcadeTickoutTimer.start(1)
 			pass
 		gameModes.Endless:
+			$EndlessTickoutTimer.start(1)
 			pass
 		_:
 			pass
+	
 	set_active(true)
 	print("Let's begin! " + String(withMode))
 	gameplayStarted = true
@@ -64,9 +71,18 @@ func finishTheGame(didIt:bool = false) -> void:
 	set_active(false)
 	$ArcadeTimeoutTimer.stop()
 	$ArcadeTickoutTimer.stop()
+	$EndlessTickoutTimer.stop()
 	gameplayStarted = false
 
 func cancelTheGame() -> void:
+	pauseTheGame(false)
+	# this should save the game.
+	
+	# TEMP game over immediately
+#	set_active(false)
+#	finishTheGame(false)
+	abortedTheGame = true
+	$TebengePlayer._eikSerkat()
 	
 	gameplayStarted = false
 	pass
@@ -82,11 +98,16 @@ func pauseTheGame(pauseIt:bool = false) -> void:
 signal askedContinue()
 func askContinue():
 	set_active(false)
-	if chooseGameMode == gameModes.Arcade:
-		_startContinueFate(true)
-		emit_signal("askedContinue")
-	else:
-		emit_signal("game_over")
+	match(chooseGameMode):
+		gameModes.Arcade:
+			_startContinueFate(true)
+			emit_signal("askedContinue")
+			pass
+		gameModes.Endless:
+			emit_signal("game_over")
+			pass
+		_:
+			pass
 	pass
 
 func selectedAContinue(saidYes:bool = false):
@@ -115,6 +136,17 @@ func arcadeTimerLeft(left:float):
 	
 	if left <= 0:
 		arcadeTimeHasRanOut()
+		pass
+	pass
+
+func endlessTimerElapses(timed:float):
+	emit_signal("continuousEndlessTimer",timed)
+#	emit_signal("tickedArcadeTimer",timed)
+	emit_signal("tickedEndlessTimer",timed)
+	
+	# every 120 second, difficulty increase. maybe it's time elapsed mod 120 == 0?
+	if fmod(timed,120) == 0:
+		$NewSpawnTimer.start($NewSpawnTimer.wait_time-.1)
 		pass
 	pass
 
@@ -180,7 +212,8 @@ func set_active(itIs:bool = false):
 	$TebengePlayer.set_active(itIs)
 	if active:
 #		$NewSpawnTimer.paused = false
-		$NewSpawnTimer.start(spawnEvery)
+#		$NewSpawnTimer.start(spawnEvery)
+		$NewSpawnTimer.start(-1)
 		$ArcadeTimeoutTimer.paused = false
 		$ArcadeTickoutTimer.paused = false
 		for thingye in get_children():
@@ -207,6 +240,7 @@ func resetPlayfield(continueIt:bool = false):
 #	PlayerThemselves.position = Vector2(get_viewport().size.x/2,get_viewport().size.y/2)
 #	$TebengePlayer.position = Vector2(get_viewport().size.x/2,get_viewport().size.y/2)
 	$TebengePlayer.position = last_placed_position
+	$NewSpawnTimer.wait_time = spawnEvery
 	pass
 
 func _enemyDown():
@@ -219,7 +253,14 @@ func _youDied():
 #	set_active(false)
 #	emit_signal("game_over")
 	# first, continue countdown!
-	askContinue()
+	if abortedTheGame:
+		# using clicked NO on continue
+		set_active(false)
+		finishTheGame(false)
+		pass
+	else:
+		askContinue()
+	abortedTheGame = false
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -299,7 +340,32 @@ func _notification(what: int) -> void:
 func _on_ArcadeTickoutTimer_timeout() -> void:
 #	print("tick arcade %d" % [arcadeTimeLeft])
 #	emit_signal("tickedArcadeTimer", $ArcadeTimeoutTimer.time_left)
-	if active && chooseGameMode == gameModes.Arcade:
-		arcadeTimeLeft -= 1
-		arcadeTimerLeft(arcadeTimeLeft)
+	if active:
+		match(chooseGameMode):
+			gameModes.Arcade:
+				arcadeTimeLeft -= 1
+				arcadeTimerLeft(arcadeTimeLeft)
+				pass
+			gameModes.Endless:
+				endlessTimeElapsed += 1
+				endlessTimerElapses(endlessTimeElapsed)
+				pass
+			_:
+				pass
+	pass # Replace with function body.
+
+
+func _on_EndlessTickoutTimer_timeout() -> void:
+	if active:
+		match(chooseGameMode):
+			gameModes.Arcade:
+				arcadeTimeLeft -= 1
+				arcadeTimerLeft(arcadeTimeLeft)
+				pass
+			gameModes.Endless:
+				endlessTimeElapsed += 1
+				endlessTimerElapses(endlessTimeElapsed)
+				pass
+			_:
+				pass
 	pass # Replace with function body.

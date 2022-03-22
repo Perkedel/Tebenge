@@ -16,6 +16,11 @@ func mainMenuPls():
 #	$QuitDialogOD.hide()
 	pass
 
+func quitPls():
+	hideAllODs()
+	$QuitDialogOD.show()
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
@@ -34,8 +39,7 @@ func _receiveOdeePressOption(named:String,fromOD:String, fromLagrangeOf:String):
 				"Setting":
 					pass
 				"Exit":
-					$MainMenuOD.hide()
-					$QuitDialogOD.show()
+					quitPls()
 					pass
 				_:
 					pass
@@ -59,3 +63,11 @@ func _receiveOdeePressOption(named:String,fromOD:String, fromLagrangeOf:String):
 
 func _on_MainMenuOD_pressedOption(nameOf, oDName):
 	pass # Replace with function body.
+
+func _notification(what: int) -> void:
+	if visible:
+		match(what):
+			NOTIFICATION_WM_QUIT_REQUEST:
+				quitPls()
+				pass
+	pass

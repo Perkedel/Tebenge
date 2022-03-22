@@ -13,6 +13,11 @@ func intoGameMode() -> void:
 	$ModesOD.show()
 	pass
 
+func attemptAbortGame():
+	hideAllODs()
+	$AbortDialogOD.show()
+	pass
+
 func startTheGame(withMode):
 	hideAllODs()
 	$HUDOD.show()
@@ -49,7 +54,17 @@ func receiveContinueTick(with:int):
 	pass
 
 func receiveArcadeTimer(with:float):
+	$HUDOD/ArcadeTimeRemainingDT.title = "Time remaining"
 	$HUDOD/ArcadeTimeRemainingDT.value = String(int(with)) + " Seconds"
+	$PauseOD/TimeRemainingDT.title = "Time remaining"
+	$PauseOD/TimeRemainingDT.value = String(int(with)) + " Seconds"
+	pass
+
+func receiveEndlessTimer(with:float):
+	$HUDOD/ArcadeTimeRemainingDT.title = "Time elapsed"
+	$HUDOD/ArcadeTimeRemainingDT.value = String(int(with)) + " Seconds"
+	$PauseOD/TimeRemainingDT.title = "Time elapsed"
+	$PauseOD/TimeRemainingDT.value = String(int(with)) + " Seconds"
 	pass
 
 func receiveGameDone(didIt:bool):

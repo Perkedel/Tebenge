@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TitledValueLabelDT.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/GameOverOD.gd" type="Script" id=5]
 
 [node name="GameOverOD" instance=ExtResource( 1 )]
+script = ExtResource( 5 )
 
 [node name="GameOverTitle" parent="." index="0" instance=ExtResource( 2 )]
 visible = false
@@ -16,22 +18,32 @@ margin_bottom = 100.0
 text = "GameOver!"
 
 [node name="GameOverDT" parent="." index="1" instance=ExtResource( 4 )]
-margin_left = 502.0
-margin_right = 802.0
+margin_left = 398.0
+margin_right = 698.0
 margin_bottom = 150.0
 title = "Game OVER/FINISH"
 value = "Ticket get: 15"
 
 [node name="HiScoreDT" parent="." index="2" instance=ExtResource( 4 )]
-margin_left = 810.0
-margin_right = 1110.0
+margin_left = 706.0
+margin_right = 1006.0
 margin_bottom = 150.0
 title = "High Score"
 value = "43a"
 
 [node name="BackToMenuButton" parent="." index="3" instance=ExtResource( 3 )]
-margin_left = 1118.0
-margin_right = 1418.0
+margin_left = 1014.0
+margin_right = 1314.0
 margin_bottom = 150.0
+focus_mode = 0
 
 [node name="WhenPressBackSpawnInterstitial" type="Node" parent="." index="4"]
+
+[node name="TebengeLabel" parent="." index="5" instance=ExtResource( 2 )]
+margin_left = 1322.0
+margin_top = 50.0
+margin_right = 1522.0
+margin_bottom = 100.0
+text = "<- Press START"
+
+[connection signal="pressedName" from="BackToMenuButton" to="." method="_on_BackToMenuButton_pressedName"]
