@@ -55,6 +55,8 @@ func _loadSave():
 		_saveSave()
 		pass
 	# then inject data to here
+	
+#	_interpresHiScore()
 	pass
 
 func _saveSave():
@@ -70,6 +72,7 @@ func _saveSave():
 	thing.store_string(ingredient)
 	
 	thing.close()
+	_interpresHiScore()
 	pass
 
 func _init() -> void:
@@ -92,11 +95,31 @@ func _mainMenuPls():
 	$CanvasLayer/UIField.mainMenuPls()
 	pass
 
+func _settingPls(inGame:bool = false):
+	$CanvasLayer/UIField.settingPls(inGame)
+	pass
+
 func _attemptAbortGame():
+	if get_tree().paused:
+		pass
+	else:
+		get_tree().paused = true
+		pass
 	$CanvasLayer/UIField.attemptAbortGame()
 	pass
 
+func _confirmedAbortGame(itIs:bool = false):
+	if itIs:
+		$PlayField.cancelTheGame()
+		pass
+	else:
+		$CanvasLayer/UIField.pauseTheGame(true)
+		pass
+	_interpresHiScore()
+	pass
+
 func _resetAfterGameDone():
+	youveGotNewHiScore = false
 	_mainMenuPls()
 	$PlayField.resetPlayfield()
 	#add reset function
@@ -124,12 +147,18 @@ func _pauseTheGame(pauseIt:bool = false):
 	pass
 
 func set_point_right_now(howMany:int):
+#	if $PlayField.gameplayStarted:
 	_pointRightNow = howMany
 	# ticket = floor (point / 10)
 	ticket = floor(_pointRightNow/10)
+	# don't be but hole by not give ticket even gamer paid a dime
+	# and lose under 10 points!
+	if ticket < 1:
+		ticket = 1
 	
 	$CanvasLayer/UIField.setGameOverTickeySay("Tickets %d" % [ticket])
 	_interpresHiScore()
+#	print("Point %d" % [howMany])
 	pass
 
 func _interpresHiScore():
@@ -140,7 +169,7 @@ func _interpresHiScore():
 				kludgeHiScoreArcade = _pointRightNow
 				_anyKludgeHiScoreRightNow = _pointRightNow
 			else:
-				youveGotNewHiScore = false
+#				youveGotNewHiScore = false
 				_anyKludgeHiScoreRightNow = kludgeHiScoreArcade
 				pass
 			pass
@@ -150,7 +179,7 @@ func _interpresHiScore():
 				kludgeHiScoreEndless = _pointRightNow
 				_anyKludgeHiScoreRightNow = _pointRightNow
 			else:
-				youveGotNewHiScore = false
+#				youveGotNewHiScore = false
 				_anyKludgeHiScoreRightNow = kludgeHiScoreEndless
 				pass
 			pass
@@ -161,9 +190,10 @@ func _interpresHiScore():
 	$CanvasLayer/UIField.updateKludgeHiScores(kludgeHiScoreArcade,kludgeHiScoreEndless)
 	
 	if youveGotNewHiScore:
-		
+#		print("New hi score")
 		pass
 	else:
+#		print(" no new hiscore")
 		pass
 	pass
 
@@ -259,9 +289,18 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"Setting":
 							print("Settingeh")
+							_settingPls()
 							pass
 						"Exit":
 							print("Haah?!")
+							pass
+						_:
+							pass
+					pass
+				"SettingOD":
+					match(nameToDo):
+						"Back":
+							_mainMenuPls()
 							pass
 						_:
 							pass
@@ -314,7 +353,30 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Resume":
 							pauseNow(false)
 							pass
+						"Setting":
+							_settingPls(true)
+							pass
 						"Quit":
+							_attemptAbortGame()
+							pass
+						_:
+							pass
+					pass
+				"SettingOD":
+					match(nameToDo):
+						"Back":
+							_pauseTheGame(true)
+							pass
+						_:
+							pass
+					pass
+				"AbortDialogOD":
+					match(nameToDo):
+						"Yes":
+							_confirmedAbortGame(true)
+							pass
+						"No":
+							_confirmedAbortGame(false)
 							pass
 						_:
 							pass
@@ -352,6 +414,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 #	pass
 
 func _terminateThisDVD(changeDVD:bool = false):
+	_saveSave()
 	if changeDVD:
 		emit_signal("ChangeDVD_Exec")
 	else:
@@ -359,7 +422,8 @@ func _terminateThisDVD(changeDVD:bool = false):
 	pass
 
 func pauseNow(isIt:bool = false):
-	pause_mode = isIt
+#	pause_mode = isIt
+#	get_tree().paused = isIt
 	if isIt:
 		$InternalSpeaker.stream = pauseSound
 		pass

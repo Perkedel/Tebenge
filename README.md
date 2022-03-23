@@ -74,3 +74,11 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/godotengine/godot/issues/10004 how to modulo?!?!?! fmod
 - https://godotengine.org/qa/22990/how-to-detect-when-the-game-loses-and-gains-focus
 - https://github.com/eumario/godot-manager
+- https://docs.godotengine.org/en/stable/tutorials/scripting/pausing_games.html
+- https://godotengine.org/qa/26765/how-to-change-sound-volumes-globally-in-godot-3-0
+- https://godotengine.org/qa/24377/change-global-volume-in-3-0
+- https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html?highlight=static#static-functions
+- https://godotengine.org/asset-library/asset/157 Yeldham. JSON beautifier!
+- https://godotengine.org/asset-library/asset/724 2shady4u. JSON minifier. read jsonc (json comment), by stripping comment in RAM and then let Godot JSON parser read it peacefully.
+- https://godotengine.org/asset-library/asset/955 Teggy. JSON configuration file
+- https://godotengine.org/asset-library/asset/1205

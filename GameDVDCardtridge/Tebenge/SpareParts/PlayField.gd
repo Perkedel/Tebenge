@@ -84,7 +84,7 @@ func cancelTheGame() -> void:
 	abortedTheGame = true
 	$TebengePlayer._eikSerkat()
 	
-	gameplayStarted = false
+#	gameplayStarted = false
 	pass
 
 func pauseTheGame(pauseIt:bool = false) -> void:
@@ -184,6 +184,13 @@ func despawnEnemies():
 		pass
 	pass
 
+func despawnItems():
+	for thingye in get_children():
+		if thingye.is_in_group("Tebenge_Bullet"):
+			thingye.queue_free()
+		pass
+	pass
+
 func sulapEnemiesIntoBonus():
 	for thingye in get_children():
 		var positional:Vector2
@@ -236,6 +243,7 @@ func set_active(itIs:bool = false):
 func resetPlayfield(continueIt:bool = false):
 	$TebengePlayer.reset()
 	despawnEnemies()
+	despawnItems()
 	$TebengePlayer.resetPoint()
 #	PlayerThemselves.position = Vector2(get_viewport().size.x/2,get_viewport().size.y/2)
 #	$TebengePlayer.position = Vector2(get_viewport().size.x/2,get_viewport().size.y/2)
@@ -326,7 +334,8 @@ func _on_ContinueTickCountdown_timeout() -> void:
 
 signal pointItIsNow(howMany, thatsForPlayer)
 func _on_TebengePlayer_pointItIsNow(howMany:int) -> void:
-	emit_signal("pointItIsNow",howMany,0)
+	if gameplayStarted:
+		emit_signal("pointItIsNow",howMany,0)
 	pass # Replace with function body.
 
 func _notification(what: int) -> void:

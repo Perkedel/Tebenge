@@ -24,7 +24,22 @@ func mainMenuPls():
 	$MenuLagrange.mainMenuPls()
 	pass
 
+func settingPls(inGame:bool = false):
+	_hideAllLagranges()
+#	$MenuLagrange.show()
+	if !inGame:
+#		_hideAllLagranges()
+		$MenuLagrange.show()
+		$MenuLagrange.settingPls()
+	else:
+#		_hideAllLagranges()
+		$GameplayLagrange.show()
+		$GameplayLagrange.settingPls()
+		pass
+	pass
+
 func attemptAbortGame():
+	$GameplayLagrange.attemptAbortGame()
 	pass
 
 func gotNewHiScore(isIt:bool = false, score:int = 0):

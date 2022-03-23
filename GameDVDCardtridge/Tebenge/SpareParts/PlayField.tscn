@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Board.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/PlayField.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/shader/TebengeHuertShaderCode.gdshader" type="Shader" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayfieldBekgron.tscn" type="PackedScene" id=5]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=7]
 
 [sub_resource type="ShaderMaterial" id=1]
@@ -17,6 +18,8 @@ PlayerThemselves = NodePath("TebengePlayer")
 active = true
 preActivateTest = true
 BonusBullet = ExtResource( 3 )
+
+[node name="Bekgron" parent="." instance=ExtResource( 5 )]
 
 [node name="TebengePlayer" parent="." instance=ExtResource( 7 )]
 position = Vector2( 960, 540 )

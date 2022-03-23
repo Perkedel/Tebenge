@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ComplexDT.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeCheckButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BoolDT.gd" type="Script" id=4]
+
+[node name="BoolDT" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+title = "True False"
+value = "ON / OFF"
+
+[node name="BoolLabel" parent="." index="0" instance=ExtResource( 2 )]
+margin_right = 300.0
+margin_bottom = 50.0
+text = "True False"
+
+[node name="CheckButton" parent="." index="1" instance=ExtResource( 3 )]
+margin_top = 58.0
+margin_right = 300.0
+margin_bottom = 138.0
+pressed = true
+text = "ON / OFF"
+
+[connection signal="toggled" from="CheckButton" to="." method="_on_CheckButton_toggled"]

@@ -103,6 +103,7 @@ func plsTurnAround():
 
 func reset(withResetTimer:bool = false):
 	hp = initHP
+	arrayedBulletOnScreen.clear()
 	$dedd.hide()
 	$Form.show()
 	$Collide.set_deferred("disabled", false)

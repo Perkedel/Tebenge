@@ -16,6 +16,11 @@ func mainMenuPls():
 #	$QuitDialogOD.hide()
 	pass
 
+func settingPls():
+	hideAllODs()
+	$SettingOD.show()
+	pass
+
 func quitPls():
 	hideAllODs()
 	$QuitDialogOD.show()

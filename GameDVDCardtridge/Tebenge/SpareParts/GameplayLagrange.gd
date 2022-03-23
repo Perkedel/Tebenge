@@ -13,6 +13,11 @@ func intoGameMode() -> void:
 	$ModesOD.show()
 	pass
 
+func settingPls():
+	hideAllODs()
+	$SettingOD.show()
+	pass
+
 func attemptAbortGame():
 	hideAllODs()
 	$AbortDialogOD.show()

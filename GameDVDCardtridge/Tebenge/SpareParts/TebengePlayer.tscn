@@ -62,8 +62,10 @@ position = Vector2( -64, 0 )
 position = Vector2( 64, 0 )
 
 [node name="GunShotSounder" type="AudioStreamPlayer2D" parent="."]
+bus = "SoundEffect"
 
 [node name="HuertWoundeSounder" type="AudioStreamPlayer2D" parent="."]
+bus = "SoundEffect"
 
 [node name="MomentaryInvincibleTimer" type="Timer" parent="."]
 wait_time = 3.0
