@@ -26,9 +26,11 @@ func _readAdmobio():
 	
 	$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
 	$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
-	$BuiltInSystemer/AdMob.interstitial_id = admobStrings[3]
+	$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
 #	$BuiltInSystemer/AdMob.init()
 	$BuiltInSystemer/AdMob.load_banner()
+	$BuiltInSystemer/AdMob.load_interstitial()
+	$BuiltInSystemer/AdMob.load_rewarded_video()
 	pass
 
 func _testAdbmobio():
@@ -79,14 +81,17 @@ func _on_Tebenge_Shutdown_Exec():
 
 
 func _on_Tebenge_AdInterstitial_Exec() -> void:
+	$BuiltInSystemer/AdMob.load_interstitial()
 	pass # Replace with function body.
 
 func _on_Tebenge_AdRewarded_Exec() -> void:
+	$BuiltInSystemer/AdMob.load_rewarded_video()
 	pass # Replace with function body.
 
 func _notification(what: int) -> void:
 	match(what):
 		NOTIFICATION_WM_GO_BACK_REQUEST:
+			# IDEA: add disabler option for some game. the gameDVD can disable / enable this anytime.
 			var a = InputEventAction.new()
 			a.action = "ui_cancel"
 			a.pressed = true
@@ -97,3 +102,28 @@ func _notification(what: int) -> void:
 		_:
 			pass
 	pass
+
+func _on_Tebenge_AdBanner_Terminate() -> void:
+	$BuiltInSystemer/AdMob.hide_banner()
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdBanner_Reshow() -> void:
+	$BuiltInSystemer/AdMob.show_banner()
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdBanner_Exec() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdRewarded_Reshow() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdInterstitial_Reshow() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_AdInterstitial_Terminate() -> void:
+	pass # Replace with function body.

@@ -2,7 +2,7 @@ extends Node2D
 
 class_name TebengePlayField
 
-enum gameModes{Arcade,Endless}
+enum gameModes{Arcade=0,Endless=1}
 export(gameModes) var chooseGameMode
 export(NodePath) var PlayerThemselves:NodePath  #= get_node("TebengePlayer") # bug! it fails to compile!
 export(bool) var active:bool = false #setget set_active
@@ -23,11 +23,12 @@ var last_placed_position:Vector2 = Vector2(0,0)
 var gameplayStarted:bool = false
 var continueThreat:bool = false # whether or not you are in continue screen
 var continueRemaining:int = 10
-var abortedTheGame:bool = true
+var abortedTheGame:bool = false
 signal continuousArcadeTimer(timeSecond)
 signal continuousEndlessTimer(timeSecond)
 signal tickedArcadeTimer(timeSecond)
 signal tickedEndlessTimer(timeSecond)
+signal murderTheAd()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -98,6 +99,7 @@ func pauseTheGame(pauseIt:bool = false) -> void:
 signal askedContinue()
 func askContinue():
 	set_active(false)
+	print("Ask continue on %s" % [String(gameModes)])
 	match(chooseGameMode):
 		gameModes.Arcade:
 			_startContinueFate(true)
@@ -249,6 +251,9 @@ func resetPlayfield(continueIt:bool = false):
 #	$TebengePlayer.position = Vector2(get_viewport().size.x/2,get_viewport().size.y/2)
 	$TebengePlayer.position = last_placed_position
 	$NewSpawnTimer.wait_time = spawnEvery
+	endlessTimeElapsed = 0
+	arcadeTimeLeft = arcadePlayTimeLimit
+	abortedTheGame = false
 	pass
 
 func _enemyDown():
@@ -377,4 +382,9 @@ func _on_EndlessTickoutTimer_timeout() -> void:
 				pass
 			_:
 				pass
+	pass # Replace with function body.
+
+
+func _on_Board_murderTheAd() -> void:
+	emit_signal("murderTheAd")
 	pass # Replace with function body.

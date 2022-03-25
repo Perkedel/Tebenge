@@ -49,9 +49,9 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\User
 MERGED from [androidx.print:print:1.0.0] C:\Users\joelr\.gradle\caches\transforms-3\365aedca3efa823955024e28bf6bf044\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\joelr\.gradle\caches\transforms-3\780b23ac0107a53910baedbe87dfe02e\transformed\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-ads-base:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\fc58d1abf0f813376cf3e208a061639f\transformed\jetified-play-services-ads-base-19.3.0\AndroidManifest.xml:2:1-9:12
-INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-37:12
-INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-37:12
-INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-37:12
+INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-39:12
+INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:2:1-39:12
 	package
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:4:5-29
 		INJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml
@@ -135,7 +135,7 @@ MERGED from [com.google.android.gms:play-services-ads-base:19.3.0] C:\Users\joel
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:68-95
 		REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:68-95
 	tools:replace
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:26:9-123
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:28:9-123
 	android:isGame
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:96-117
 		REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:96-117
@@ -146,7 +146,7 @@ meta-data#xr_mode_metadata_name
 ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:42:9-44:54
 REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:42:9-44:54
 	tools:node
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:30:20-39
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:32:20-39
 	android:value
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:44:13-51
 	android:name
@@ -155,7 +155,7 @@ meta-data#xr_hand_tracking_metadata_name
 ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:49:9-51:62
 REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:49:9-51:62
 	tools:node
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:31:20-39
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:33:20-39
 	android:value
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:51:13-60
 	android:name
@@ -164,7 +164,7 @@ meta-data#com.oculus.supportedDevices
 ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:55:9-57:35
 REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:55:9-57:35
 	tools:node
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:32:20-39
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:34:20-39
 	android:value
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:57:13-32
 	android:name
@@ -198,14 +198,14 @@ MERGED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\andro
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:62:13-55
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:62:13-55
 	tools:replace
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:33:58-126
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:35:58-126
 	android:name
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:60:13-37
 meta-data#com.oculus.vr.focusaware
 ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:71:13-87
 REJECTED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:71:13-87
 	tools:node
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:34:24-43
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:36:24-43
 	android:value
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:71:64-84
 	android:name
@@ -354,23 +354,33 @@ ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\androi
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:13:78-104
 	android:name
 		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:13:22-77
-uses-permission#android.permission.VIBRATE
-ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:14:5-66
+uses-permission#android.permission.READ_INPUT_STATE
+ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:14:5-75
 	android:name
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:14:22-63
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:14:22-72
+uses-permission#android.permission.VIBRATE
+ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:15:5-66
+	android:name
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:15:22-63
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:16:5-108
+	android:maxSdkVersion
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:16:79-105
+	android:name
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:16:22-78
 instrumentation
-ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:15:5-20:57
+ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:17:5-22:57
 REJECTED from [godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:10:5-14:57
 	tools:node
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:16:9-29
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:18:9-29
 	android:label
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:19:9-58
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:21:9-58
 	android:icon
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:18:9-36
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:20:9-36
 	android:targetPackage
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:20:9-54
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:22:9-54
 	android:name
-		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:17:9-45
+		ADDED from C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:19:9-45
 meta-data#org.godotengine.library.version
 ADDED from [godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:19:9-21:44
 	android:value

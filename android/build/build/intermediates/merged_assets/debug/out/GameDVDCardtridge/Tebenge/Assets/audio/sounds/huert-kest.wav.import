@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/huert-kest.wav-a6cdea7b79e37b7a1676c346a8e23b31.sample"
+
+[deps]
+
+source_file="res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/huert-kest.wav"
+dest_files=[ "res://.import/huert-kest.wav-a6cdea7b79e37b7a1676c346a8e23b31.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

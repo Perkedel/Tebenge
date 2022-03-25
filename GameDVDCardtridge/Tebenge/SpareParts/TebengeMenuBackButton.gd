@@ -20,9 +20,9 @@ func _goBack():
 func _input(event: InputEvent) -> void:
 #	if event is InputEventAction && event.is_action_pressed("ui_cancel"):
 #		pass
-	if Input.is_action_just_pressed("ui_cancel"):
-		_goBack()
-		pass
+#	if Input.is_action_just_pressed("ui_cancel"):
+#		_goBack()
+#		pass
 	pass
 
 func _notification(what: int) -> void:
@@ -31,4 +31,10 @@ func _notification(what: int) -> void:
 			NOTIFICATION_WM_GO_BACK_REQUEST:
 				_goBack()
 				pass
+		pass
 	pass
+
+func _on_TebengeMenuBackButton_pressedName(name) -> void:
+	if visible:
+		_goBack()
+	pass # Replace with function body.

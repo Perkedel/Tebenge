@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/HUDStatusBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/DuarParticle.png" type="Texture" id=2]
+
+[node name="PointBar" instance=ExtResource( 1 )]
+iconFor = ExtResource( 2 )
+
+[node name="IconOfIt" parent="." index="0"]
+margin_left = 41.0
+margin_right = 81.0
+texture = ExtResource( 2 )
+
+[node name="LabelNumVar" parent="." index="1"]
+margin_left = 89.0
+margin_right = 102.0
+text = "0"

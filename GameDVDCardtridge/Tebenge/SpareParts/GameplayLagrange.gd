@@ -36,12 +36,12 @@ func pauseTheGame(pauseIt:bool = false) -> void:
 		$HUDOD.show()
 	pass
 
-func gotNewHiScore(isIt:bool = false, score:int = 0):
-	$GameOverOD/HiScoreDT.title = "NEW High Score!!!" if isIt else "HighScore"
+func gotNewHiScore(isIt:bool = false, score:int = 0, gameMode:String = ""):
+	$GameOverOD/HiScoreDT.title = (gameMode) + " " + ("NEW High Score!!!" if isIt else "HighScore")
 	$GameOverOD/HiScoreDT.value = String(score)
-	$PauseOD/HiScoreDT.title = "NEW High Score!!!" if isIt else "HighScore"
+	$PauseOD/HiScoreDT.title = (gameMode) + " " + ("NEW High Score!!!" if isIt else "HighScore")
 	$PauseOD/HiScoreDT.value = String(score)
-	$HUDOD/HiScoreDT.title = "NEW High Score!!!" if isIt else "HighScore"
+	$HUDOD/HiScoreDT.title = (gameMode) + " " + ("NEW High Score!!!" if isIt else "HighScore")
 	$HUDOD/HiScoreDT.value = String(score)
 	pass
 

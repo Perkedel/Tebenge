@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PauseClose.wav-da193618db70f03bb48ecb22be3d9d70.sample"
+
+[deps]
+
+source_file="res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseClose.wav"
+dest_files=[ "res://.import/PauseClose.wav-da193618db70f03bb48ecb22be3d9d70.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

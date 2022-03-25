@@ -14,8 +14,14 @@ var _saveTemplate:Dictionary = {
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
 signal AdInterstitial_Exec()
+signal AdInterstitial_Reshow()
+signal AdInterstitial_Terminate()
 signal AdRewarded_Exec()
+signal AdRewarded_Reshow()
+signal AdRewarded_Terminate()
 signal AdBanner_Exec()
+signal AdBanner_Reshow()
+signal AdBanner_Terminate()
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
@@ -72,7 +78,7 @@ func _saveSave():
 	thing.store_string(ingredient)
 	
 	thing.close()
-	_interpresHiScore()
+#	_interpresHiScore()
 	pass
 
 func _init() -> void:
@@ -84,11 +90,16 @@ func _init() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_interpresHiScore()
+#	_interpresHiScore()
 	pass # Replace with function body.
 
 func _enter_tree():
 	
+	pass
+
+func murderAdNow():
+	emit_signal("AdBanner_Terminate")
+	$AppearAdAgainTimer.start(-1)
 	pass
 
 func _mainMenuPls():
@@ -120,6 +131,7 @@ func _confirmedAbortGame(itIs:bool = false):
 
 func _resetAfterGameDone():
 	youveGotNewHiScore = false
+	_pointRightNow = 0
 	_mainMenuPls()
 	$PlayField.resetPlayfield()
 	#add reset function
@@ -127,6 +139,7 @@ func _resetAfterGameDone():
 
 func _intoGameMode():
 	$CanvasLayer/UIField.intoGameMode()
+	_interpresHiScore()
 	pass
 
 func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
@@ -134,6 +147,7 @@ func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
 #	if typeof(withMode) != TebengePlayField.gameModes:
 #		return
 	
+	_pointRightNow = 0
 	gameMode = withMode
 #	$PlayField.chooseGameMode = withMode
 	$PlayField.startTheGame(withMode)
@@ -162,12 +176,13 @@ func set_point_right_now(howMany:int):
 	pass
 
 func _interpresHiScore():
-	match(gameMode):
+#	match(gameMode):
+	match($PlayField.chooseGameMode):
 		TebengePlayField.gameModes.Arcade:
 			if _pointRightNow > kludgeHiScoreArcade:
 				youveGotNewHiScore = true
 				kludgeHiScoreArcade = _pointRightNow
-				_anyKludgeHiScoreRightNow = _pointRightNow
+				_anyKludgeHiScoreRightNow = kludgeHiScoreArcade
 			else:
 #				youveGotNewHiScore = false
 				_anyKludgeHiScoreRightNow = kludgeHiScoreArcade
@@ -177,7 +192,7 @@ func _interpresHiScore():
 			if _pointRightNow > kludgeHiScoreEndless:
 				youveGotNewHiScore = true
 				kludgeHiScoreEndless = _pointRightNow
-				_anyKludgeHiScoreRightNow = _pointRightNow
+				_anyKludgeHiScoreRightNow = kludgeHiScoreEndless
 			else:
 #				youveGotNewHiScore = false
 				_anyKludgeHiScoreRightNow = kludgeHiScoreEndless
@@ -186,7 +201,7 @@ func _interpresHiScore():
 		_:
 			pass
 	
-	$CanvasLayer/UIField.gotNewHiScore(youveGotNewHiScore, _anyKludgeHiScoreRightNow)
+	$CanvasLayer/UIField.gotNewHiScore(youveGotNewHiScore, _anyKludgeHiScoreRightNow, "A" if $PlayField.chooseGameMode == 0 else "E")
 	$CanvasLayer/UIField.updateKludgeHiScores(kludgeHiScoreArcade,kludgeHiScoreEndless)
 	
 	if youveGotNewHiScore:
@@ -236,7 +251,8 @@ func _receiveGameDone(didIt:bool = false):
 func _appearAdVideoTron(rewarded:bool = false):
 	#Philosophically, you are not allowed to integrate appear ad in functions!
 	#You may integrate this containing function inside another functions though.
-	emit_signal("AdRewarded_Exec" if rewarded else "AdInterstitial_Exec")
+#	emit_signal("AdRewarded_Exec" if rewarded else "AdInterstitial_Exec")
+	emit_signal("AdRewarded_Reshow" if rewarded else "AdInterstitial_Reshow")
 	pass
 
 func _iWantToContinue(wantIt:bool = true):
@@ -461,6 +477,7 @@ func receive_AdInterstitial_closed() -> void:
 	pass
 
 func receive_AdInterstitial_failed() -> void:
+	print("Interstitial fail")
 	_frigginCheckContinue(true)
 	pass
 
@@ -470,6 +487,7 @@ func receive_AdRewarded_success() -> void:
 
 func receive_AdRewarded_failed() -> void:
 	# dont be buthole
+	print("Rewarded fail")
 	_frigginCheckContinue(true)
 	pass
 
@@ -519,4 +537,14 @@ func _on_PlayField_continuousEndlessTimer(timeSecond) -> void:
 
 func _on_PlayField_tickedEndlessTimer(timeSecond) -> void:
 	_receiveEndlessTimer(timeSecond)
+	pass # Replace with function body.
+
+
+func _on_PlayField_murderTheAd() -> void:
+	murderAdNow()
+	pass # Replace with function body.
+
+
+func _on_AppearAdAgainTimer_timeout() -> void:
+	emit_signal("AdBanner_Reshow")
 	pass # Replace with function body.

@@ -1,6 +1,7 @@
 extends Particles2D
 
 export(AudioStream) var DuarSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/bouff.wav")
+export(bool) var muted:bool = false
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -31,6 +32,7 @@ func _on_Timer_timeout():
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		if visible:
-			$DuarSound.play()
+			if !muted:
+				$DuarSound.play()
 			pass
 		pass

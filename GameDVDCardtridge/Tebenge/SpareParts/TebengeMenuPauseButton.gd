@@ -29,4 +29,11 @@ func _notification(what: int) -> void:
 		if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 			_goPause()
 			pass
+		pass
 	pass
+
+
+func _on_TebengeMenuPauseButton_pressedName(name) -> void:
+	if visible:
+		_goPause()
+	pass # Replace with function body.

@@ -20,12 +20,17 @@ pause_mode = 2
 pause_mode = 2
 bus = "SoundEffect"
 
+[node name="AppearAdAgainTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
 [connection signal="continueCountdownTicked" from="PlayField" to="." method="_on_PlayField_continueCountdownTicked"]
 [connection signal="continuousArcadeTimer" from="PlayField" to="." method="_on_PlayField_continuousArcadeTimer"]
 [connection signal="continuousEndlessTimer" from="PlayField" to="." method="_on_PlayField_continuousEndlessTimer"]
 [connection signal="game_finish" from="PlayField" to="." method="_on_PlayField_game_finish"]
 [connection signal="game_over" from="PlayField" to="." method="_on_PlayField_game_over"]
+[connection signal="murderTheAd" from="PlayField" to="." method="_on_PlayField_murderTheAd"]
 [connection signal="pointItIsNow" from="PlayField" to="." method="_on_PlayField_pointItIsNow"]
 [connection signal="tickedArcadeTimer" from="PlayField" to="." method="_on_PlayField_tickedArcadeTimer"]
 [connection signal="tickedEndlessTimer" from="PlayField" to="." method="_on_PlayField_tickedEndlessTimer"]
@@ -33,3 +38,4 @@ bus = "SoundEffect"
 [connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
 [connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]
 [connection signal="wantsToShutdown" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToShutdown"]
+[connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]

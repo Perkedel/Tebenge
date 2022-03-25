@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeDuar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/AdHuertParticleMaterial.tres" type="Material" id=2]
+
+[node name="AdHuert" instance=ExtResource( 1 )]
+amount = 1
+process_material = ExtResource( 2 )
+muted = true

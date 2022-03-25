@@ -297,6 +297,7 @@ func addHP(howMany:int):
 	pass
 
 func _eikSerkat():
+	_stoppedInvincibleMomentarily()
 	hp = 0
 	_interpretHP()
 	pass

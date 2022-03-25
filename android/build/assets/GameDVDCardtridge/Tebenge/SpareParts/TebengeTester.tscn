@@ -1,25 +1,86 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeTester.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BillboardBarrier.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeEnemy.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/EikSerkat.png" type="Texture" id=5]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBulletBonus.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Board.tscn" type="PackedScene" id=7]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/BeluruEnemy.png" type="Texture" id=8]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeBullet.tscn" type="PackedScene" id=9]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/shader/TebengeHuertShaderCode.gdshader" type="Shader" id=10]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/redden = false
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/redden = false
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/redden = false
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 10 )
+shader_param/redden = false
 
 [node name="TebengeTester" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="TebengePlayer" parent="." instance=ExtResource( 1 )]
 position = Vector2( 998, 589 )
+reddenHuertMaterial = SubResource( 1 )
 
 [node name="BillboardBarrier" parent="." instance=ExtResource( 3 )]
 
 [node name="TebengeEnemy" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1451, 589 )
-bulletImage = null
-deathImage = null
+position = Vector2( 1881, 589 )
+reddenHuertMaterial = SubResource( 2 )
+
+[node name="TebengeEnemy3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1881, 793 )
+reddenHuertMaterial = SubResource( 3 )
 
 [node name="EikSerkatTest" type="Sprite" parent="."]
 position = Vector2( 790, 572 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 5 )
+
+[node name="TebengeBulletBonus" parent="." instance=ExtResource( 6 )]
+position = Vector2( 848, 437 )
+
+[node name="TebengeBulletBonus2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 781, 380 )
+
+[node name="TebengeBulletBonus3" parent="." instance=ExtResource( 6 )]
+position = Vector2( 886, 342 )
+
+[node name="TebengeBulletBonus4" parent="." instance=ExtResource( 6 )]
+position = Vector2( 781, 304 )
+
+[node name="TebengeBulletBonus5" parent="." instance=ExtResource( 6 )]
+position = Vector2( 687, 342 )
+
+[node name="TebengeBulletBonus6" parent="." instance=ExtResource( 6 )]
+position = Vector2( 680, 261 )
+
+[node name="Board" parent="." instance=ExtResource( 7 )]
+
+[node name="TebengeEnemy2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1881, 406 )
+reddenHuertMaterial = SubResource( 4 )
+
+[node name="TebengeBullet" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1064, 323 )
+
+[node name="TebengeBulletEnemy" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1341, 342 )
+enemyMode = true
+textureToSkin = ExtResource( 8 )

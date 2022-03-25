@@ -42,8 +42,8 @@ func attemptAbortGame():
 	$GameplayLagrange.attemptAbortGame()
 	pass
 
-func gotNewHiScore(isIt:bool = false, score:int = 0):
-	$GameplayLagrange.gotNewHiScore(isIt,score)
+func gotNewHiScore(isIt:bool = false, score:int = 0,gameMode:String = ""):
+	$GameplayLagrange.gotNewHiScore(isIt,score, gameMode)
 	pass
 
 func updateKludgeHiScores(arcadeOne:int=0,endlessOne:int=0):

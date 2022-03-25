@@ -13,8 +13,14 @@ script = ExtResource( 1 )
 
 [node name="BuiltInSystemer" parent="." instance=ExtResource( 3 )]
 
+[connection signal="AdBanner_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdBanner_Exec"]
+[connection signal="AdBanner_Reshow" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdBanner_Reshow"]
+[connection signal="AdBanner_Terminate" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdBanner_Terminate"]
 [connection signal="AdInterstitial_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdInterstitial_Exec"]
+[connection signal="AdInterstitial_Reshow" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdInterstitial_Reshow"]
+[connection signal="AdInterstitial_Terminate" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdInterstitial_Terminate"]
 [connection signal="AdRewarded_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdRewarded_Exec"]
+[connection signal="AdRewarded_Reshow" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdRewarded_Reshow"]
 [connection signal="ChangeDVD_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_ChangeDVD_Exec"]
 [connection signal="Shutdown_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_Shutdown_Exec"]
 

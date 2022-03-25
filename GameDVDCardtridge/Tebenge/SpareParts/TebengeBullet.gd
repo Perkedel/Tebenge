@@ -168,6 +168,10 @@ func _on_TebengeBullet_body_entered(body:Node):
 					pass
 				pass
 			pass
+		elif body.is_in_group("Tebenge_Billboard_Barrier"):
+			if body.has_method("huertAd"):
+				body.call_deferred("huertAd")
+			pass
 		else:
 			$BulletCollideSound.play()
 			pass

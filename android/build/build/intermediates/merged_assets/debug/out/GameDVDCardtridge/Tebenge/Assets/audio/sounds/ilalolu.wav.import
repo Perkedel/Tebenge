@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ilalolu.wav-613ba6936fa6d3126fab59e617bc74b8.sample"
+
+[deps]
+
+source_file="res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/ilalolu.wav"
+dest_files=[ "res://.import/ilalolu.wav-613ba6936fa6d3126fab59e617bc74b8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

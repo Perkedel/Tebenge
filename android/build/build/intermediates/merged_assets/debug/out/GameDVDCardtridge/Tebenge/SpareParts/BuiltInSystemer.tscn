@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/AcceptDialogWindoeng.gd" type="Script" id=1]
+[ext_resource path="res://admob-lib/admob.gd" type="Script" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/AcceptDialogWindoeng.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Windoeng.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/Windoeng.gd" type="Script" id=5]
+
+[node name="BuiltInSystemer" type="Node"]
+
+[node name="AdMob" type="Node" parent="."]
+script = ExtResource( 2 )
+is_real = true
+banner_size = "SMART_BANNER"
+
+[node name="WindowDialog" type="WindowDialog" parent="." instance=ExtResource( 4 )]
+margin_right = 1325.0
+margin_bottom = 678.0
+window_title = "Notification"
+script = ExtResource( 5 )
+
+[node name="AcceptDialog" type="AcceptDialog" parent="." instance=ExtResource( 3 )]
+margin_right = 1148.0
+margin_bottom = 572.0
+popup_exclusive = true
+window_title = "Peringatan!"
+dialog_text = "It is now safe to close this app. 
+(iOS does not support auto-quit per interface guidelines)
+(HTML5 does not support auto-quit / close tab)"
+dialog_hide_on_ok = false
+script = ExtResource( 1 )

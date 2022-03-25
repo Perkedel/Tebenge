@@ -3,7 +3,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 50, 540 )
 
-[node name="WallVertical" type="StaticBody2D"]
+[node name="WallVertical" type="StaticBody2D" groups=["Tebenge_Wall_Vertical"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 540 )

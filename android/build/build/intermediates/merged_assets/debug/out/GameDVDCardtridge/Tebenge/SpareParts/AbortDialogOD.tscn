@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=4]
+
+[node name="AbortDialogOD" instance=ExtResource( 2 )]
+
+[node name="AbortLabel" parent="." index="0" instance=ExtResource( 4 )]
+margin_left = 479.0
+margin_top = 50.0
+margin_right = 824.0
+margin_bottom = 100.0
+text = "Are you sure to abandon game?"
+
+[node name="YesButton" parent="." index="1" instance=ExtResource( 1 )]
+margin_left = 832.0
+margin_right = 1132.0
+margin_bottom = 150.0
+text = "Yes"
+
+[node name="TebengeMenuBackButton" parent="." index="2" instance=ExtResource( 3 )]
+margin_left = 1140.0
+margin_right = 1440.0
+margin_bottom = 150.0
+text = "No"
