@@ -260,7 +260,7 @@ func _iWantToContinue(wantIt:bool = true):
 	if wantIt:
 		# play ad if there is one.
 		if OS.get_name() == "Android":
-			if Engine.has_singleton("GodotAdmob"):
+			if Engine.has_singleton("GodotAdMob"):
 				# random chance this would spawn either regular interstitial or rewarded unskipable
 				var chance:float = rand_range(0,100)
 				_appearAdVideoTron(false if chance > 50.0 else true)
@@ -470,10 +470,11 @@ func _on_UIField_wantsToShutdown() -> void:
 	pass # Replace with function body.
 
 func receive_AdInterstitial_success() -> void:
-	_frigginCheckContinue(true)
+#	_frigginCheckContinue(true)
 	pass
 
 func receive_AdInterstitial_closed() -> void:
+	_frigginCheckContinue(true)
 	pass
 
 func receive_AdInterstitial_failed() -> void:

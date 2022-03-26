@@ -47,10 +47,12 @@ func _on_AdMob_banner_loaded():
 
 
 func _on_AdMob_interstitial_closed():
+	$DVDsolder/Tebenge.receive_AdInterstitial_closed()
 	pass # Replace with function body.
 
 
 func _on_AdMob_interstitial_failed_to_load(error_code):
+	$DVDsolder/Tebenge.receive_AdInterstitial_failed()
 	pass # Replace with function body.
 
 
@@ -118,12 +120,45 @@ func _on_Tebenge_AdBanner_Exec() -> void:
 
 
 func _on_Tebenge_AdRewarded_Reshow() -> void:
+	$BuiltInSystemer/AdMob.show_rewarded_video()
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdInterstitial_Reshow() -> void:
+	$BuiltInSystemer/AdMob.show_interstitial()
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdInterstitial_Terminate() -> void:
+#	$BuiltInSystemer/AdMob
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded(currency, ammount) -> void:
+	$DVDsolder/Tebenge.receive_AdRewarded_success()
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_closed() -> void:
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_failed_to_load(error_code) -> void:
+	$DVDsolder/Tebenge.receive_AdRewarded_failed()
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_left_application() -> void:
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_loaded() -> void:
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_opened() -> void:
+	pass # Replace with function body.
+
+
+func _on_AdMob_rewarded_video_started() -> void:
 	pass # Replace with function body.

@@ -82,3 +82,5 @@ The following are tab links opened during this development. Some of which are as
 - https://godotengine.org/asset-library/asset/724 2shady4u. JSON minifier. read jsonc (json comment), by stripping comment in RAM and then let Godot JSON parser read it peacefully.
 - https://godotengine.org/asset-library/asset/955 Teggy. JSON configuration file
 - https://godotengine.org/asset-library/asset/1205
+- https://mh-nexus.de/en/hxd/ Maël Hörz. Freeware (Proprietary gratis) Hex Editor
+- https://developers.google.com/admob/android/test-ads?hl=en test ad ids

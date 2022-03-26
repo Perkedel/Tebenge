@@ -15,10 +15,10 @@ func _on_SoundOnOffDT_changeState(into:bool) -> void:
 func refreshSettingStatus():
 	updating = true
 
-	if AudioServer.get_bus_mute(AudioServer.get_bus_index("Master")):
-		$SoundOnOffDT.set_pressed(true)
+	if AudioServer.is_bus_mute(AudioServer.get_bus_index("Master")):
+		$SoundOnOffDT/CheckButton.pressed = false
 	else:
-		$SoundOnOffDT.set_pressed(false)
+		$SoundOnOffDT/CheckButton.pressed = true
 
 	updating = false
 	pass
