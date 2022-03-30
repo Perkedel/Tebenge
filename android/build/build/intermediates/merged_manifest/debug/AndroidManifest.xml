@@ -3,9 +3,9 @@
     package="com.Perkedel.tebenge"
     android:installLocation="auto"
     android:versionCode="1"
-    android:versionName="2022.03" > <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
+    android:versionName="2022.04" > <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
     <uses-sdk
-        android:minSdkVersion="19"
+        android:minSdkVersion="21"
         android:targetSdkVersion="30" />
 
     <supports-screens
@@ -33,7 +33,7 @@
         android:name=".GodotInstrumentation"
         android:icon="@mipmap/icon"
         android:label="@string/godot_project_name_string"
-        android:targetPackage="com.Perkedel.$genname" />
+        android:targetPackage="com.Perkedel.tebenge" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -82,7 +82,13 @@
         -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id" /> <!-- Records the version of the Godot library -->
+            android:value="@string/admob_app_id" /> <!-- Play Service -->
+        <meta-data
+            android:name="com.google.android.gms.games.APP_ID"
+            android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" /> <!-- Records the version of the Godot library -->
         <meta-data
             android:name="org.godotengine.library.version"
             android:value="3.4.3.stable" />
@@ -91,7 +97,25 @@
 
         <meta-data
             android:name="org.godotengine.plugin.v1.GodotAdMob"
-            android:value="shinnil.godot.plugin.android.godotadmob.GodotAdMob" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+            android:value="shinnil.godot.plugin.android.godotadmob.GodotAdMob" />
+        <meta-data
+            android:name="org.godotengine.plugin.v1.GodotPlayGamesServices"
+            android:value="io.cgisca.godot.gpgs.PlayGameServicesGodot" />
+
+        <activity
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--
+            Service handling Google Sign-In user revocation. For apps that do not integrate with
+            Google Sign-In, this service will never be started.
+        -->
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:visibleToInstantApps="true" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -104,9 +128,10 @@
             android:exported="false"
             android:initOrder="100" />
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

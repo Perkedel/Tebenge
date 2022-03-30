@@ -1,6 +1,9 @@
 extends Node
 
 const savePath:String = "user://Simpan/Tebenge/Simpan.json"
+const saveDir:String = "Simpan/Tebenge/"
+const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
+const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
 		arcade = 0,
@@ -22,6 +25,9 @@ signal AdRewarded_Terminate()
 signal AdBanner_Exec()
 signal AdBanner_Reshow()
 signal AdBanner_Terminate()
+signal PlayService_JustCheck()
+signal PlayService_UploadSave(nameSnapshot,dataOf,descOf)
+signal PlayService_UploadScore(leaderID,howMany)
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
@@ -65,17 +71,33 @@ func _loadSave():
 #	_interpresHiScore()
 	pass
 
+func _checkDir():
+	# https://godotengine.org/qa/6285/how-to-write-to-user-directory-in-android
+	var dir = Directory.new()
+	dir.open("user://")
+	if !dir.dir_exists( saveDir ) :
+		print( saveDir + " doesn't exist." )
+		dir.make_dir_recursive( saveDir )
+	else:
+		print( saveDir+ " exists." )
+	
+	# well turns out, you must have the directory where the file going to be saved at exist first.
+	pass
+
 func _saveSave():
 	# fill dictionary first!
 	saveDictionary["kludgeHiScore"]["arcade"] = kludgeHiScoreArcade
 	saveDictionary["kludgeHiScore"]["endless"] = kludgeHiScoreEndless
 	
+	_checkDir()
+	
 	var thing:File = File.new()
-	thing.open(savePath,File.WRITE_READ)
+	thing.open(savePath,File.WRITE)
 	
 	# beautify JSON then store string!
 	var ingredient:String = JSONBeautifier.beautify_json(to_json(saveDictionary))
 	thing.store_string(ingredient)
+	emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
 	
 	thing.close()
 #	_interpresHiScore()
@@ -210,6 +232,8 @@ func _interpresHiScore():
 	else:
 #		print(" no new hiscore")
 		pass
+	
+#	_uploadScores()
 	pass
 
 func _receiveAskedContinue():
@@ -243,9 +267,30 @@ func _receiveGameDone(didIt:bool = false):
 	# other things too
 	# Highscore!
 	_interpresHiScore()
+	_uploadScoreRightNow(0 if gameMode == TebengePlayField.gameModes.Arcade else 1 if gameMode == TebengePlayField.gameModes.Endless else -1)
 	
 	# finally, totally save.
 	_saveSave()
+	pass
+
+func _justCheckGooglePlay():
+	emit_signal("PlayService_JustCheck")
+	pass
+
+func _uploadScores():
+	emit_signal("PlayService_UploadScore",hiScoreArcadeId,kludgeHiScoreArcade)
+	emit_signal("PlayService_UploadScore",hiScoreEndlessId,kludgeHiScoreEndless)
+
+func _uploadScoreRightNow(whichOneGoesTo:int):
+	match(whichOneGoesTo):
+		0:
+			emit_signal("PlayService_UploadScore",hiScoreArcadeId,_pointRightNow)
+			pass
+		1:
+			emit_signal("PlayService_UploadScore",hiScoreEndlessId,_pointRightNow)
+			pass
+		_:
+			pass
 	pass
 
 func _appearAdVideoTron(rewarded:bool = false):
@@ -315,6 +360,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Check Google Play Game":
+							_justCheckGooglePlay()
+							pass
 						"Back":
 							_mainMenuPls()
 							pass
@@ -380,6 +428,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Check Google Play Game":
+							_justCheckGooglePlay()
+							pass
 						"Back":
 							_pauseTheGame(true)
 							pass
@@ -431,6 +482,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 
 func _terminateThisDVD(changeDVD:bool = false):
 	_saveSave()
+#	yield(self,"completed")
 	if changeDVD:
 		emit_signal("ChangeDVD_Exec")
 	else:

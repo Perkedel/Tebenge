@@ -4,6 +4,23 @@
             "outputFile": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hr\\values-hr.xml",
             "map": [
                 {
+                    "source": "C:\\Users\\joelr\\.gradle\\caches\\transforms-3\\7ab765d62e7f9e6e62f4ab650b67973e\\transformed\\jetified-play-services-base-17.4.0\\res\\values-hr\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,349,538,666,774,990,1118,1259,1391,1600,1705,1893,2019,2225,2394,2488,2576",
+                        "endColumns": "103,188,127,107,215,127,140,131,208,104,187,125,205,168,93,87,105",
+                        "endOffsets": "348,537,665,773,989,1117,1258,1390,1599,1704,1892,2018,2224,2393,2487,2575,2681"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,213,402,534,646,862,994,1139,1466,1675,1784,1972,2102,2308,2481,2579,2671",
+                        "endColumns": "107,188,131,111,215,131,144,135,208,108,187,129,205,172,97,91,109",
+                        "endOffsets": "208,397,529,641,857,989,1134,1270,1670,1779,1967,2097,2303,2476,2574,2666,2776"
+                    }
+                },
+                {
                     "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\values-hr\\godot_project_name_string.xml",
                     "from": {
                         "startLines": "3",
@@ -13,15 +30,15 @@
                         "endOffsets": "169"
                     },
                     "to": {
-                        "startLines": "3",
+                        "startLines": "20",
                         "startColumns": "4",
-                        "startOffsets": "296",
+                        "startOffsets": "2781",
                         "endColumns": "61",
-                        "endOffsets": "353"
+                        "endOffsets": "2838"
                     }
                 },
                 {
-                    "source": "C:\\Users\\joelr\\.gradle\\caches\\transforms-3\\cd8b73b384c299300fd2264c8e394feb\\transformed\\jetified-play-services-basement-17.0.0\\res\\values-hr\\values.xml",
+                    "source": "C:\\Users\\joelr\\.gradle\\caches\\transforms-3\\eae3a15abf67e1ecb17c60ce5bb7f428\\transformed\\jetified-play-services-basement-17.4.0\\res\\values-hr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -30,11 +47,11 @@
                         "endOffsets": "437"
                     },
                     "to": {
-                        "startLines": "2",
+                        "startLines": "10",
                         "startColumns": "4",
-                        "startOffsets": "105",
+                        "startOffsets": "1275",
                         "endColumns": "190",
-                        "endOffsets": "291"
+                        "endOffsets": "1461"
                     }
                 },
                 {
@@ -47,11 +64,11 @@
                         "endOffsets": "267,385,451,514,598,713,783"
                     },
                     "to": {
-                        "startLines": "4,5,6,7,8,9,10",
+                        "startLines": "21,22,23,24,25,26,27",
                         "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "358,431,553,623,690,778,897",
+                        "startOffsets": "2843,2916,3038,3108,3175,3263,3382",
                         "endColumns": "72,121,69,66,87,118,73",
-                        "endOffsets": "426,548,618,685,773,892,966"
+                        "endOffsets": "2911,3033,3103,3170,3258,3377,3451"
                     }
                 },
                 {
@@ -64,11 +81,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "11",
+                        "startLines": "28",
                         "startColumns": "4",
-                        "startOffsets": "971",
+                        "startOffsets": "3456",
                         "endColumns": "100",
-                        "endOffsets": "1067"
+                        "endOffsets": "3552"
                     }
                 }
             ]

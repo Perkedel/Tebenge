@@ -12,6 +12,7 @@ data_*/
 
 # admob datas
 *.admob
+Admob/
 android/build/AndroidManifest.xml
 android/build/AndroidManifest.xml
 android/build/res/admob/admob.xml
@@ -19,3 +20,15 @@ android/backup/res/admob/admob.xml
 android_backup/backup/res/admob/admob.xml
 android/build/build/outputs/apk/debug/android_debug.apk
 android/build/build/intermediates/compressed_assets
+# play Service
+*.googlecloud
+android/build/build/res/values/Strings.xml
+android/build/res/values/Strings.xml
+GoogleCloud/Tebenge.txt
+GoogleCloud/
+android/build/build/intermediates/merged_assets/debug/out/GoogleCloud/Tebenge.txt
+android/build/assets/GoogleCloud/Tebenge.txt
+# android build overall because it seems they're too big idk
+android/build
+android/build/build/intermediates/merged_assets/debug/out/GoogleCloud/Tebenge.txt
+androidbuild/build/intermediates/compressed_assets/debug/out/assets/Admob

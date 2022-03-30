@@ -8,5 +8,5 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "com.Perkedel.tebenge";
   public static final String BUILD_TYPE = "debug";
   public static final int VERSION_CODE = 1;
-  public static final String VERSION_NAME = "2022.03";
+  public static final String VERSION_NAME = "2022.04";
 }

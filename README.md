@@ -84,3 +84,9 @@ The following are tab links opened during this development. Some of which are as
 - https://godotengine.org/asset-library/asset/1205
 - https://mh-nexus.de/en/hxd/ Maël Hörz. Freeware (Proprietary gratis) Hex Editor
 - https://developers.google.com/admob/android/test-ads?hl=en test ad ids
+- https://github.com/cgisca/PGSGP cgisca. Google Play Service Godot. OLD
+- https://developers.google.com/games/services/android/quickstart#step_3_modify_your_code
+- https://developers.google.com/games/services/console/enabling
+- https://github.com/mauville-technologies/PGSGP Mauville. Google Play Service Godot. NEWER!
+- https://developer.android.com/docs/quality-guidelines/tv-app-quality
+- https://godotengine.org/qa/6285/how-to-write-to-user-directory-in-android

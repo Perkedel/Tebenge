@@ -20,24 +20,24 @@
         "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap-hdpi-v4\\icon_foreground.png"
     },
     {
-        "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap_icon_foreground.png.flat",
-        "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap\\icon_foreground.png"
-    },
-    {
         "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi-v4_icon_foreground.png.flat",
         "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap-mdpi-v4\\icon_foreground.png"
+    },
+    {
+        "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap_icon_foreground.png.flat",
+        "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap\\icon_foreground.png"
     },
     {
         "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap-hdpi-v4_icon.png.flat",
         "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap-hdpi-v4\\icon.png"
     },
     {
-        "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\drawable_splash_drawable.xml.flat",
-        "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\drawable\\splash_drawable.xml"
-    },
-    {
         "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap-mdpi-v4_icon.png.flat",
         "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\mipmap-mdpi-v4\\icon.png"
+    },
+    {
+        "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\drawable_splash_drawable.xml.flat",
+        "source": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\res\\drawable\\splash_drawable.xml"
     },
     {
         "merged": "C:\\Users\\joelr\\Documents\\starring codes\\Godot Projects\\Tebenge\\android\\build\\build\\intermediates\\merged_res\\debug\\mipmap-xxxhdpi-v4_icon_foreground.png.flat",

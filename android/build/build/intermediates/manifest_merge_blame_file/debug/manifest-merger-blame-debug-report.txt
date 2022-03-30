@@ -3,9 +3,9 @@
 3    package="com.Perkedel.tebenge"
 4    android:installLocation="auto"
 5    android:versionCode="1"
-6    android:versionName="2022.03" > <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
+6    android:versionName="2022.04" > <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
 7    <uses-sdk
-8        android:minSdkVersion="19"
+8        android:minSdkVersion="21"
 9        android:targetSdkVersion="30" />
 10
 11    <supports-screens
@@ -52,22 +52,22 @@
 30-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:16:79-105
 31
 32    <instrumentation
-32-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:17:5-22:57
+32-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:17:5-22:56
 33        android:name=".GodotInstrumentation"
 33-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:19:9-45
 34        android:icon="@mipmap/icon"
 34-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:20:9-36
 35        android:label="@string/godot_project_name_string"
 35-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:21:9-58
-36        android:targetPackage="com.Perkedel.$genname" />
-36-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:22:9-54
+36        android:targetPackage="com.Perkedel.tebenge" />
+36-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\src\debug\AndroidManifest.xml:22:9-53
 37
 38    <uses-permission android:name="android.permission.WAKE_LOCK" />
 38-->[com.google.android.gms:play-services-measurement-sdk-api:17.1.0] C:\Users\joelr\.gradle\caches\transforms-3\3789a99f2021a82fcd6bfcfcc3f3d972\transformed\jetified-play-services-measurement-sdk-api-17.1.0\AndroidManifest.xml:25:5-68
 38-->[com.google.android.gms:play-services-measurement-sdk-api:17.1.0] C:\Users\joelr\.gradle\caches\transforms-3\3789a99f2021a82fcd6bfcfcc3f3d972\transformed\jetified-play-services-measurement-sdk-api-17.1.0\AndroidManifest.xml:25:22-65
 39
 40    <application
-40-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:5-95:19
+40-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:5-101:19
 41        android:allowBackup="true"
 41-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:31:68-95
 42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -137,53 +137,98 @@
 83-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:92:13-94:51
 84            android:name="com.google.android.gms.ads.APPLICATION_ID"
 84-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:93:13-69
-85            android:value="@string/admob_app_id" /> <!-- Records the version of the Godot library -->
+85            android:value="@string/admob_app_id" /> <!-- Play Service -->
 85-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:94:13-49
 86        <meta-data
-86-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:19:9-21:44
-87            android:name="org.godotengine.library.version"
-87-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:20:13-59
-88            android:value="3.4.3.stable" />
-88-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:21:13-41
-89
-90        <service android:name="org.godotengine.godot.GodotDownloaderService" />
-90-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:23:9-80
-90-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:23:18-77
-91
+86-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:96:13-97:42
+87            android:name="com.google.android.gms.games.APP_ID"
+87-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:96:24-74
+88            android:value="@string/app_id" />
+88-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:97:9-39
+89        <meta-data
+89-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:99:13-100:68
+90            android:name="com.google.android.gms.version"
+90-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:99:24-69
+91            android:value="@integer/google_play_services_version" /> <!-- Records the version of the Godot library -->
+91-->C:\Users\joelr\Documents\starring codes\Godot Projects\Tebenge\android\build\AndroidManifest.xml:100:13-66
 92        <meta-data
-92-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:14:9-16:82
-93            android:name="org.godotengine.plugin.v1.GodotAdMob"
-93-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:15:13-64
-94            android:value="shinnil.godot.plugin.android.godotadmob.GodotAdMob" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
-94-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:16:13-79
-95        <activity
-95-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:29:9-33:64
-96            android:name="com.google.android.gms.ads.AdActivity"
-96-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:30:13-65
-97            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-97-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:31:13-122
-98            android:exported="false"
-98-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:32:13-37
-99            android:theme="@android:style/Theme.Translucent" />
-99-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:33:13-61
-100
-101        <provider
-101-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:35:9-39:39
-102            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-102-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:36:13-76
-103            android:authorities="com.Perkedel.tebenge.mobileadsinitprovider"
-103-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:37:13-73
-104            android:exported="false"
-104-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:38:13-37
-105            android:initOrder="100" />
-105-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:39:13-36
-106
-107        <meta-data
-107-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\joelr\.gradle\caches\transforms-3\cd8b73b384c299300fd2264c8e394feb\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
-108            android:name="com.google.android.gms.version"
-108-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\joelr\.gradle\caches\transforms-3\cd8b73b384c299300fd2264c8e394feb\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
-109            android:value="@integer/google_play_services_version" />
-109-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\joelr\.gradle\caches\transforms-3\cd8b73b384c299300fd2264c8e394feb\transformed\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
-110    </application>
-111
-112</manifest>
+92-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:19:9-21:44
+93            android:name="org.godotengine.library.version"
+93-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:20:13-59
+94            android:value="3.4.3.stable" />
+94-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:21:13-41
+95
+96        <service android:name="org.godotengine.godot.GodotDownloaderService" />
+96-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:23:9-80
+96-->[godot-lib.debug.aar] C:\Users\joelr\.gradle\caches\transforms-3\8b713f184cc1a68ccfb46ae4740e2b85\transformed\jetified-godot-lib.debug\AndroidManifest.xml:23:18-77
+97
+98        <meta-data
+98-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:14:9-16:82
+99            android:name="org.godotengine.plugin.v1.GodotAdMob"
+99-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:15:13-64
+100            android:value="shinnil.godot.plugin.android.godotadmob.GodotAdMob" />
+100-->[GodotAdMob.5.1.0.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\f9a294889bc53f9dbafd07e875f55d10\transformed\jetified-GodotAdMob.5.1.0.release\AndroidManifest.xml:16:13-79
+101        <meta-data
+101-->[GodotPlayGamesServices.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\c9d2e03fd8fde33266f490b5ade7c5fb\transformed\jetified-GodotPlayGamesServices.release\AndroidManifest.xml:14:9-16:74
+102            android:name="org.godotengine.plugin.v1.GodotPlayGamesServices"
+102-->[GodotPlayGamesServices.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\c9d2e03fd8fde33266f490b5ade7c5fb\transformed\jetified-GodotPlayGamesServices.release\AndroidManifest.xml:15:13-76
+103            android:value="io.cgisca.godot.gpgs.PlayGameServicesGodot" />
+103-->[GodotPlayGamesServices.release.aar] C:\Users\joelr\.gradle\caches\transforms-3\c9d2e03fd8fde33266f490b5ade7c5fb\transformed\jetified-GodotPlayGamesServices.release\AndroidManifest.xml:16:13-71
+104
+105        <activity
+105-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:23:9-27:75
+106            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+106-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:24:13-93
+107            android:excludeFromRecents="true"
+107-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:25:13-46
+108            android:exported="false"
+108-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:26:13-37
+109            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+109-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:27:13-72
+110        <!--
+111            Service handling Google Sign-In user revocation. For apps that do not integrate with
+112            Google Sign-In, this service will never be started.
+113        -->
+114        <service
+114-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:33:9-37:51
+115            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+115-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:34:13-89
+116            android:exported="true"
+116-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:35:13-36
+117            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+117-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:36:13-107
+118            android:visibleToInstantApps="true" /> <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+118-->[com.google.android.gms:play-services-auth:19.0.0] C:\Users\joelr\.gradle\caches\transforms-3\b8ad2dc535e40ba8e20fb03513396669\transformed\jetified-play-services-auth-19.0.0\AndroidManifest.xml:37:13-48
+119        <activity
+119-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:29:9-33:64
+120            android:name="com.google.android.gms.ads.AdActivity"
+120-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:30:13-65
+121            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+121-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:31:13-122
+122            android:exported="false"
+122-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:32:13-37
+123            android:theme="@android:style/Theme.Translucent" />
+123-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:33:13-61
+124
+125        <provider
+125-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:35:9-39:39
+126            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
+126-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:36:13-76
+127            android:authorities="com.Perkedel.tebenge.mobileadsinitprovider"
+127-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:37:13-73
+128            android:exported="false"
+128-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:38:13-37
+129            android:initOrder="100" />
+129-->[com.google.android.gms:play-services-ads-lite:19.3.0] C:\Users\joelr\.gradle\caches\transforms-3\05135c35a085f3cd1e966eaf563277cb\transformed\jetified-play-services-ads-lite-19.3.0\AndroidManifest.xml:39:13-36
+130
+131        <activity
+131-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\joelr\.gradle\caches\transforms-3\7ab765d62e7f9e6e62f4ab650b67973e\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:23:9-26:75
+132            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+132-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\joelr\.gradle\caches\transforms-3\7ab765d62e7f9e6e62f4ab650b67973e\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:24:13-79
+133            android:exported="false"
+133-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\joelr\.gradle\caches\transforms-3\7ab765d62e7f9e6e62f4ab650b67973e\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:25:13-37
+134            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+134-->[com.google.android.gms:play-services-base:17.4.0] C:\Users\joelr\.gradle\caches\transforms-3\7ab765d62e7f9e6e62f4ab650b67973e\transformed\jetified-play-services-base-17.4.0\AndroidManifest.xml:26:13-72
+135    </application>
+136
+137</manifest>

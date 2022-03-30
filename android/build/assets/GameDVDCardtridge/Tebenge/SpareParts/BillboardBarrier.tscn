@@ -15,7 +15,9 @@ position = Vector2( 960, 0 )
 shape = SubResource( 1 )
 
 [node name="DootHit" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 960, 0 )
 stream = ExtResource( 2 )
 
 [node name="AdMurdered" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 1016, 0 )
 stream = ExtResource( 3 )

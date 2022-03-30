@@ -18,6 +18,7 @@ func huertAd():
 			get_parent().add_child(instanceHuert)
 			$DootHit.play()
 			currentAdHit += 1
+			Input.vibrate_handheld(100)
 			pass
 		else:
 			var instanceMurder = theMurderedParticle.instance()
@@ -26,6 +27,7 @@ func huertAd():
 			$AdMurdered.play()
 			emit_signal("murderTheAd")
 			currentAdHit = 0
+			Input.vibrate_handheld(200)
 			pass
 	pass
 

@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButtonShortcut.tres" type="ShortCut" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/nvmButton.png" type="Texture" id=4]
 
 [node name="TebengeMenuBackButton" instance=ExtResource( 1 )]
+hint_tooltip = "Go back"
 shortcut = ExtResource( 3 )
 text = "Back"
+icon = ExtResource( 4 )
 script = ExtResource( 2 )
 
 [connection signal="pressedName" from="." to="." method="_on_TebengeMenuBackButton_pressedName"]

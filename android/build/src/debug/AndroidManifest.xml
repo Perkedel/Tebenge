@@ -19,7 +19,7 @@
         android:name=".GodotInstrumentation"
         android:icon="@mipmap/icon"
         android:label="@string/godot_project_name_string"
-        android:targetPackage="com.Perkedel.$genname" />
+        android:targetPackage="com.Perkedel.tebenge" />
     <application android:label="@string/godot_project_name_string"
         android:allowBackup="true"
         android:isGame="true"

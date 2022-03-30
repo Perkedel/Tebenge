@@ -163,6 +163,7 @@ func _checkWhoCollide(handover:Node):
 
 signal pointItIsNow(howMany)
 func receivePoint(howMany:int):
+	Input.vibrate_handheld(100)
 	_pointRightNow += howMany
 	$FloatingHUD.setPointsay(String(_pointRightNow))
 	emit_signal("pointItIsNow", _pointRightNow)
@@ -208,6 +209,7 @@ signal eikSerkat()
 func _interpretHP():
 	$FloatingHUD.setHPsay(String(hp))
 	if hp <= 0:
+		# ded. Eik Serkat
 		set_active(false)
 		var duarInstance = theDuarParticle.instance()
 		duarInstance.changeDuarSound(eikSerkatDuarSound)
@@ -220,6 +222,7 @@ func _interpretHP():
 		$Form.hide()
 		$dedd.show() # screw this! I must make money because my parents gonna pension soon
 		$Collide.set_deferred("disabled", true)
+		Input.vibrate_handheld(2000)
 		emit_signal("eikSerkat")
 		pass
 	else:
@@ -228,7 +231,7 @@ func _interpretHP():
 			# invinciblize momentarily
 			_startInvincibleMomentarily()
 			_reddens() #and red minecraft huert!
-			
+			Input.vibrate_handheld(500)
 			$HuertWoundeSounder.play()
 			pass
 		elif lastHPBefore < hp:
