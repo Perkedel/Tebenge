@@ -17,27 +17,28 @@ func _ready():
 	_readAdmobio()
 	_readGooglePlay()
 #	_testAdbmobio()
-	if play_games_services != null:
-#		is_play_games_available = play_game_services.isGooglePlayServicesAvailable()
-		play_games_services.signIn()
-		is_play_games_signed_in = play_games_services.isSignedIn()
-	else:
-		print("No Play Service available")
+	_postCheckGooglePlay()
 	pass # Replace with function body.
 
-func _readGoogleCloud():
+func _readGoogleCloud() -> bool:
 	# read Oauth client ID
 	# https://github.com/mauville-technologies/PGSGP
 	var f = File.new()
-	f.open("res://GoogleCloud/Tebenge.txt", File.READ)
-	var index = 0
-	var linese:PoolStringArray
-	while not f.eof_reached():
-		linese.append(f.get_line())
-		index += 1
-		pass
-	__secret_GoogleCloud_Oauth_Client_ID = linese[0]
-	f.close()
+	if f.file_exists("res://GoogleCloud/Tebenge.googlecloud"):
+		f.open("res://GoogleCloud/Tebenge.googlecloud", File.READ)
+		var index = 0
+		var linese:PoolStringArray
+		while not f.eof_reached():
+			linese.append(f.get_line())
+			index += 1
+			pass
+		__secret_GoogleCloud_Oauth_Client_ID = linese[0]
+		f.close()
+		return true
+	else:
+		printerr("WERROR 404 Google Cloud Client ID file missing!!!")
+		return false
+	return false
 	pass
 
 func _readGooglePlay():
@@ -91,20 +92,33 @@ func _readGooglePlay():
 		print("No Google Play Singleton found!")
 	pass
 
+func _postCheckGooglePlay():
+	if play_games_services != null:
+		#is_play_games_available = play_game_services.isGooglePlayServicesAvailable()
+		play_games_services.signIn()
+		is_play_games_signed_in = play_games_services.isSignedIn()
+	else:
+		print("No Play Service available")
+	pass
+
 func _readAdmobio():
 	# use https://godotengine.org/qa/57130/how-to-import-and-read-text
 	var f = File.new()
-	f.open("res://Admob/Tebenge.admob", File.READ)
-	var index = 0
-	while not f.eof_reached():
-		admobStrings.append(f.get_line())
-		index += 1
-		pass
-	f.close()
+	if f.file_exists("res://Admob/Tebenge.admob"):
+		f.open("res://Admob/Tebenge.admob", File.READ)
+		var index = 0
+		while not f.eof_reached():
+			admobStrings.append(f.get_line())
+			index += 1
+			pass
+		f.close()
+		$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
+		$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
+		$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+	else:
+		printerr("WERROR 404 Admob ID file missing!")
 	
-	$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
-	$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
-	$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+	
 #	$BuiltInSystemer/AdMob.init()
 	$BuiltInSystemer/AdMob.load_banner()
 	$BuiltInSystemer/AdMob.load_interstitial()
@@ -288,18 +302,18 @@ func _on_achievement_info_loaded(achievements_json: String):
 
 	# The returned JSON contains an array of achievement info items.
 	# Use the following keys to access the fields
-	for a in achievements:
-		a["id"] # Achievement ID
-		a["name"]
-		a["description"]
-		a["state"] # unlocked=0, revealed=1, hidden=2 (for the current player)
-		a["type"] # standard=0, incremental=1
-		a["xp"] # Experience gain when unlocked
-
-		# Steps only available for incremental achievements
-		if a["type"] == 1:
-			a["current_steps"] # Users current progress
-			a["total_steps"] # Total steps to unlock achievement
+#	for a in achievements:
+#		a["id"] # Achievement ID
+#		a["name"]
+#		a["description"]
+#		a["state"] # unlocked=0, revealed=1, hidden=2 (for the current player)
+#		a["type"] # standard=0, incremental=1
+#		a["xp"] # Experience gain when unlocked
+#
+#		# Steps only available for incremental achievements
+#		if a["type"] == 1:
+#			a["current_steps"] # Users current progress
+#			a["total_steps"] # Total steps to unlock achievement
 
 # Callbacks: play_games_services.submitLeaderBoardScore("LEADERBOARD_ID", score)
 func _on_leaderboard_score_submitted(leaderboard_id: String):
@@ -314,6 +328,8 @@ func _on_Tebenge_PlayService_JustCheck() -> void:
 	if play_games_services != null:
 		print("attempt check leaderboards")
 		play_games_services.showAllLeaderBoards()
+	else:
+		print("Cannot check leaderboard! no play service available!")
 	pass # Replace with function body.
 
 

@@ -70,9 +70,12 @@ func finishTheGame(didIt:bool = false) -> void:
 		emit_signal("game_over")
 		pass
 	set_active(false)
+	_startContinueFate(false)
 	$ArcadeTimeoutTimer.stop()
 	$ArcadeTickoutTimer.stop()
 	$EndlessTickoutTimer.stop()
+	$ContinueTickCountdown.stop()
+	continueRemaining = 10
 	gameplayStarted = false
 
 func cancelTheGame() -> void:
@@ -162,6 +165,7 @@ func arcadeTimeHasRanOut():
 		sulapEnemiesIntoBonus()
 		
 		$BonusTimerLimit.start(bonusMomentTimeLimit)
+		$TebengePlayer.cannotDie = true
 	pass
 
 func bonusTimeHasRanOut():
@@ -286,11 +290,13 @@ func _process(delta):
 
 func _startContinueFate(startIt:bool = false):
 	continueThreat = startIt
+	continueRemaining = 10
 	
 	if startIt:
-		$ContinueTickCountdown.start(1)
+		$ContinueTickCountdown.start(-1)
 	else:
 		$ContinueTickCountdown.stop()
+		
 	pass
 
 signal continueCountdownTicked(remaining) #remaining int
@@ -305,6 +311,7 @@ func _tickContinueCountdown():
 	else:
 		# time's up game over
 		finishTheGame(false)
+		$ContinueTickCountdown.stop()
 		pass
 	
 	emit_signal("continueCountdownTicked", continueRemaining)

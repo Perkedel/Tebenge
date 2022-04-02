@@ -41,7 +41,8 @@ func _enter_tree():
 
 func _physics_process(delta):
 	if active:
-		linear_velocity
+#		linear_velocity
+		pass
 	pass
 
 func positionNow(locate:Vector2):

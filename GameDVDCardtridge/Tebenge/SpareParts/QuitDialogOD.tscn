@@ -13,29 +13,29 @@
 script = ExtResource( 8 )
 
 [node name="TebengeLabel" parent="." index="0" instance=ExtResource( 2 )]
-margin_left = 383.0
+margin_left = 385.0
 margin_top = 50.0
-margin_right = 613.0
+margin_right = 623.0
 margin_bottom = 100.0
 text = "Are you Sure to Quit?"
 
 [node name="ShutdownButton" parent="." index="1" instance=ExtResource( 3 )]
-margin_left = 621.0
-margin_right = 921.0
+margin_left = 627.0
+margin_right = 927.0
 margin_bottom = 150.0
 text = "Shutdown"
 icon = ExtResource( 6 )
 
 [node name="ChangeDVDButton" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 929.0
-margin_right = 1229.0
+margin_left = 931.0
+margin_right = 1231.0
 margin_bottom = 150.0
 text = "ChangeDVD"
 icon = ExtResource( 7 )
 
 [node name="CancelButton" parent="." index="3" instance=ExtResource( 5 )]
-margin_left = 1237.0
-margin_right = 1537.0
+margin_left = 1235.0
+margin_right = 1535.0
 margin_bottom = 150.0
 text = "Cancel"
 

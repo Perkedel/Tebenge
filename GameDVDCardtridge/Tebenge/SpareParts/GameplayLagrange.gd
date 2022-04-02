@@ -97,7 +97,7 @@ func selectedAContinue(saidYes:bool = false):
 
 func setContinueNumber(say:String) -> void:
 	# damn! too late, I already decided to edit its children instead.
-	$ContinueOD/ContinueIndicatorDT.value
+	$ContinueOD/ContinueIndicatorDT.value = say
 
 func setGameOverTicketSay(say:String) -> void:
 	$GameOverOD/GameOverDT.value = say

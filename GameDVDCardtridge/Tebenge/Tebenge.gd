@@ -85,6 +85,7 @@ func _checkDir():
 	pass
 
 func _saveSave():
+	print("saveNow")
 	# fill dictionary first!
 	saveDictionary["kludgeHiScore"]["arcade"] = kludgeHiScoreArcade
 	saveDictionary["kludgeHiScore"]["endless"] = kludgeHiScoreEndless

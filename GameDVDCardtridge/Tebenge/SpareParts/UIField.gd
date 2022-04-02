@@ -91,8 +91,8 @@ func pauseTheGame(pauseIt:bool = false):
 	pass
 
 func selectedAContinue(saidYes:bool):
-	_hideAllLagranges()
-	$GameplayLagrange.show()
+#	_hideAllLagranges()
+#	$GameplayLagrange.show()
 	$GameplayLagrange.selectedAContinue(saidYes)
 	pass
 

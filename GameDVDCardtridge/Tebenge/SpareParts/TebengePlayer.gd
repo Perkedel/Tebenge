@@ -5,6 +5,7 @@ class_name TebengePlayer
 export(int) var playerNumber:int = 0 # Multiplayer number ID. from 0 to 3 or more idk.
 export(int) var initHP:int = 3
 export(bool) var initActivate:bool = false
+export(bool) var cannotDie:bool = false
 var lastHPBefore = 3
 export(float) var speed:float = 5
 var _pointRightNow:int = 0
@@ -14,6 +15,7 @@ var excuseMeY:float = 0
 var active:bool = false
 var doingExcuseMe:bool = false
 var momentaryInvincible:bool = false
+var onTopAlready:bool = false
 export(float) var momentaryInvincibleDuration:float = 3
 export (bool) var enemyMode:bool = false
 export(bool) var movesToLeft:bool = false
@@ -76,6 +78,30 @@ func _process(delta):
 			if Input.is_action_just_pressed("Tebenge_Tembak"):
 				# balan action abominationss
 				shootNow()
+	
+	# pls help me get position relative to screen!!!
+	if global_position.y < float(1080/2):
+#		$FloatingHUD.position = $HUDBottomPos.position
+#		$FloatingHUD.set_deferred("position",$HUDBottomPos.position)
+#		$FloatingHUD.call_deferred("set_position",Vector2(0,$HUDBottomPos.position.y))
+		if !enemyMode: # only bother if not enemy
+			if !onTopAlready:
+				$FloatingHUD.hide()
+				$FloatingHUDBottom.show()
+				onTopAlready = true
+		pass
+	else:
+#		$FloatingHUD.position = $HUDTopPos.position
+#		$FloatingHUD.set_deferred("position",$HUDTopPos.position)
+#		$FloatingHUD.call_deferred("set_position",Vector2(0,$HUDTopPos.position.y))
+		if !enemyMode:
+			if onTopAlready:
+				$FloatingHUD.show()
+				$FloatingHUDBottom.hide()
+				onTopAlready = false
+		pass
+	# bug! positional did not work well. it veer off to right.
+	# use mirror Floating HUD instead!
 	pass
 
 func _physics_process(delta: float) -> void:
@@ -102,6 +128,7 @@ func plsTurnAround():
 	pass
 
 func reset(withResetTimer:bool = false):
+	cannotDie = false
 	hp = initHP
 	arrayedBulletOnScreen.clear()
 	$dedd.hide()
@@ -166,12 +193,14 @@ func receivePoint(howMany:int):
 	Input.vibrate_handheld(100)
 	_pointRightNow += howMany
 	$FloatingHUD.setPointsay(String(_pointRightNow))
+	$FloatingHUDBottom.setPointsay(String(_pointRightNow))
 	emit_signal("pointItIsNow", _pointRightNow)
 	pass
 
 func resetPoint():
 	_pointRightNow = 0
 	$FloatingHUD.setPointsay(String(_pointRightNow))
+	$FloatingHUDBottom.setPointsay(String(_pointRightNow))
 	emit_signal("pointItIsNow", _pointRightNow)
 	pass
 
@@ -179,7 +208,7 @@ func getPoint() -> int:
 	return _pointRightNow
 
 func _reddens():
-	var tempModulate:Color = modulate
+	var _tempModulate:Color = modulate
 #	modulate = Color.red
 #	reddenHuertMaterial.set_shader_param("redden",true)
 	$Form.material.set_shader_param("redden",true)
@@ -208,7 +237,8 @@ func _toggleBlinkForm():
 signal eikSerkat()
 func _interpretHP():
 	$FloatingHUD.setHPsay(String(hp))
-	if hp <= 0:
+	$FloatingHUDBottom.setHPsay(String(hp))
+	if hp <= 0 && !cannotDie:
 		# ded. Eik Serkat
 		set_active(false)
 		var duarInstance = theDuarParticle.instance()
@@ -236,6 +266,10 @@ func _interpretHP():
 			pass
 		elif lastHPBefore < hp:
 			# means add hp
+			pass
+		
+		if cannotDie && hp < 1:
+			hp = 1
 			pass
 		pass
 	lastHPBefore = hp
@@ -273,7 +307,10 @@ func _bulletDestroyed(itself:Node, hitWho:Node, hitWhoRaw:Node):
 			if enemyMode:
 				pass
 			else:
-				receivePoint(1)
+				# want to use this "bug"?
+				# to use this bug, let receive point even enem hp not <= 0
+				if hitWho.hp <= 0:
+					receivePoint(1)
 				pass
 			pass
 		elif hitWho.is_in_group("Tebenge_Player") && !hitWho.is_in_group("Tebenge_Enemy"):

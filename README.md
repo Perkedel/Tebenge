@@ -90,3 +90,4 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/mauville-technologies/PGSGP Mauville. Google Play Service Godot. NEWER!
 - https://developer.android.com/docs/quality-guidelines/tv-app-quality
 - https://godotengine.org/qa/6285/how-to-write-to-user-directory-in-android
+- https://godotengine.org/qa/17247/how-to-know-the-screen-position-of-a-node2d here is how to get the transform of node2d relative to screen. `get_global_transform_with_canvas()` YeOldeDM said. especially the `get_global_transform_with_canvas().origin` thingy, just read the code documentation in the Godot editor yess.

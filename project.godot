@@ -95,6 +95,7 @@ window/stretch/aspect="keep"
 [gui]
 
 theme/use_hidpi=true
+theme/custom="res://GameDVDCardtridge/Tebenge/Assets/theme/TebengeFancyTheme.tres"
 
 [input]
 

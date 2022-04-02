@@ -51,6 +51,11 @@ autostart = true
 margin_top = -169.0
 margin_bottom = -79.0
 
+[node name="FloatingHUDBottom" parent="." instance=ExtResource( 6 )]
+visible = false
+margin_top = 97.0
+margin_bottom = 187.0
+
 [node name="ExcuseMeTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
@@ -73,6 +78,12 @@ one_shot = true
 
 [node name="InvincibleBlink" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="HUDTopPos" type="Position2D" parent="."]
+position = Vector2( -150, -169 )
+
+[node name="HUDBottomPos" type="Position2D" parent="."]
+position = Vector2( -150, 97 )
 
 [connection signal="timeout" from="DyingTimer" to="." method="_on_DyingTimer_timeout"]
 [connection signal="timeout" from="AutoShootPeriods" to="." method="_on_AutoShootPeriods_timeout"]
