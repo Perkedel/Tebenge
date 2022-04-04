@@ -324,10 +324,20 @@ func _on_leaderboard_score_submitting_failed(leaderboard_id: String):
 	print(leaderboard_id + " Faile submit")
 	pass
 
-func _on_Tebenge_PlayService_JustCheck() -> void:
+func _on_Tebenge_PlayService_JustCheck(menuId:int = 0) -> void:
 	if play_games_services != null:
-		print("attempt check leaderboards")
-		play_games_services.showAllLeaderBoards()
+		match(menuId):
+			0:
+				print("attempt check leaderboards")
+				play_games_services.showAllLeaderBoards()
+				pass
+			1:
+				print("attempt check achievements")
+				play_games_services.showAchievements()
+				pass
+			_:
+				pass
+		
 	else:
 		print("Cannot check leaderboard! no play service available!")
 	pass # Replace with function body.
@@ -337,4 +347,18 @@ func _on_Tebenge_PlayService_UploadSave(nameSnapshot, dataOf, descOf) -> void:
 	pass # Replace with function body.
 
 func _on_Tebenge_PlayService_UploadScore(leaderID, howMany) -> void:
+	pass # Replace with function body.
+
+func _on_Tebenge_AdRewarded_Terminate() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_ChangeLogin(into) -> void:
+	if play_games_services != null:
+		if into:
+			play_games_services.signIn()
+			pass
+		else:
+			play_games_services.signOut()
+			pass
 	pass # Replace with function body.

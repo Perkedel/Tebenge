@@ -96,6 +96,7 @@ window/stretch/aspect="keep"
 
 theme/use_hidpi=true
 theme/custom="res://GameDVDCardtridge/Tebenge/Assets/theme/TebengeFancyTheme.tres"
+theme/custom_font="res://GameDVDCardtridge/Tebenge/Assets/font/orbitron-font/Orbitron_DefaultDynamicFont.tres"
 
 [input]
 

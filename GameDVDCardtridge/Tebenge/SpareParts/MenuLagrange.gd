@@ -21,6 +21,11 @@ func settingPls():
 	$SettingOD.show()
 	pass
 
+func openGooglePlayOd():
+	hideAllODs()
+	$GooglePlayOD.show()
+	pass
+
 func quitPls():
 	hideAllODs()
 	$QuitDialogOD.show()

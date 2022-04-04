@@ -4,6 +4,16 @@ const savePath:String = "user://Simpan/Tebenge/Simpan.json"
 const saveDir:String = "Simpan/Tebenge/"
 const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
 const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
+const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
+const finishMeAchievement:String = "CgkIhru1tYoQEAIQBg"
+const adMurderedAchievement:String = "CgkIhru1tYoQEAIQBA"
+const leetSpeakAchievement:String = "CgkIhru1tYoQEAIQBQ"
+const yesContinueAchievement:String = "CgkIhru1tYoQEAIQBw"
+const noIGiveUpAchievement:String = "CgkIhru1tYoQEAIQCQ"
+const abandontAchievment:String = "CgkIhru1tYoQEAIQCA"
+const firstDuarAchievment:String = "CgkIhru1tYoQEAIQCg"
+const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
+
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
 		arcade = 0,
@@ -25,7 +35,8 @@ signal AdRewarded_Terminate()
 signal AdBanner_Exec()
 signal AdBanner_Reshow()
 signal AdBanner_Terminate()
-signal PlayService_JustCheck()
+signal PlayService_JustCheck(menuId)
+signal PlayService_ChangeLogin(into)
 signal PlayService_UploadSave(nameSnapshot,dataOf,descOf)
 signal PlayService_UploadScore(leaderID,howMany)
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
@@ -274,8 +285,22 @@ func _receiveGameDone(didIt:bool = false):
 	_saveSave()
 	pass
 
-func _justCheckGooglePlay():
-	emit_signal("PlayService_JustCheck")
+func _justCheckGooglePlay(menuID:int = 0):
+	emit_signal("PlayService_JustCheck", menuID)
+	pass
+
+func _openGooglePlayOd(inGame:bool = false):
+	$CanvasLayer/UIField.openGooglePlayOd(inGame)
+	pass
+
+func _changeLoginGooglePlay(into:bool = true):
+	if into:
+		# login
+		pass
+	else:
+		# logout
+		pass
+	emit_signal("PlayService_ChangeLogin",into)
 	pass
 
 func _uploadScores():
@@ -362,10 +387,31 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 				"SettingOD":
 					match(nameToDo):
 						"Check Google Play Game":
-							_justCheckGooglePlay()
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(false)
 							pass
 						"Back":
 							_mainMenuPls()
+							pass
+						_:
+							pass
+					pass
+				"GooglePlayOD":
+					match(nameToDo):
+						"Leaderboard":
+							_justCheckGooglePlay(0)
+							pass
+						"Achievement":
+							_justCheckGooglePlay(1)
+							pass
+						"Login":
+							_changeLoginGooglePlay(true)
+							pass
+						"Logout":
+							_changeLoginGooglePlay(false)
+							pass
+						"Back":
+							_settingPls()
 							pass
 						_:
 							pass
@@ -430,10 +476,31 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 				"SettingOD":
 					match(nameToDo):
 						"Check Google Play Game":
-							_justCheckGooglePlay()
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(true)
 							pass
 						"Back":
 							_pauseTheGame(true)
+							pass
+						_:
+							pass
+					pass
+				"GooglePlayOD":
+					match(nameToDo):
+						"Leaderboard":
+							_justCheckGooglePlay(0)
+							pass
+						"Achievement":
+							_justCheckGooglePlay(1)
+							pass
+						"Login":
+							_changeLoginGooglePlay(true)
+							pass
+						"Logout":
+							_changeLoginGooglePlay(false)
+							pass
+						"Back":
+							_settingPls(true)
 							pass
 						_:
 							pass

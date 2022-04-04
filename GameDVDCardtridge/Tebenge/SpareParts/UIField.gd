@@ -38,6 +38,18 @@ func settingPls(inGame:bool = false):
 		pass
 	pass
 
+func openGooglePlayOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openGooglePlayOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openGooglePlayOd()
+		pass
+	pass
+
 func attemptAbortGame():
 	$GameplayLagrange.attemptAbortGame()
 	pass

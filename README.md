@@ -91,3 +91,25 @@ The following are tab links opened during this development. Some of which are as
 - https://developer.android.com/docs/quality-guidelines/tv-app-quality
 - https://godotengine.org/qa/6285/how-to-write-to-user-directory-in-android
 - https://godotengine.org/qa/17247/how-to-know-the-screen-position-of-a-node2d here is how to get the transform of node2d relative to screen. `get_global_transform_with_canvas()` YeOldeDM said. especially the `get_global_transform_with_canvas().origin` thingy, just read the code documentation in the Godot editor yess.
+- https://github.com/playgameservices/android-basic-samples/blob/master/TypeANumber/src/main/res/values/ids.xml
+- https://support.google.com/googleplay/android-developer/answer/9848633#upload_file&zippy=%2Cjava-membuat-file-pemetaan-proguard%2Cnative-membuat-file-simbol-debug%2Cmengupload-file-menggunakan-konsol-play%2Cmengupload-file-menggunakan-google-play-developer-api%2Csaya-tidak-ingin-menggunakan-deobfuscationsimbolisasi-konsol-play-dapatkah-saya-melakukannya-secara-offline%2Csaya-telah-mengupload-file-deobfuscationsimbolisasi-mengapa-error-dan-anr-saya-masih-di-obfuscate
+- https://developer.android.com/studio/build/shrink-code#native-crash-support
+- https://support.google.com/cloud/answer/7454865
+- https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive
+- https://developer.android.com/studio/write/image-asset-studio
+- https://github.com/mauville-technologies/PGSGP
+- https://www.fontspace.com/montserrat-font-f16544
+- https://www.fontspace.com/nunito-font-f44025
+- https://www.fontspace.com/nunito-font-f44025
+- https://www.fontspace.com/satella-font-f40960
+- https://www.fontspace.com/asimov-font-f22365
+- https://www.fontspace.com/open-dyslexic-font-f44977
+- https://www.fontspace.com/logopixies-font-f40772
+- https://www.fontspace.com/newtown-font-f5864
+- https://www.fontspace.com/audiowide-font-f13636
+- https://www.fontspace.com/topsicle-font-f40376
+- https://www.fontspace.com/kaoru-sans-font-f42795
+- https://www.fontspace.com/liberation-sans-font-f3435
+- https://www.fontspace.com/arizone-unicase-font-f32250
+- https://www.fontspace.com/orbitron-font-f19177
+- https://icons8.com/icon/J3caGozFXTk1/google-admob just to asset achievement icon.

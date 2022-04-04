@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAreYouSureTest.gd" type="Script" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/theme/TebengeFancyTheme.tres" type="Theme" id=2]
+
+[node name="TebengeAreYouSureTest" type="ConfirmationDialog"]
+margin_right = 1594.0
+margin_bottom = 813.0
+theme = ExtResource( 2 )
+window_title = "Mohon konfirmasi..."
+dialog_text = "Are you sure Test"
+dialog_autowrap = true
+script = ExtResource( 1 )

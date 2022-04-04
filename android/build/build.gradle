@@ -95,6 +95,8 @@ android {
         ndk {
             String[] export_abi_list = getExportEnabledABIs()
             abiFilters export_abi_list
+            // https://support.google.com/googleplay/android-developer/answer/9848633
+            // String debugSymbolLevel = 'FULL' //This thing pls
         }
 
         manifestPlaceholders = [godotEditorVersion: getGodotEditorVersion()]
@@ -214,6 +216,9 @@ android {
         }
     }
 }
+
+// try this version?
+android.defaultConfig.ndk.debugSymbolLevel = 'FULL'
 
 task copyAndRenameDebugApk(type: Copy) {
     from "$buildDir/outputs/apk/debug/android_debug.apk"

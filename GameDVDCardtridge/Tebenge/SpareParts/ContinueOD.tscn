@@ -12,36 +12,36 @@
 script = ExtResource( 4 )
 
 [node name="ToNoLabel" parent="." index="0" instance=ExtResource( 5 )]
-margin_left = 176.0
+margin_left = 89.0
 margin_top = 50.0
-margin_right = 513.0
+margin_right = 521.0
 margin_bottom = 100.0
 text = "Press DOWN / LEFT + START ->"
 
 [node name="NOButton" parent="." index="1" instance=ExtResource( 2 )]
-margin_left = 517.0
-margin_right = 817.0
+margin_left = 525.0
+margin_right = 825.0
 margin_bottom = 150.0
 focus_mode = 0
 text = "NO"
 icon = ExtResource( 7 )
 
 [node name="ContinueIndicatorDT" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 821.0
-margin_right = 1121.0
+margin_left = 829.0
+margin_right = 1129.0
 margin_bottom = 150.0
 
 [node name="YESButton" parent="." index="3" instance=ExtResource( 2 )]
-margin_left = 1125.0
-margin_right = 1425.0
+margin_left = 1133.0
+margin_right = 1433.0
 margin_bottom = 150.0
 focus_mode = 0
 text = "YES"
 icon = ExtResource( 6 )
 
 [node name="ToYesLabel" parent="." index="4" instance=ExtResource( 5 )]
-margin_left = 1429.0
+margin_left = 1437.0
 margin_top = 50.0
-margin_right = 1744.0
+margin_right = 1831.0
 margin_bottom = 100.0
 text = "<- Press UP / RIGHT + START"

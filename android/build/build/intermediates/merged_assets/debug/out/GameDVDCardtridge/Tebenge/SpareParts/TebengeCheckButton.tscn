@@ -1,6 +1,0 @@
-[gd_scene format=2]
-
-[node name="CheckButton" type="CheckButton"]
-margin_right = 152.0
-margin_bottom = 80.0
-text = "ON/OFF"
