@@ -343,10 +343,15 @@ func _on_Tebenge_PlayService_JustCheck(menuId:int = 0) -> void:
 	pass # Replace with function body.
 
 
-func _on_Tebenge_PlayService_UploadSave(nameSnapshot, dataOf, descOf) -> void:
+func _on_Tebenge_PlayService_UploadSave(nameSnapshot:String, dataOf:String, descOf:String) -> void:
+	if play_games_services != null:
+		play_games_services.saveSnapshot(nameSnapshot,dataOf,descOf)
+		pass
 	pass # Replace with function body.
 
 func _on_Tebenge_PlayService_UploadScore(leaderID, howMany) -> void:
+	if play_games_services != null:
+		pass
 	pass # Replace with function body.
 
 func _on_Tebenge_AdRewarded_Terminate() -> void:
@@ -361,4 +366,36 @@ func _on_Tebenge_PlayService_ChangeLogin(into) -> void:
 		else:
 			play_games_services.signOut()
 			pass
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_RevealAchievement(achievedId) -> void:
+	if play_games_services != null:
+		play_games_services.revealAchievement(achievedId)
+		pass
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_SetStepAchievement(achievedId, stepsTo) -> void:
+	if play_games_services != null:
+		play_games_services.setAchievementSteps(achievedId,stepsTo)
+		pass
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_UnlockAchievement(achievedId) -> void:
+	if play_games_services != null:
+		play_games_services.unlockAchievement(achievedId)
+		pass
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_IncrementAchievement(achievedId, stepNum) -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_DownloadSave(nameSnapshot) -> void:
+	if play_games_services != null:
+		
+		pass
 	pass # Replace with function body.

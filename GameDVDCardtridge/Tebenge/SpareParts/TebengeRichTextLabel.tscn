@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeRichTextLabel.gd" type="Script" id=1]
+
+[node name="TebengeRichTextLabel" type="RichTextLabel"]
+margin_right = 1387.0
+margin_bottom = 769.0
+script = ExtResource( 1 )

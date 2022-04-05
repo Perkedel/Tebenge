@@ -34,6 +34,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/json_beautifier/json_beautifier.gd"
 }, {
+"base": "TebengeAcceptDialog",
+"class": "TebengeAboutDialog",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.gd"
+}, {
+"base": "AcceptDialog",
+"class": "TebengeAcceptDialog",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.gd"
+}, {
 "base": "Button",
 "class": "TebengeMenuButton",
 "language": "GDScript",
@@ -49,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengePlayer.gd"
 }, {
+"base": "RichTextLabel",
+"class": "TebengeRichTextLabel",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/TebengeRichTextLabel.gd"
+}, {
 "base": "Control",
 "class": "VirtualJoystick",
 "language": "GDScript",
@@ -60,9 +75,12 @@ _global_script_class_icons={
 "BaseOD": "",
 "ComplexDT": "",
 "JSONBeautifier": "",
+"TebengeAboutDialog": "",
+"TebengeAcceptDialog": "",
 "TebengeMenuButton": "",
 "TebengePlayField": "",
 "TebengePlayer": "",
+"TebengeRichTextLabel": "",
 "VirtualJoystick": ""
 }
 

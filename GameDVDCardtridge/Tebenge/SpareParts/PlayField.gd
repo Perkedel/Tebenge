@@ -266,7 +266,9 @@ func _enemyDown():
 
 signal game_over()
 signal game_finish()
+signal eikSerkat()
 func _youDied():
+	emit_signal("eikSerkat")
 #	set_active(false)
 #	emit_signal("game_over")
 	# first, continue countdown!

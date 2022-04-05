@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.gd" type="Script" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeRichTextLabel.tscn" type="PackedScene" id=3]
+
+[node name="TebengeAboutDialog" instance=ExtResource( 1 )]
+visible = true
+window_title = "Tentang"
+resizable = true
+script = ExtResource( 2 )
+
+[node name="TextBoxThingy" parent="." index="3" instance=ExtResource( 3 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -64.0
+text = "(c) Pinball Agung Indonesia (Perkedel Technologies)
+
+The credit file which is the README.md file should load now. If you see this, then this firmware software has been corrupted, the readme file is gone! Please consult your technician to reflash the firmware again."
