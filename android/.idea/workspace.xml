@@ -3,26 +3,42 @@
   <component name="ChangeListManager">
     <list default="true" id="2bfb09bc-59b4-486f-a08d-00c54e3f7592" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/Assets/theme/TebengeFancyTheme.tres.tmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/AcceptDialogWindoeng.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/AcceptDialogWindoeng.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/GooglePlayOD.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/GooglePlayOD.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/MenuLagrange.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/UIField.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/SpareParts/UIField.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/Tebenge.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/Tebenge.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/Tebenge.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/../GameDVDCardtridge/Tebenge/Tebenge.tscn" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup/libs/debug/godot-lib.debug.aar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup/libs/release/godot-lib.release.aar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup/res/admob/put_admob-xml_here.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TebengeLoneLoader.gd" beforeDir="false" afterPath="$PROJECT_DIR$/../TebengeLoneLoader.gd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/7.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/debug/godot-lib.debug.aar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/libs/release/godot-lib.release.aar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/res/admob/put_admob-xml_here.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/src/release/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/src/release/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/../project.godot" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -33,6 +49,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ApkExportedModule" value="android" />
+    <property name="BundleExportedModule" value="android" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../../android-sdk" />
@@ -53,5 +71,11 @@
       <updated>1646422645882</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="550" y="161" key="FileChooserDialogImpl" timestamp="1649274137432">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="550" y="161" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1649274137432" />
   </component>
 </project>

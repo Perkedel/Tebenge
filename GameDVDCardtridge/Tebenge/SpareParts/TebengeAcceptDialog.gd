@@ -10,6 +10,14 @@ class_name TebengeAcceptDialog
 func _ready() -> void:
 	pass # Replace with function body.
 
+func popWithMessage(ofThis:String = "Message...", centered:bool = true, titleDo:String = "Notification"):
+	window_title = titleDo
+	dialog_text = ofThis
+	if centered:
+		popup_centered()
+	else:
+		popup()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

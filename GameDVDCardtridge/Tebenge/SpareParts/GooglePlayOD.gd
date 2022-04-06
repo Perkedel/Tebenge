@@ -17,7 +17,7 @@ func _ready() -> void:
 		$LogOutInButton.text = "No Google Play"
 		pass
 	
-	_postCheckGooglePlay()
+#	_postCheckGooglePlay()
 	pass # Replace with function body.
 
 func _postCheckGooglePlay():
@@ -33,7 +33,7 @@ func _postCheckGooglePlay():
 			$LogOutInButton.text = "Login"
 			pass
 	else:
-		print("No Play Service available")
+		print("No Play Service available. Yaah")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

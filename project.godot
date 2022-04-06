@@ -88,7 +88,7 @@ _global_script_class_icons={
 
 config/name="Tebenge"
 config/description="Rogue shoot left right game"
-run/main_scene="res://TebengeLoneLoader.tscn"
+run/main_scene="res://GameDVDCardtridge/Tebenge/TebengeEmpty.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Perkedel Technologies/Tebenge"
 boot_splash/image="res://GameDVDCardtridge/Tebenge/Assets/images/TebengeBootSplash.png"

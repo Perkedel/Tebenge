@@ -32,3 +32,4 @@ android/build/assets/GoogleCloud/Tebenge.txt
 android/build
 android/build/build/intermediates/merged_assets/debug/out/GoogleCloud/Tebenge.txt
 androidbuild/build/intermediates/compressed_assets/debug/out/assets/Admob
+android/build/build/outputs/apk

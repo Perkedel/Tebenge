@@ -6,6 +6,8 @@
 
 [node name="TebengeAboutDialog" instance=ExtResource( 1 )]
 visible = true
+margin_right = 1329.0
+margin_bottom = 646.0
 window_title = "Tentang"
 resizable = true
 script = ExtResource( 2 )

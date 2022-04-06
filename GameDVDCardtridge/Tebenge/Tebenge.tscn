@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.gd" type="Script" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/PlayField.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=6]
 
 [node name="Tebenge" type="Node"]
 script = ExtResource( 2 )
@@ -30,6 +31,13 @@ margin_top = 476.0
 margin_right = 1603.0
 margin_bottom = 705.0
 
+[node name="AcceptDialog" parent="CanvasLayer" instance=ExtResource( 6 )]
+margin_left = 424.0
+margin_top = 461.0
+margin_right = 1670.0
+margin_bottom = 738.0
+dialog_text = "Accept dialog"
+
 [node name="InternalSpeaker" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 bus = "SoundEffect"
@@ -53,6 +61,11 @@ one_shot = true
 [connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
 [connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]
 [connection signal="wantsToShutdown" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToShutdown"]
+[connection signal="about_to_show" from="CanvasLayer/AboutDialog" to="." method="_on_AboutDialog_about_to_show"]
+[connection signal="popup_hide" from="CanvasLayer/AboutDialog" to="." method="_on_AboutDialog_popup_hide"]
+[connection signal="about_to_show" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_about_to_show"]
 [connection signal="confirmed" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_hide"]
+[connection signal="confirmed" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
+[connection signal="popup_hide" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_popup_hide"]
 [connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]

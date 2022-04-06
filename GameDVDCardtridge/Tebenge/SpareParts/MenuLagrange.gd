@@ -10,6 +10,15 @@ extends BaseLagrange
 #func _ready():
 #	pass # Replace with function body.
 
+func theOOBEhasBeenDone():
+	mainMenuPls()
+	pass
+
+func checkGetStuck():
+	if $WelcomeOD.visible:
+		mainMenuPls()
+	pass
+
 func mainMenuPls():
 	hideAllODs()
 	$MainMenuOD.show()

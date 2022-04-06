@@ -7,6 +7,15 @@ signal wantsToShutdown
 # var a = 2
 # var b = "text"
 
+func theOOBEhasBeenDone():
+	_hideAllLagranges()
+	$MenuLagrange.show()
+	$MenuLagrange.theOOBEhasBeenDone()
+	pass
+
+func checkGetStuck():
+	$MenuLagrange.checkGetStuck()
+	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

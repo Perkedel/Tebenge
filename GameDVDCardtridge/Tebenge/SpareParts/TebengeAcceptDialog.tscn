@@ -4,8 +4,9 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.gd" type="Script" id=2]
 
 [node name="TebengeAcceptDialog" type="AcceptDialog"]
-margin_right = 1622.0
-margin_bottom = 899.0
+visible = true
+margin_right = 1246.0
+margin_bottom = 277.0
 theme = ExtResource( 1 )
 window_title = "Peringatan!"
 dialog_autowrap = true

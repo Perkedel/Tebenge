@@ -10,7 +10,8 @@ extends ConfirmationDialog
 func _ready() -> void:
 	pass # Replace with function body.
 
-func popWithMessage(ofThis:String = "Are You sure to...", centered:bool = true):
+func popWithMessage(ofThis:String = "Are You sure to...", centered:bool = true, titleDo:String = "Are you sure?"):
+	titleDo
 	dialog_text = ofThis
 	if centered:
 		popup_centered()

@@ -8,6 +8,7 @@ const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
 const finishMeAchievement:String = "CgkIhru1tYoQEAIQBg"
 const adMurderedAchievement:String = "CgkIhru1tYoQEAIQBA"
 const leetSpeakAchievement:String = "CgkIhru1tYoQEAIQBQ"
+const sixNineNiceAchievement:String = "CgkIhru1tYoQEAIQDQ"
 const yesContinueAchievement:String = "CgkIhru1tYoQEAIQBw"
 const noIGiveUpAchievement:String = "CgkIhru1tYoQEAIQCQ"
 const abandonAchievment:String = "CgkIhru1tYoQEAIQCA"
@@ -26,6 +27,7 @@ var _saveTemplate:Dictionary = {
 	},
 	beenAlreadyHere = false
 }
+
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
 signal AdInterstitial_Exec()
@@ -57,6 +59,7 @@ onready var loadedHexagonEngine:bool = true
 var saveDictionary:Dictionary = {
 	
 }
+var __tempDownloadedSave:String = ""
 var wantsToContinue:bool = false
 var youveGotNewHiScore:bool = false
 var kludgeHiScoreArcade:int = 0 # Highest number of kill
@@ -67,6 +70,24 @@ var _multiPointRightNow:PoolIntArray = [0,0,0,0]
 var ticket:int = 0 # how many ticket rewarded. in Casino, it is chip $1
 var beenAlreadyHere:bool = false
 var confirmActionIdFor:String = ""
+var appStarted:bool = false
+
+func _releaseDelay():
+	_loadSave()
+		
+	$CanvasLayer/UIField.theOOBEhasBeenDone()
+	appStarted = true
+	pass
+
+func _checkStartup():
+	print("checking startup")
+	yield(get_tree().create_timer(5),"timeout")
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		print("check startup found Google Play")
+		pass
+	else:
+		_releaseDelay()
+	pass
 
 func _loadSave():
 	#load JSON
@@ -78,23 +99,47 @@ func _loadSave():
 		saveDictionary = parse_json(thing.get_as_text())
 		thing.close()
 		# inject data
-		kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
-		kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
-		beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+		if "kludgeHiScore" in saveDictionary:
+			kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
+			kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
+			
+		else:
+			saveDictionary["kludgeHiScore"] = _saveTemplate["kludgeHiScore"]
+			kludgeHiScoreArcade = 0
+			kludgeHiScoreEndless = 0
+		if "beenAlreadyHere" in saveDictionary:
+			beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+		else:
+			saveDictionary["beenAlreadyHere"] = _saveTemplate["beenAlreadyHere"]
+			beenAlreadyHere = false
+#		$CanvasLayer/UIField.theOOBEhasBeenDone()
+#		$CanvasLayer/UIField.checkGetStuck()
 		pass
 	else:
 		#file not exist
 		saveDictionary = _saveTemplate
-		_saveSave()
-		_offerDownloadSaveFromGooglePlay()
+#		_saveSave()
+#		_offerDownloadSaveFromGooglePlay()
+		_checkIfCloudBackupExist()
 		pass
 	# then inject data to here
 	
-#	_interpresHiScore()
+#	_interpretHiScore()
+	pass
+
+func _checkIfCloudBackupExist():
+	# download! if the cloud backup exist then offer overwrite
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		emit_signal("PlayService_DownloadSave","Tebenge")
+	else:
+		print("Google Play not exist")
+		$CanvasLayer/UIField.checkGetStuck()
+		_saveSave()
 	pass
 
 func _offerDownloadSaveFromGooglePlay():
-	# ask whether to download save thing
+	# ask whether to  overwrite save thing
+	_confirmationDialog("It appears you have save backup on your Google Play Games. Would you like to overwrite your save with that one?", "OverwriteSaveNow")
 	pass
 
 func overwriteSaveFromCloud(theJSON:String):
@@ -105,6 +150,18 @@ func overwriteSaveFromCloud(theJSON:String):
 	kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
 	kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
 	beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+	pass
+
+func theCloudSaveIndeedExist(theJSON:String, working:bool = false):
+	if working:
+		__tempDownloadedSave = theJSON
+		_offerDownloadSaveFromGooglePlay()
+	else:
+		_acceptDialog("Sorry, Download backup failed. Try again downloading at setting")
+		_saveSave()
+#		$CanvasLayer/UIField.theOOBEhasBeenDone()
+		$CanvasLayer/UIField.checkGetStuck()
+		pass
 	pass
 
 func _checkDir():
@@ -139,12 +196,13 @@ func _saveSave():
 		emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
 	
 	thing.close()
-#	_interpresHiScore()
+#	_interpretHiScore()
 	pass
 
 func _uploadOverwriteSave(confirmed:bool = false):
 	if($PlayField.gameplayStarted):
-		OS.alert("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
+#		OS.alert("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
+		_acceptDialog("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
 		pass
 	else:
 		# yes you can
@@ -161,7 +219,8 @@ func _uploadOverwriteSave(confirmed:bool = false):
 
 func _downloadOverwriteSave(confirmed:bool = false):
 	if($PlayField.gameplayStarted):
-		OS.alert("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
+#		OS.alert("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
+		_acceptDialog("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
 		pass
 	else:
 		# yes you can
@@ -176,15 +235,17 @@ func _downloadOverwriteSave(confirmed:bool = false):
 	pass
 
 func _init() -> void:
-	_loadSave()
-	if !Engine.has_singleton("TebengeGlobals"):
-		# add singleton only exist for Editor plugin
-		pass
+#	_loadSave()
+#	if !Engine.has_singleton("TebengeGlobals"):
+#		# add singleton only exist for Editor plugin
+#		pass
 	pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	_interpresHiScore()
+#	_interpretHiScore()
+	
+	_checkStartup()
 	pass # Replace with function body.
 
 func _enter_tree():
@@ -209,9 +270,13 @@ func _aboutDialog():
 	$CanvasLayer/AboutDialog.popup()
 	pass
 
-func _confirmationDialog(message:String, actionId:String = ""):
+func _confirmationDialog(message:String, actionId:String = "",title:String = "Are you sure?"):
 	confirmActionIdFor = actionId
 	$CanvasLayer/ConfirmationDialog.popWithMessage(message,true)
+
+func _acceptDialog(message:String = "", title:String = "Notification"):
+	$CanvasLayer/AcceptDialog.popWithMessage(message,true,title)
+	pass
 
 func _confirmedDialogTo():
 	# do this
@@ -222,12 +287,19 @@ func _confirmedDialogTo():
 		"PlayService_UploadOverwriteSave":
 			emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
 			pass
+		"OverwriteSaveNow":
+			overwriteSaveFromCloud(__tempDownloadedSave)
+			_saveSave()
+			pass
 		_:
 			pass
+	emit_signal("AdBanner_Reshow")
 	pass
 
 func _cancelDialog():
+	emit_signal("AdBanner_Reshow")
 	confirmActionIdFor = ""
+	$CanvasLayer/UIField.checkGetStuck()
 	pass
 
 func _attemptAbortGame():
@@ -247,7 +319,7 @@ func _confirmedAbortGame(itIs:bool = false):
 	else:
 		$CanvasLayer/UIField.pauseTheGame(true)
 		pass
-	_interpresHiScore()
+	_interpretHiScore()
 	pass
 
 func _resetAfterGameDone():
@@ -260,7 +332,7 @@ func _resetAfterGameDone():
 
 func _intoGameMode():
 	$CanvasLayer/UIField.intoGameMode()
-	_interpresHiScore()
+	_interpretHiScore()
 	pass
 
 func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
@@ -273,7 +345,7 @@ func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
 #	$PlayField.chooseGameMode = withMode
 	$PlayField.startTheGame(withMode)
 	$CanvasLayer/UIField.startTheGame(withMode)
-	_interpresHiScore()
+	_interpretHiScore()
 	pass
 
 func _pauseTheGame(pauseIt:bool = false):
@@ -294,7 +366,8 @@ func set_point_right_now(howMany:int):
 	if(howMany>0):
 		emit_signal("PlayService_UnlockAchievement",firstDuarAchievment)
 	
-	emit_signal("PlayService_SetStepAchievement",leetSpeakAchievement,howMany)
+#	emit_signal("PlayService_SetStepAchievement",leetSpeakAchievement,howMany)
+#	emit_signal("PlayService_UnlockAchievement",sixNineNiceAchievement,howMany)
 	
 	match(gameMode):
 		TebengePlayField.gameModes.Arcade:
@@ -306,11 +379,11 @@ func set_point_right_now(howMany:int):
 			pass
 	
 	$CanvasLayer/UIField.setGameOverTickeySay("Tickets %d" % [ticket])
-	_interpresHiScore()
+	_interpretHiScore()
 #	print("Point %d" % [howMany])
 	pass
 
-func _interpresHiScore():
+func _interpretHiScore():
 #	match(gameMode):
 	match($PlayField.chooseGameMode):
 		TebengePlayField.gameModes.Arcade:
@@ -345,6 +418,9 @@ func _interpresHiScore():
 	else:
 #		print(" no new hiscore")
 		pass
+	
+	emit_signal("PlayService_SetStepAchievement",leetSpeakAchievement,_anyKludgeHiScoreRightNow)
+	emit_signal("PlayService_UnlockAchievement",sixNineNiceAchievement,_anyKludgeHiScoreRightNow)
 	
 #	_uploadScores()
 	pass
@@ -408,7 +484,7 @@ func _receiveGameDone(didIt:bool = false):
 	
 	# other things too
 	# Highscore!
-	_interpresHiScore()
+	_interpretHiScore()
 	_uploadScoreRightNow(0 if gameMode == TebengePlayField.gameModes.Arcade else 1 if gameMode == TebengePlayField.gameModes.Endless else -1)
 	
 	# finally, totally save.
@@ -426,6 +502,19 @@ func _receiveEikSerkat():
 			pass
 	pass
 
+func googlePlayLoggedIn(working:bool = false):
+	if working:
+		print("Sign in Google Play works")
+		pass
+	else:
+		print("Sign in Google Play does not work")
+		pass
+	
+	if !appStarted:
+		_releaseDelay()
+		pass
+	pass
+
 func _justCheckGooglePlay(menuID:int = 0):
 	emit_signal("PlayService_JustCheck", menuID)
 	pass
@@ -436,7 +525,8 @@ func _openGooglePlayOd(inGame:bool = false):
 
 func _changeLoginGooglePlay(into:bool = true):
 	if($PlayField.gameplayStarted):
-		OS.alert("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
+#		OS.alert("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
+		_acceptDialog("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
 		pass
 	else:
 		if into:
@@ -450,7 +540,8 @@ func _changeLoginGooglePlay(into:bool = true):
 
 func _uploadScores():
 	if($PlayField.gameplayStarted):
-		OS.alert("Cannot Upload Score during Gameplay.", "Werror 400! Forbidden!")
+#		OS.alert("Cannot Upload Score during Gameplay.", "Werror 400! Forbidden!")
+		_acceptDialog("Cannot Upload Score during Gameplay.", "Werror 400! Forbidden!")
 		pass
 	else:
 		emit_signal("PlayService_UploadScore",hiScoreArcadeId,kludgeHiScoreArcade)
@@ -791,6 +882,16 @@ func receive_AdBanner_failed() -> void:
 	# DO NOT LIMIT ANYTHING JUST BECAUSE THIS BANNER FAIL TO LOAD!!!
 	pass
 
+func receive_PlayService_DownloadSave(data:String, working:bool = false):
+	if working:
+#		overwriteSaveFromCloud(data)
+		pass
+	else:
+#		_saveSave()
+		pass
+	theCloudSaveIndeedExist(data,working)
+	pass
+
 func _on_PlayField_askedContinue() -> void:
 	_receiveAskedContinue()
 	pass # Replace with function body.
@@ -852,4 +953,29 @@ func _on_ConfirmationDialog_confirmed() -> void:
 
 func _on_ConfirmationDialog_popup_hide() -> void:
 	_cancelDialog()
+	pass # Replace with function body.
+
+
+func _on_AcceptDialog_confirmed() -> void:
+	emit_signal("AdBanner_Reshow")
+	pass # Replace with function body.
+
+
+func _on_AcceptDialog_popup_hide() -> void:
+	emit_signal("AdBanner_Reshow")
+	pass # Replace with function body.
+
+
+func _on_ConfirmationDialog_about_to_show() -> void:
+	emit_signal("AdBanner_Terminate")
+	pass # Replace with function body.
+
+
+func _on_AboutDialog_about_to_show() -> void:
+	emit_signal("AdBanner_Terminate")
+	pass # Replace with function body.
+
+
+func _on_AboutDialog_popup_hide() -> void:
+	emit_signal("AdBanner_Reshow")
 	pass # Replace with function body.

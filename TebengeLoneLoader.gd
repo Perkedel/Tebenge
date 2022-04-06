@@ -10,17 +10,31 @@ var is_play_games_signed_in:bool = false
 var is_play_games_available:bool = false
 var __secret_GoogleCloud_Oauth_Client_ID:String = ""
 
+func _init() -> void:
+	print("Initen")
+	pass
+
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
+	print("Welcome to Tebenge")
+	yield(get_tree().create_timer(5),"timeout")
+	print("Ready")
 	$DVDsolder/Tebenge.loadedHexagonEngine = false
-	_readGoogleCloud()
+	var tryGoogleCloud:bool = _readGoogleCloud()
 	_readAdmobio()
-	_readGooglePlay()
 #	_testAdbmobio()
-	_postCheckGooglePlay()
+	if tryGoogleCloud:
+		print("Load Google Play Service")
+		_readGooglePlay()
+		
+	else:
+		printerr("Google Cloud failed to load! Check firmware software! Contact technician & Reflash if corrupted.")
+#		$DVDsolder/Tebenge._releaseDelay()
+		pass
 	pass # Replace with function body.
 
 func _readGoogleCloud() -> bool:
+	print("Let's begin Google Cloud")
 	# read Oauth client ID
 	# https://github.com/mauville-technologies/PGSGP
 	var f = File.new()
@@ -36,12 +50,13 @@ func _readGoogleCloud() -> bool:
 		f.close()
 		return true
 	else:
-		printerr("WERROR 404 Google Cloud Client ID file missing!!!")
+		printerr("WERROR 404 Google Cloud Client ID file missing!!! Software corrupted! Please redownload & reinstall new firmware!")
 		return false
 	return false
 	pass
 
 func _readGooglePlay():
+	print("Now Google Play")
 	# https://github.com/cgisca/PGSGP
 	# https://github.com/mauville-technologies/PGSGP
 	# Check if plugin was added to the project
@@ -88,6 +103,8 @@ func _readGooglePlay():
 		play_games_services.connect("_on_player_info_loading_failed", self, "_on_player_info_loading_failed")
 		play_games_services.connect("_on_player_stats_loaded", self, "_on_player_stats_loaded")  # json_response: String
 		play_games_services.connect("_on_player_stats_loading_failed", self, "_on_player_stats_loading_failed")
+		
+		_postCheckGooglePlay()
 	else:
 		print("No Google Play Singleton found!")
 	pass
@@ -97,8 +114,9 @@ func _postCheckGooglePlay():
 		#is_play_games_available = play_game_services.isGooglePlayServicesAvailable()
 		play_games_services.signIn()
 		is_play_games_signed_in = play_games_services.isSignedIn()
+#		$DVDsolder/Tebenge._releaseDelay()
 	else:
-		print("No Play Service available")
+		print("No Play Service available. Mevem")
 	pass
 
 func _readAdmobio():
@@ -259,10 +277,22 @@ func _on_AdMob_rewarded_video_started() -> void:
 
 # Da Play service
 # Callbacks: play_games_services.signIn()
-func _on_sign_in_success(account_id: String) -> void:
+func _on_sign_in_success(userProfile_json: String) -> void:
+	var userProfile = parse_json(userProfile_json)
+
+	# The returned JSON contains an object of userProfile info.
+	# Use the following keys to access the fields
+#	userProfile["displayName"] # The user's display name
+#	userProfile["email"] # The user's email
+#	userProfile["token"] # User token for backend use
+#	userProfile["id"] # The user's id
+	print("Successful login as ID " + userProfile["displayName"])
+	$DVDsolder/Tebenge.googlePlayLoggedIn(true)
 	pass
   
 func _on_sign_in_failed(error_code: int) -> void:
+	printerr("WERROR login Google Play Faile " + String(error_code))
+	$DVDsolder/Tebenge.googlePlayLoggedIn(false)
 	pass
 
 # Callbacks: play_games_services.signOut()
@@ -322,6 +352,24 @@ func _on_leaderboard_score_submitted(leaderboard_id: String):
 
 func _on_leaderboard_score_submitting_failed(leaderboard_id: String):
 	print(leaderboard_id + " Faile submit")
+	pass
+
+# Callbacks: play_games_services.saveSnapshot("SNAPSHOT_NAME", to_json(data_to_save), "DESCRIPTION")
+func _on_game_saved_success():
+	pass
+	
+func _on_game_saved_fail():
+	pass
+
+# Callbacks: play_games_services.loadSnapshot("SNAPSHOT_NAME")
+func _on_game_load_success(data):
+	var game_data: Dictionary = parse_json(data)
+	
+	$DVDsolder/Tebenge.receive_PlayService_DownloadSave(data, true)
+	pass
+	
+func _on_game_load_fail():
+	$DVDsolder/Tebenge.receive_PlayService_DownloadSave("",false)
 	pass
 
 func _on_Tebenge_PlayService_JustCheck(menuId:int = 0) -> void:
@@ -391,11 +439,14 @@ func _on_Tebenge_PlayService_UnlockAchievement(achievedId) -> void:
 
 
 func _on_Tebenge_PlayService_IncrementAchievement(achievedId, stepNum) -> void:
+	if play_games_services != null:
+		play_games_services.incrementAchievement(achievedId,stepNum)
+		pass
 	pass # Replace with function body.
 
 
 func _on_Tebenge_PlayService_DownloadSave(nameSnapshot) -> void:
 	if play_games_services != null:
-		
+		play_games_services.loadSnapshot(nameSnapshot)
 		pass
 	pass # Replace with function body.
