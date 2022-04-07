@@ -68,7 +68,8 @@ func _readGooglePlay():
 		var show_popups := true 
 		var request_email := true
 		var request_profile := true
-		var request_token := __secret_GoogleCloud_Oauth_Client_ID
+#		var request_token := __secret_GoogleCloud_Oauth_Client_ID
+		var request_token := "" # leave empty?
 		__secret_GoogleCloud_Oauth_Client_ID = ""
 #		play_games_services.init(show_popups)
 		# For enabling saved games functionality use below initialization instead
@@ -287,12 +288,13 @@ func _on_sign_in_success(userProfile_json: String) -> void:
 #	userProfile["token"] # User token for backend use
 #	userProfile["id"] # The user's id
 	print("Successful login as ID " + userProfile["displayName"])
-	$DVDsolder/Tebenge.googlePlayLoggedIn(true)
+	# do not mistake again!!! `userProfile` Dictionary is the parsed version of `userProfile_json` String!!!
+	$DVDsolder/Tebenge.googlePlayLoggedIn(true,userProfile_json,0)
 	pass
   
 func _on_sign_in_failed(error_code: int) -> void:
 	printerr("WERROR login Google Play Faile " + String(error_code))
-	$DVDsolder/Tebenge.googlePlayLoggedIn(false)
+	$DVDsolder/Tebenge.googlePlayLoggedIn(false,"",error_code)
 	pass
 
 # Callbacks: play_games_services.signOut()
@@ -387,7 +389,7 @@ func _on_Tebenge_PlayService_JustCheck(menuId:int = 0) -> void:
 				pass
 		
 	else:
-		print("Cannot check leaderboard! no play service available!")
+		print("Cannot check leaderboard or achievement! no play service available!")
 	pass # Replace with function body.
 
 

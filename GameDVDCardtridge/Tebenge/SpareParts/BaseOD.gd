@@ -4,6 +4,8 @@ class_name BaseOD
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+export(bool) var queryFocusButtonFromLast:bool = false
+export(int) var startQueryFromSelectionNum:int = 0
 
 func mainMenuPls():
 	pass
@@ -31,18 +33,47 @@ func sendPressedOption(named:String, oDName:String):
 	emit_signal("pressedOption",named,oDName)
 	pass
 
-func _obtainButtonFocus(forChildNumber:int = 0):
-	if forChildNumber < get_child_count():
-		if get_child(forChildNumber) is Button:
+func _obtainButtonFocus(forChildNumber:int = 0, inReverse:bool = true):
+	# WHYNT WORKING?!?!??!
+	if get_child_count() > 0:
+		if inReverse:
+			if forChildNumber >= 0:
+				if get_child(forChildNumber) is Button:
+					if get_child(forChildNumber).visible && get_child(forChildNumber).focus_mode != FOCUS_NONE:
+						get_child(forChildNumber).grab_focus()
+					else:
+						_obtainButtonFocus(forChildNumber+1 if !inReverse else forChildNumber-1,inReverse)
+				else:
+					_obtainButtonFocus(forChildNumber+1 if !inReverse else forChildNumber-1,inReverse)
+				pass
+			pass
+		else:
+			if forChildNumber < get_child_count():
+				if get_child(forChildNumber) is Button:
+					if get_child(forChildNumber).visible && get_child(forChildNumber).focus_mode != FOCUS_NONE:
+						get_child(forChildNumber).grab_focus()
+					else:
+						_obtainButtonFocus(forChildNumber+1 if !inReverse else forChildNumber-1,inReverse)
+				else:
+					_obtainButtonFocus(forChildNumber+1 if !inReverse else forChildNumber-1, inReverse)
+	pass
+
+func _simplerObtainButtonFocus(forChildNumber:int = 0):
+	if get_child_count() > 0:
+		if forChildNumber < get_child_count():
+			if get_child(forChildNumber) is Button:
 				if get_child(forChildNumber).visible && get_child(forChildNumber).focus_mode != FOCUS_NONE:
 					get_child(forChildNumber).grab_focus()
 				else:
-					_obtainButtonFocus(forChildNumber+1)
-		else:
-			_obtainButtonFocus(forChildNumber+1)
+					_simplerObtainButtonFocus(forChildNumber+1)
+			else:
+				_simplerObtainButtonFocus(forChildNumber+1)
+		pass
 	pass
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
-		_obtainButtonFocus(0)
+		if visible:
+#			_obtainButtonFocus(startQueryFromSelectionNum if !queryFocusButtonFromLast else (get_child_count()-1)-startQueryFromSelectionNum)
+			_simplerObtainButtonFocus(startQueryFromSelectionNum)
 		pass

@@ -20,6 +20,9 @@ gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": "da bullet"
+}
 collideSound = ExtResource( 4 )
 crashParticleSound = ExtResource( 3 )
 sparkParticle = ExtResource( 5 )

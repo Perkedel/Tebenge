@@ -151,3 +151,5 @@ The following are tab links opened during this development. Some of which are as
 - https://developers.google.com/games/services/console/enabling#step_3_generate_an_oauth_20_client_id
 - https://github.com/googlesamples/google-services/issues/360
 - https://stackoverflow.com/questions/44070168/signing-an-apk-with-an-upload-key-provided-by-google-play
+- https://godotengine.org/qa/11104/how-to-detect-a-screen-touch-continuously
+- https://stackoverflow.com/questions/44070168/signing-an-apk-with-an-upload-key-provided-by-google-play

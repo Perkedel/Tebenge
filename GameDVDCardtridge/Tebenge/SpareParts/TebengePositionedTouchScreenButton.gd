@@ -49,6 +49,22 @@ func _setThese():
 #func _process(delta: float) -> void:
 #	pass
 
+func _input(event: InputEvent) -> void:
+	# https://godotengine.org/qa/11104/how-to-detect-a-screen-touch-continuously
+#	if event is InputEventScreenTouch:
+#		if event.pressed:
+#			show()
+#		pass
+#	else:
+#		if visibility_mode == VisibilityMode.TOUCHSCREEN_ONLY:
+#			if event is InputEventJoypadMotion:
+#				hide()
+#			if event is InputEventJoypadButton or InputEventKey:
+#				if event.is_pressed():
+#					hide()
+#			pass
+	pass
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_VISIBILITY_CHANGED:
 		# Marco Fazio's autohide

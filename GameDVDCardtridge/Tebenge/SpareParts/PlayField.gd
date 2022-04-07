@@ -302,6 +302,7 @@ func _startContinueFate(startIt:bool = false):
 	pass
 
 signal continueCountdownTicked(remaining) #remaining int
+signal continueExpired()
 func _tickContinueCountdown():
 	# every 1 second this timeouts, tick the countdown -1 of continue timer.
 	# 10 9 8 7 6 5 4 3 2 1 game over!
@@ -313,6 +314,7 @@ func _tickContinueCountdown():
 	else:
 		# time's up game over
 		finishTheGame(false)
+		emit_signal("continueExpired")
 		$ContinueTickCountdown.stop()
 		pass
 	

@@ -90,8 +90,9 @@ func _readyCustom() -> void:
 	pass
 
 func selectedAContinue(saidYes:bool = false):
-	hideAllODs()
+#	hideAllODs()
 	if saidYes:
+		hideAllODs()
 		$HUDOD.show()
 		pass
 	else:

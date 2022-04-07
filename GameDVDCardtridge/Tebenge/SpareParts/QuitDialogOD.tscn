@@ -11,31 +11,34 @@
 
 [node name="QuitDialogOD" instance=ExtResource( 1 )]
 script = ExtResource( 8 )
+queryFocusButtonFromLast = true
 
 [node name="TebengeLabel" parent="." index="0" instance=ExtResource( 2 )]
-margin_left = 385.0
+margin_left = 355.0
 margin_top = 50.0
-margin_right = 623.0
+margin_right = 652.0
 margin_bottom = 100.0
 text = "Are you Sure to Quit?"
 
 [node name="ShutdownButton" parent="." index="1" instance=ExtResource( 3 )]
-margin_left = 627.0
-margin_right = 927.0
+margin_left = 656.0
+margin_right = 956.0
 margin_bottom = 150.0
+hint_tooltip = "Terminate this DVD & also shutdown OpenCX"
 text = "Shutdown"
 icon = ExtResource( 6 )
 
 [node name="ChangeDVDButton" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 931.0
-margin_right = 1231.0
+margin_left = 960.0
+margin_right = 1260.0
 margin_bottom = 150.0
+hint_tooltip = "Terminate this DVD & go back to DVD selection"
 text = "ChangeDVD"
 icon = ExtResource( 7 )
 
 [node name="CancelButton" parent="." index="3" instance=ExtResource( 5 )]
-margin_left = 1235.0
-margin_right = 1535.0
+margin_left = 1264.0
+margin_right = 1564.0
 margin_bottom = 150.0
 text = "Cancel"
 

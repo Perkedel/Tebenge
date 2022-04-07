@@ -48,6 +48,7 @@ one_shot = true
 
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
 [connection signal="continueCountdownTicked" from="PlayField" to="." method="_on_PlayField_continueCountdownTicked"]
+[connection signal="continueExpired" from="PlayField" to="." method="_on_PlayField_continueExpired"]
 [connection signal="continuousArcadeTimer" from="PlayField" to="." method="_on_PlayField_continuousArcadeTimer"]
 [connection signal="continuousEndlessTimer" from="PlayField" to="." method="_on_PlayField_continuousEndlessTimer"]
 [connection signal="eikSerkat" from="PlayField" to="." method="_on_PlayField_eikSerkat"]

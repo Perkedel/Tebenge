@@ -27,15 +27,15 @@ action_up = "Tebenge_Atas"
 action_down = "Tebenge_Bawah"
 
 [node name="Spacered" type="Control" parent="." index="1"]
-margin_left = 308.0
-margin_right = 494.0
+margin_left = 304.0
+margin_right = 502.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ArcadeTimeRemainingDT" parent="." index="2" instance=ExtResource( 6 )]
-margin_left = 502.0
-margin_right = 802.0
+margin_left = 506.0
+margin_right = 806.0
 margin_bottom = 300.0
 title = "Time Remaining"
 value = "120 Second"
@@ -48,13 +48,13 @@ title = "High Score"
 value = "43"
 
 [node name="PauseButton" parent="." index="4" instance=ExtResource( 4 )]
-margin_left = 1118.0
-margin_right = 1418.0
+margin_left = 1114.0
+margin_right = 1414.0
 margin_bottom = 300.0
 
 [node name="Spacered2" type="Control" parent="." index="5"]
-margin_left = 1426.0
-margin_right = 1612.0
+margin_left = 1418.0
+margin_right = 1616.0
 margin_bottom = 300.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

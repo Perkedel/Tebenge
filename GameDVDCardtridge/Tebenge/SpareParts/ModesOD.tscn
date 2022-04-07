@@ -8,6 +8,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=6]
 
 [node name="ModesOD" instance=ExtResource( 1 )]
+startQueryFromSelectionNum = 1
 
 [node name="ArcadeHiScoreDT" parent="." index="0" instance=ExtResource( 3 )]
 margin_left = 202.0
@@ -20,7 +21,11 @@ value = "43"
 margin_left = 506.0
 margin_right = 806.0
 margin_bottom = 150.0
-hint_tooltip = "Arcade Mode. You have 120 seconds to shoot enemies, followed by 10 bonus scrap in which enemies remained turned into Bonus coin you have to pickup before 10 seconds, and finally game finish."
+hint_tooltip = "Arcade Mode. 
+You have 120 seconds to shoot enemies,
+followed by 10 bonus scrap in which enemies 
+remained turned into Bonus coin you have to 
+pickup before 10 seconds, and finally game finish."
 text = "Arcade"
 icon = ExtResource( 4 )
 
@@ -28,7 +33,8 @@ icon = ExtResource( 4 )
 margin_left = 810.0
 margin_right = 1110.0
 margin_bottom = 150.0
-hint_tooltip = "Endless Mode. How long can your survive in this infinite time of shooting enemies?"
+hint_tooltip = "Endless Mode. 
+How long can your survive in this infinite time of shooting enemies?"
 text = "Endless"
 icon = ExtResource( 5 )
 

@@ -15,6 +15,7 @@ const abandonAchievment:String = "CgkIhru1tYoQEAIQCA"
 const firstDuarAchievment:String = "CgkIhru1tYoQEAIQCg"
 const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
+const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -73,10 +74,11 @@ var confirmActionIdFor:String = ""
 var appStarted:bool = false
 
 func _releaseDelay():
-	_loadSave()
-		
-	$CanvasLayer/UIField.theOOBEhasBeenDone()
-	appStarted = true
+	if !appStarted:
+		_loadSave()
+			
+		$CanvasLayer/UIField.theOOBEhasBeenDone()
+		appStarted = true
 	pass
 
 func _checkStartup():
@@ -325,6 +327,7 @@ func _confirmedAbortGame(itIs:bool = false):
 func _resetAfterGameDone():
 	youveGotNewHiScore = false
 	_pointRightNow = 0
+	set_point_right_now(0)
 	_mainMenuPls()
 	$PlayField.resetPlayfield()
 	#add reset function
@@ -341,6 +344,7 @@ func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
 #		return
 	
 	_pointRightNow = 0
+	set_point_right_now(0)
 	gameMode = withMode
 #	$PlayField.chooseGameMode = withMode
 	$PlayField.startTheGame(withMode)
@@ -367,7 +371,7 @@ func set_point_right_now(howMany:int):
 		emit_signal("PlayService_UnlockAchievement",firstDuarAchievment)
 	
 #	emit_signal("PlayService_SetStepAchievement",leetSpeakAchievement,howMany)
-#	emit_signal("PlayService_UnlockAchievement",sixNineNiceAchievement,howMany)
+#	emit_signal("PlayService_SetStepAchievement",sixNineNiceAchievement,howMany)
 	
 	match(gameMode):
 		TebengePlayField.gameModes.Arcade:
@@ -420,9 +424,9 @@ func _interpretHiScore():
 		pass
 	
 	emit_signal("PlayService_SetStepAchievement",leetSpeakAchievement,_anyKludgeHiScoreRightNow)
-	emit_signal("PlayService_UnlockAchievement",sixNineNiceAchievement,_anyKludgeHiScoreRightNow)
+	emit_signal("PlayService_SetStepAchievement",sixNineNiceAchievement,_anyKludgeHiScoreRightNow)
 	
-#	_uploadScores()
+#	_uploadScores(true)
 	pass
 
 func _eikSerkat():
@@ -446,6 +450,10 @@ func _receiveAskedContinue():
 func _receiveContinueTick(itSays:int):
 	$CanvasLayer/UIField.receiveContinueTick(itSays) #unused. we use set continue say instead idk.
 	setContinueNumber(String(itSays))
+	pass
+
+func _continueExpired():
+	emit_signal("PlayService_UnlockAchievement",tooLateContinueZeroAchievement)
 	pass
 
 func _receiveArcadeTimer(itSays:float):
@@ -485,7 +493,8 @@ func _receiveGameDone(didIt:bool = false):
 	# other things too
 	# Highscore!
 	_interpretHiScore()
-	_uploadScoreRightNow(0 if gameMode == TebengePlayField.gameModes.Arcade else 1 if gameMode == TebengePlayField.gameModes.Endless else -1)
+#	_uploadScoreRightNow(0 if gameMode == TebengePlayField.gameModes.Arcade else 1 if gameMode == TebengePlayField.gameModes.Endless else -1)
+	_uploadScores(true)
 	
 	# finally, totally save.
 	_saveSave()
@@ -502,12 +511,16 @@ func _receiveEikSerkat():
 			pass
 	pass
 
-func googlePlayLoggedIn(working:bool = false):
+func googlePlayLoggedIn(working:bool = false, userDataJSON:String = "", errorCode:int = 0):
+	var dataParse:Dictionary = parse_json(userDataJSON)
 	if working:
-		print("Sign in Google Play works")
+		print("Sign in Google Play works! Welcome " + dataParse["displayName"])
+#		$CanvasLayer/UIField.checkGetStuck()
+#		_releaseDelay()
 		pass
 	else:
-		print("Sign in Google Play does not work")
+		printerr("Sign in Google Play does not work! WERROR " + String(errorCode))
+		_acceptDialog("Sign in Google Play does not work! WERROR " + String(errorCode))
 		pass
 	
 	if !appStarted:
@@ -538,8 +551,8 @@ func _changeLoginGooglePlay(into:bool = true):
 		emit_signal("PlayService_ChangeLogin",into)
 	pass
 
-func _uploadScores():
-	if($PlayField.gameplayStarted):
+func _uploadScores(forced:bool = false):
+	if $PlayField.gameplayStarted && !forced:
 #		OS.alert("Cannot Upload Score during Gameplay.", "Werror 400! Forbidden!")
 		_acceptDialog("Cannot Upload Score during Gameplay.", "Werror 400! Forbidden!")
 		pass
@@ -626,7 +639,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
-						"Check Google Play Game":
+						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(false)
 							pass
@@ -726,7 +739,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
-						"Check Google Play Game":
+						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(true)
 							pass
@@ -837,6 +850,7 @@ func _on_UIField_uiWantsTo(nameOf:String, fromOD:String, fromLagrange:String):
 
 func _on_PlayField_game_over() -> void:
 	_receiveGameDone(false)
+	print("Game Over nooooo")
 	pass # Replace with function body.
 
 
@@ -914,6 +928,7 @@ func _on_PlayField_continuousArcadeTimer(timeSecond:float) -> void:
 
 func _on_PlayField_game_finish() -> void:
 	_receiveGameDone(true)
+	print("game finish yeyeyeyyeey")
 	pass # Replace with function body.
 
 
@@ -978,4 +993,8 @@ func _on_AboutDialog_about_to_show() -> void:
 
 func _on_AboutDialog_popup_hide() -> void:
 	emit_signal("AdBanner_Reshow")
+	pass # Replace with function body.
+
+
+func _on_PlayField_continueExpired() -> void:
 	pass # Replace with function body.
