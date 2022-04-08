@@ -1,6 +1,7 @@
 extends Node
 # This is hastily made up Hexagon Engine Core just to run the Tebenge GameDVDCardtridge.
 
+onready var insertCoinSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/deleh.wav")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -9,6 +10,8 @@ var play_games_services:Object
 var is_play_games_signed_in:bool = false
 var is_play_games_available:bool = false
 var __secret_GoogleCloud_Oauth_Client_ID:String = ""
+var creditInserted:int = 0
+onready var requiresCredit:int = 1
 
 func _init() -> void:
 	print("Initen")
@@ -32,6 +35,12 @@ func _ready() -> void:
 #		$DVDsolder/Tebenge._releaseDelay()
 		pass
 	pass # Replace with function body.
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventAction:
+		pass
+	
+	pass
 
 func _readGoogleCloud() -> bool:
 	print("Let's begin Google Cloud")
@@ -149,8 +158,11 @@ func _testAdbmobio():
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if Input.is_action_just_pressed("Tebenge_InsertCoin"):
+		insertCoin()
+		pass
+	pass
 
 func _on_AdMob_banner_loaded():
 	$DVDsolder/Tebenge.receive_AdBanner_success()
@@ -363,6 +375,19 @@ func _on_game_saved_success():
 func _on_game_saved_fail():
 	pass
 
+# If user clicked on add new snapshot button on the screen with all saved snapshots, below callback will be triggered:
+# Callbacks: play_games_services.showSavedGames(saved_games_screen_title, allow_add_button, allow_delete_button, max_saved_games_snapshots)
+func _on_create_new_snapshot(name):
+#	var game_data_to_save: Dictionary = {
+#		"name": "John", 
+#		"age": 22,
+#		"height": 1.82,
+#		"is_gamer": true
+#	}
+#	play_games_services.save_snapshot(name, to_json(game_data_to_save), "DESCRIPTION")
+	$DVDsolder/Tebenge.cloudSavePressYes(name)
+	pass
+
 # Callbacks: play_games_services.loadSnapshot("SNAPSHOT_NAME")
 func _on_game_load_success(data):
 	var game_data: Dictionary = parse_json(data)
@@ -401,6 +426,7 @@ func _on_Tebenge_PlayService_UploadSave(nameSnapshot:String, dataOf:String, desc
 
 func _on_Tebenge_PlayService_UploadScore(leaderID, howMany) -> void:
 	if play_games_services != null:
+		play_games_services.submitLeaderBoardScore(leaderID,howMany)
 		pass
 	pass # Replace with function body.
 
@@ -451,4 +477,41 @@ func _on_Tebenge_PlayService_DownloadSave(nameSnapshot) -> void:
 	if play_games_services != null:
 		play_games_services.loadSnapshot(nameSnapshot)
 		pass
+	pass # Replace with function body.
+
+func insertCoin():
+	creditInserted += 1
+	print("Insert Coin! now you have " + String(creditInserted))
+	$BuiltInSystemer/InternalSpeaker.stream = insertCoinSound
+	$BuiltInSystemer/InternalSpeaker.play()
+	$DVDsolder/Tebenge._receiveInsertCoin(creditInserted)
+	pass
+
+func useCoin():
+	# check if enough
+	print("You need " + String(requiresCredit) + " " + "Coins" if requiresCredit > 1 else "Coin")
+	if creditInserted > requiresCredit:
+		creditInserted -= requiresCredit
+		$DVDsolder/Tebenge._receiveCoinEligibilityResult(true, creditInserted)
+		print("Coin is enough! Great luck! Now you have " + String(creditInserted))
+		pass
+	else:
+		$DVDsolder/Tebenge._receiveCoinEligibilityResult(false, creditInserted)
+		print("Coin is not enough! Exchange coin! You still have " + String(creditInserted))
+		pass
+	
+	if creditInserted < 0:
+		creditInserted = 0
+	pass
+
+
+func _on_Tebenge_PlayService_CheckSaves(saved_games_screen_title, allow_add_button, allow_delete_button, max_saved_games_snapshots) -> void:
+	if play_games_services != null:
+		play_games_services.showSavedGames(saved_games_screen_title, allow_add_button, allow_delete_button, max_saved_games_snapshots)
+		pass
+	pass # Replace with function body.
+
+
+func _on_Tebenge_UseCoinCheck_Exec() -> void:
+	useCoin()
 	pass # Replace with function body.

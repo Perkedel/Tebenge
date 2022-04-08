@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://TebengeLoneLoader.gd" type="Script" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.tscn" type="PackedScene" id=2]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BuiltInSystemer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeSFXSpeaker.tscn" type="PackedScene" id=4]
 
 [node name="TebengeLoneLoader" type="Node"]
 script = ExtResource( 1 )
@@ -12,6 +13,8 @@ script = ExtResource( 1 )
 [node name="Tebenge" parent="DVDsolder" instance=ExtResource( 2 )]
 
 [node name="BuiltInSystemer" parent="." instance=ExtResource( 3 )]
+
+[node name="InternalSpeaker" parent="BuiltInSystemer" instance=ExtResource( 4 )]
 
 [connection signal="AdBanner_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdBanner_Exec"]
 [connection signal="AdBanner_Reshow" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdBanner_Reshow"]
@@ -24,6 +27,7 @@ script = ExtResource( 1 )
 [connection signal="AdRewarded_Terminate" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_AdRewarded_Terminate"]
 [connection signal="ChangeDVD_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_ChangeDVD_Exec"]
 [connection signal="PlayService_ChangeLogin" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_ChangeLogin"]
+[connection signal="PlayService_CheckSaves" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_CheckSaves"]
 [connection signal="PlayService_DownloadSave" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_DownloadSave"]
 [connection signal="PlayService_IncrementAchievement" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_IncrementAchievement"]
 [connection signal="PlayService_JustCheck" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_JustCheck"]
@@ -33,6 +37,7 @@ script = ExtResource( 1 )
 [connection signal="PlayService_UploadSave" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_UploadSave"]
 [connection signal="PlayService_UploadScore" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_UploadScore"]
 [connection signal="Shutdown_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_Shutdown_Exec"]
+[connection signal="UseCoinCheck_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_UseCoinCheck_Exec"]
 [connection signal="banner_failed_to_load" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_loaded"]
 [connection signal="interstitial_closed" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_interstitial_closed"]

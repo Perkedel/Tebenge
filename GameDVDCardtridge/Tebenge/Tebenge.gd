@@ -16,6 +16,7 @@ const firstDuarAchievment:String = "CgkIhru1tYoQEAIQCg"
 const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
+const wentPaidAchievement:String = "CgkIhru1tYoQEAIQDw"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -31,6 +32,7 @@ var _saveTemplate:Dictionary = {
 
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
+signal UseCoinCheck_Exec()
 signal AdInterstitial_Exec()
 signal AdInterstitial_Reshow()
 signal AdInterstitial_Terminate()
@@ -44,6 +46,7 @@ signal PlayService_JustCheck(menuId)
 signal PlayService_ChangeLogin(into)
 signal PlayService_UploadSave(nameSnapshot,dataOf,descOf)
 signal PlayService_DownloadSave(nameSnapshot)
+signal PlayService_CheckSaves(saved_games_screen_title, allow_add_button, allow_delete_button, max_saved_games_snapshots)
 signal PlayService_UploadScore(leaderID,howMany)
 signal PlayService_UnlockAchievement(achievedId)
 signal PlayService_RevealAchievement(achievedId)
@@ -72,6 +75,8 @@ var ticket:int = 0 # how many ticket rewarded. in Casino, it is chip $1
 var beenAlreadyHere:bool = false
 var confirmActionIdFor:String = ""
 var appStarted:bool = false
+var theUploadSaveForCloudCheck:bool = false
+var commercialMode:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -79,6 +84,7 @@ func _releaseDelay():
 			
 		$CanvasLayer/UIField.theOOBEhasBeenDone()
 		appStarted = true
+		emit_signal("PlayService_UnlockAchievement",startMeAchievement)
 	pass
 
 func _checkStartup():
@@ -141,25 +147,95 @@ func _checkIfCloudBackupExist():
 
 func _offerDownloadSaveFromGooglePlay():
 	# ask whether to  overwrite save thing
-	_confirmationDialog("It appears you have save backup on your Google Play Games. Would you like to overwrite your save with that one?", "OverwriteSaveNow")
+	_confirmationDialog("It appears you have save backup on your Google Play Games. Would you like to overwrite your save with that one?\n(Using Smart Overwrite that keeps only the highest score between Cloud vs. Local)", "OverwriteSaveNow")
 	pass
 
-func overwriteSaveFromCloud(theJSON:String):
-	saveDictionary = parse_json(theJSON)
-	saveDictionary["beenAlreadyHere"] = true
-#	_saveSave()
-	# inject data
-	kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
-	kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
-	beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+func justFetchCloudSave():
+	pass
+
+func smartlyUploadSaveToCloud(step:int = 0):
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		pass
+	else:
+		print("Google Play Service missing, cannot upload save to cloud!")
+	
+	match (step):
+		0:
+			# You need to sync the save first!
+			saveDictionary["kludgeHiScore"]["arcade"] = kludgeHiScoreArcade
+			saveDictionary["kludgeHiScore"]["endless"] = kludgeHiScoreEndless
+			saveDictionary["beenAlreadyHere"] = beenAlreadyHere
+			
+			theUploadSaveForCloudCheck = true
+			# First, check the cloud save data. only keep highest score
+			emit_signal("PlayService_DownloadSave","Tebenge")
+		1:
+			# Then start comparing save
+			var compareSave:Dictionary = parse_json(__tempDownloadedSave)
+			
+			# if the cloud is lesser than local, overwrite cloud with local
+			if compareSave["kludgeHiScore"]["arcade"] < saveDictionary["kludgeHiScore"]["arcade"]:
+				compareSave["kludgeHiScore"]["arcade"] = saveDictionary["kludgeHiScore"]["arcade"]
+			if compareSave["kludgeHiScore"]["endless"] < saveDictionary["kludgeHiScore"]["endless"]:
+				compareSave["kludgeHiScore"]["endless"] = saveDictionary["kludgeHiScore"]["endless"]
+				pass
+			compareSave["beenAlreadyHere"] = true
+			
+			emit_signal("PlayService_UploadSave","Tebenge",to_json(compareSave), "Tebenge Save")
+			
+			# return back everything
+			theUploadSaveForCloudCheck = false
+			pass
+		_:
+			pass
+	
+#	emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
+	# return back everything
+#	theUploadSaveForCloudCheck = false
+	pass
+
+func smartlyOverwriteSaveFromCloud(theJSON:String):
+	if saveDictionary.empty():
+		# The save is gone.
+		overwriteSaveFromCloud(theJSON,true)
+		pass
+	else:
+		var compareDictionary:Dictionary = parse_json(theJSON)
+		saveDictionary["beenAlreadyHere"] = true
+		if compareDictionary["kludgeHiScore"]["arcade"] > saveDictionary["kludgeHiScore"]["arcade"]:
+			saveDictionary["kludgeHiScore"]["arcade"] = compareDictionary["kludgeHiScore"]["arcade"]
+			kludgeHiScoreArcade = compareDictionary["kludgeHiScore"]["arcade"]
+			pass
+		if  compareDictionary["kludgeHiScore"]["endless"] > saveDictionary["kludgeHiScore"]["endless"]:
+			saveDictionary["kludgeHiScore"]["endless"] = compareDictionary["kludgeHiScore"]["endless"]
+			kludgeHiScoreEndless = compareDictionary["kludgeHiScore"]["endless"]
+		beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+		_saveSave()
+		pass
+	pass
+
+func overwriteSaveFromCloud(theJSON:String, beStupid:bool = false):
+	if beStupid:
+		saveDictionary = parse_json(theJSON)
+		saveDictionary["beenAlreadyHere"] = true
+	#	_saveSave()
+		# inject data
+		kludgeHiScoreArcade = saveDictionary["kludgeHiScore"]["arcade"]
+		kludgeHiScoreEndless = saveDictionary["kludgeHiScore"]["endless"]
+		beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+		_saveSave()
 	pass
 
 func theCloudSaveIndeedExist(theJSON:String, working:bool = false):
 	if working:
 		__tempDownloadedSave = theJSON
-		_offerDownloadSaveFromGooglePlay()
+		if theUploadSaveForCloudCheck:
+			smartlyUploadSaveToCloud(1)
+			pass
+		else:
+			_offerDownloadSaveFromGooglePlay()
 	else:
-		_acceptDialog("Sorry, Download backup failed. Try again downloading at setting")
+		_acceptDialog("Sorry, Download / Upload backup failed. Try again at setting")
 		_saveSave()
 #		$CanvasLayer/UIField.theOOBEhasBeenDone()
 		$CanvasLayer/UIField.checkGetStuck()
@@ -195,45 +271,62 @@ func _saveSave():
 	var ingredient:String = JSONBeautifier.beautify_json(to_json(saveDictionary))
 	thing.store_string(ingredient)
 	if beenAlreadyHere:
-		emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
+#		emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
+		smartlyUploadSaveToCloud(0)
 	
 	thing.close()
 #	_interpretHiScore()
 	pass
 
 func _uploadOverwriteSave(confirmed:bool = false):
-	if($PlayField.gameplayStarted):
-#		OS.alert("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
-		_acceptDialog("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
-		pass
-	else:
-		# yes you can
-		if confirmed:
-#			emit_signal("PlayService_UploadSave","Tebenge",saveDictionary,"Tebenge Save")
-			_confirmedDialogTo()
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		if($PlayField.gameplayStarted):
+	#		OS.alert("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
+			_acceptDialog("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
 			pass
 		else:
-			#ask
-			_confirmationDialog("Are you sure to upload game save to Google Play Game Cloud Save?\n WARNING: This will overwrite your cloud save!", "PlayService_UploadOverwriteSave")
+			# yes you can
+			if confirmed:
+	#			emit_signal("PlayService_UploadSave","Tebenge",saveDictionary,"Tebenge Save")
+				_confirmedDialogTo()
+				pass
+			else:
+				#ask
+				_confirmationDialog("Are you sure to upload game save to Google Play Game Cloud Save?\n WARNING: This will overwrite your cloud save!\n(Using Smart Overwrite that only keeps highest score between Cloud vs. Local)", "PlayService_UploadOverwriteSave")
+				pass
 			pass
+	else:
+		_acceptDialog("Google Play Service is missing! Cannot upload to cloud.", "Werror 404! Not found!")
+		theUploadSaveForCloudCheck = false
 		pass
 	pass
 
 func _downloadOverwriteSave(confirmed:bool = false):
-	if($PlayField.gameplayStarted):
-#		OS.alert("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
-		_acceptDialog("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
-		pass
-	else:
-		# yes you can
-		if confirmed:
-			_confirmedDialogTo()
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		if($PlayField.gameplayStarted):
+	#		OS.alert("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
+			_acceptDialog("Cannot download save during Gameplay.", "Werror 400! Forbidden!")
 			pass
 		else:
-			#ask
-			_confirmationDialog("Are you sure to download game save from Google Play Game Cloud Save?\n WARNING: This will overwrite your local save!", "PlayService_DownloadOverwriteSave")
+			# yes you can
+			if confirmed:
+				_confirmedDialogTo()
+				pass
+			else:
+				#ask
+				_confirmationDialog("Are you sure to download game save from Google Play Game Cloud Save?\n WARNING: This will overwrite your local save!\n(Using Smart Overwrite that only keeps highest score between Cloud vs. Local)", "PlayService_DownloadOverwriteSave")
+				pass
 			pass
-		pass
+	else:
+		_acceptDialog("Google Play Service is missing! Cannot download from cloud.", "Werror 404! Not found!")
+	pass
+
+func _checkAllSaves():
+	emit_signal("PlayService_CheckSaves","Tebenge Cloud Saves", true, true, 0)
+	pass
+
+func cloudSavePressAdd(name:String):
+	_uploadOverwriteSave(false)
 	pass
 
 func _init() -> void:
@@ -287,11 +380,14 @@ func _confirmedDialogTo():
 			emit_signal("PlayService_DownloadSave","Tebenge")
 			pass
 		"PlayService_UploadOverwriteSave":
-			emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
+#			emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary),"Tebenge Save")
+			theUploadSaveForCloudCheck = true
+			smartlyUploadSaveToCloud(0)
 			pass
 		"OverwriteSaveNow":
-			overwriteSaveFromCloud(__tempDownloadedSave)
-			_saveSave()
+#			overwriteSaveFromCloud(__tempDownloadedSave)
+			smartlyOverwriteSaveFromCloud(__tempDownloadedSave)
+#			_saveSave()
 			pass
 		_:
 			pass
@@ -302,6 +398,7 @@ func _cancelDialog():
 	emit_signal("AdBanner_Reshow")
 	confirmActionIdFor = ""
 	$CanvasLayer/UIField.checkGetStuck()
+	theUploadSaveForCloudCheck = false
 	pass
 
 func _attemptAbortGame():
@@ -338,17 +435,21 @@ func _intoGameMode():
 	_interpretHiScore()
 	pass
 
-func _startTheGame(withMode = TebengePlayField.gameModes.Arcade):
-	print("Start the game with mode %s" % [String(withMode)])
-#	if typeof(withMode) != TebengePlayField.gameModes:
-#		return
-	
-	_pointRightNow = 0
-	set_point_right_now(0)
-	gameMode = withMode
-#	$PlayField.chooseGameMode = withMode
-	$PlayField.startTheGame(withMode)
-	$CanvasLayer/UIField.startTheGame(withMode)
+func _startTheGame(withMode = TebengePlayField.gameModes.Arcade, coinReady:bool = true):
+	if coinReady || !commercialMode:
+		print("Start the game with mode %s" % [String(withMode)])
+	#	if typeof(withMode) != TebengePlayField.gameModes:
+	#		return
+		
+		_pointRightNow = 0
+		set_point_right_now(0)
+		gameMode = withMode
+	#	$PlayField.chooseGameMode = withMode
+		$PlayField.startTheGame(withMode)
+		$CanvasLayer/UIField.startTheGame(withMode)
+	else:
+		emit_signal("UseCoinCheck_Exec") # TODO: commercial arcade mode, only start if credit in the machine enough
+		pass
 	_interpretHiScore()
 	pass
 
@@ -511,6 +612,18 @@ func _receiveEikSerkat():
 			pass
 	pass
 
+func _receiveInsertCoin(howManyNow:int = 0):
+	emit_signal("PlayService_UnlockAchievement",wentPaidAchievement)
+	pass
+
+func _receiveCoinEligibilityResult(enough:bool = false, howManyNow:int = 0):
+	if enough:
+		_startTheGame(gameMode,true)
+		pass
+	else:
+		pass
+	pass
+
 func googlePlayLoggedIn(working:bool = false, userDataJSON:String = "", errorCode:int = 0):
 	var dataParse:Dictionary = parse_json(userDataJSON)
 	if working:
@@ -537,18 +650,22 @@ func _openGooglePlayOd(inGame:bool = false):
 	pass
 
 func _changeLoginGooglePlay(into:bool = true):
-	if($PlayField.gameplayStarted):
-#		OS.alert("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
-		_acceptDialog("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
-		pass
-	else:
-		if into:
-			# login
+	if Engine.has_singleton("GodotPlayGamesServices"):
+		if($PlayField.gameplayStarted):
+	#		OS.alert("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
+			_acceptDialog("Cannot Change Login status during Gameplay.", "Werror 400! Forbidden!")
 			pass
 		else:
-			# logout
-			pass
-		emit_signal("PlayService_ChangeLogin",into)
+			if into:
+				# login
+				pass
+			else:
+				# logout
+				pass
+			emit_signal("PlayService_ChangeLogin",into)
+	else:
+		_acceptDialog("Google Play Service is missing! Cannot login.\nEither your platform does not support Google Play Service, or intentionally compiled without the Google Play enabled.\nPlease consult with the manufacturer if you have any question.", "Werror 404! Not found!")
+		pass
 	pass
 
 func _uploadScores(forced:bool = false):
@@ -668,6 +785,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"No Google Play":
 							pass
+						"Check Saves":
+							_checkAllSaves()
+							pass
 						"Upload Save":
 							_uploadOverwriteSave(false)
 							pass
@@ -705,9 +825,11 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 				"ModesOD":
 					match(nameToDo):
 						"Arcade":
+							gameMode = TebengePlayField.gameModes.Arcade
 							_startTheGame(TebengePlayField.gameModes.Arcade)
 							pass
 						"Endless":
+							gameMode = TebengePlayField.gameModes.Endless
 							_startTheGame(TebengePlayField.gameModes.Endless)
 							pass
 						"Back":
@@ -768,6 +890,8 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"No Google Play":
 							pass
+						"Check Saves":
+							_checkAllSaves()
 						"Upload Save":
 							_uploadOverwriteSave(false)
 							pass
