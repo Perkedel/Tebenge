@@ -1,6 +1,7 @@
 tool
 extends ComplexDT
 
+class_name TitledValueLabelDT
 export(String) var title = "Title" setget set_title
 export(String) var value = "value" setget set_value
 # Declare member variables here. Examples:

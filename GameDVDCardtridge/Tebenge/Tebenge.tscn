@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAboutDialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeConfirmationDialog.tscn" type="PackedScene" id=5]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=6]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeHTTPRequest.tscn" type="PackedScene" id=7]
 
 [node name="Tebenge" type="Node"]
 script = ExtResource( 2 )
@@ -46,6 +47,8 @@ bus = "SoundEffect"
 wait_time = 15.0
 one_shot = true
 
+[node name="HTTPRequest" parent="." instance=ExtResource( 7 )]
+
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
 [connection signal="continueCountdownTicked" from="PlayField" to="." method="_on_PlayField_continueCountdownTicked"]
 [connection signal="continueExpired" from="PlayField" to="." method="_on_PlayField_continueExpired"]
@@ -66,7 +69,11 @@ one_shot = true
 [connection signal="popup_hide" from="CanvasLayer/AboutDialog" to="." method="_on_AboutDialog_popup_hide"]
 [connection signal="about_to_show" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_about_to_show"]
 [connection signal="confirmed" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]
+[connection signal="popup_canceled" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_canceled"]
+[connection signal="popup_confirmed" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_confirmed"]
+[connection signal="popup_customAction" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_customAction"]
 [connection signal="popup_hide" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_hide"]
 [connection signal="confirmed" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_popup_hide"]
 [connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]

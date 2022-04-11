@@ -4,10 +4,13 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/theme/TebengeFancyTheme.tres" type="Theme" id=2]
 
 [node name="TebengeConfirmationDialog" type="ConfirmationDialog"]
-visible = true
 margin_right = 1124.0
 margin_bottom = 229.0
 theme = ExtResource( 2 )
 window_title = "Mohon konfirmasi..."
 dialog_text = "Are you sure to..."
 script = ExtResource( 1 )
+
+[connection signal="confirmed" from="." to="." method="_on_TebengeConfirmationDialog_confirmed"]
+[connection signal="custom_action" from="." to="." method="_on_TebengeConfirmationDialog_custom_action"]
+[connection signal="popup_hide" from="." to="." method="_on_TebengeConfirmationDialog_popup_hide"]

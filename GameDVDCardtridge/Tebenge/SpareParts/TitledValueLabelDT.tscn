@@ -10,8 +10,10 @@ script = ExtResource( 3 )
 [node name="TitleLabel" parent="." index="0" instance=ExtResource( 2 )]
 margin_right = 300.0
 margin_bottom = 50.0
+text = "Title"
 
 [node name="ValueLabel" parent="." index="1" instance=ExtResource( 2 )]
-margin_top = 58.0
+margin_top = 54.0
 margin_right = 300.0
-margin_bottom = 108.0
+margin_bottom = 104.0
+text = "value"

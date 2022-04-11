@@ -2,6 +2,7 @@ extends Node
 
 const savePath:String = "user://Simpan/Tebenge/Simpan.json"
 const saveDir:String = "Simpan/Tebenge/"
+const updateCheckDownloadMeURL:String = ""
 const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
 const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
 const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
@@ -16,7 +17,7 @@ const firstDuarAchievment:String = "CgkIhru1tYoQEAIQCg"
 const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
-const wentPaidAchievement:String = "CgkIhru1tYoQEAIQDw"
+const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -77,6 +78,7 @@ var confirmActionIdFor:String = ""
 var appStarted:bool = false
 var theUploadSaveForCloudCheck:bool = false
 var commercialMode:bool = false
+var updateVerLog:PoolStringArray = ["2022","-idk"]
 
 func _releaseDelay():
 	if !appStarted:
@@ -87,8 +89,22 @@ func _releaseDelay():
 		emit_signal("PlayService_UnlockAchievement",startMeAchievement)
 	pass
 
+func _checkUpdate():
+	$HTTPRequest.request(updateCheckDownloadMeURL)
+	pass
+
+func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, headers: PoolStringArray =[], body: PoolByteArray = [])->void:
+	match(purpose):
+		0:
+			# Update check
+			pass
+		_:
+			pass
+	pass
+
 func _checkStartup():
 	print("checking startup")
+	_checkUpdate()
 	yield(get_tree().create_timer(5),"timeout")
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		print("check startup found Google Play")
@@ -288,7 +304,7 @@ func _uploadOverwriteSave(confirmed:bool = false):
 			# yes you can
 			if confirmed:
 	#			emit_signal("PlayService_UploadSave","Tebenge",saveDictionary,"Tebenge Save")
-				_confirmedDialogTo()
+				_confirmedDialogTo("PlayService_UploadOverwriteSave")
 				pass
 			else:
 				#ask
@@ -310,7 +326,7 @@ func _downloadOverwriteSave(confirmed:bool = false):
 		else:
 			# yes you can
 			if confirmed:
-				_confirmedDialogTo()
+				_confirmedDialogTo("PlayService_DownloadOverwriteSave")
 				pass
 			else:
 				#ask
@@ -367,15 +383,16 @@ func _aboutDialog():
 
 func _confirmationDialog(message:String, actionId:String = "",title:String = "Are you sure?"):
 	confirmActionIdFor = actionId
-	$CanvasLayer/ConfirmationDialog.popWithMessage(message,true)
+	$CanvasLayer/ConfirmationDialog.popWithMessage(message,true,actionId)
 
 func _acceptDialog(message:String = "", title:String = "Notification"):
 	$CanvasLayer/AcceptDialog.popWithMessage(message,true,title)
 	pass
 
-func _confirmedDialogTo():
-	# do this
-	match(confirmActionIdFor):
+func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
+	# do this = the ID handed over from dialog.
+	confirmActionIdFor = doThis if doThis != "" else confirmActionIdFor
+	match(confirmActionIdFor if doThis == "" else doThis):
 		"PlayService_DownloadOverwriteSave":
 			emit_signal("PlayService_DownloadSave","Tebenge")
 			pass
@@ -394,7 +411,7 @@ func _confirmedDialogTo():
 	emit_signal("AdBanner_Reshow")
 	pass
 
-func _cancelDialog():
+func _cancelDialog(forConfirmation:String = ""):
 	emit_signal("AdBanner_Reshow")
 	confirmActionIdFor = ""
 	$CanvasLayer/UIField.checkGetStuck()
@@ -1087,11 +1104,11 @@ func _on_PlayField_eikSerkat() -> void:
 	pass # Replace with function body.
 
 func _on_ConfirmationDialog_confirmed() -> void:
-	_confirmedDialogTo()
+#	_confirmedDialogTo()
 	pass # Replace with function body.
 
 func _on_ConfirmationDialog_popup_hide() -> void:
-	_cancelDialog()
+#	_cancelDialog()
 	pass # Replace with function body.
 
 
@@ -1121,4 +1138,23 @@ func _on_AboutDialog_popup_hide() -> void:
 
 
 func _on_PlayField_continueExpired() -> void:
+	pass # Replace with function body.
+
+
+func _on_HTTPRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
+	_getHTTPResult(0,result,response_code,headers,body)
+	pass # Replace with function body.
+
+
+func _on_ConfirmationDialog_popup_canceled(confirmFor) -> void:
+	_cancelDialog(confirmFor)
+	pass # Replace with function body.
+
+func _on_ConfirmationDialog_popup_confirmed(confirmFor) -> void:
+	_confirmedDialogTo(confirmFor)
+	pass # Replace with function body.
+
+
+func _on_ConfirmationDialog_popup_customAction(confirmFor, actionFor) -> void:
+	_confirmedDialogTo(confirmFor,actionFor)
 	pass # Replace with function body.
