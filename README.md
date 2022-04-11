@@ -1,6 +1,8 @@
 # Tebenge
  Rogue Shooter left right
 
+Shoot bullet, destroy enemy, ⚽ tackle bullet, avoid enemy bullet. yess.
+
 # DOWNLOAD! Pls Google Play
 LINK
 
@@ -153,3 +155,19 @@ The following are tab links opened during this development. Some of which are as
 - https://stackoverflow.com/questions/44070168/signing-an-apk-with-an-upload-key-provided-by-google-play
 - https://godotengine.org/qa/11104/how-to-detect-a-screen-touch-continuously
 - https://stackoverflow.com/questions/44070168/signing-an-apk-with-an-upload-key-provided-by-google-play
+- https://developer.android.com/cars/
+- https://developer.android.com/training/cars
+- https://developer.android.com/training/cars/video
+- https://www.androidauthority.com/google-android-auto-dhu-637605/
+- https://android-developers.googleblog.com/2015/08/announcing-android-auto-desktop-head.html
+- https://docs.godotengine.org/en/stable/tutorials/export/exporting_for_android.html
+- https://developer.android.com/training/cars/video#kotlin
+- https://developer.android.com/docs/quality-guidelines/car-app-quality#driver-distraction
+- https://github.com/intel/haxm/wiki/Installation-Instructions-on-Windows
+- https://developer.android.com/training/cars/testing
+- https://developer.android.com/training/cars?utm_campaign=DHU-827&utm_source=dac&utm_medium=blog#test-it-dhu
+- https://android-developers.googleblog.com/2015/08/announcing-android-auto-desktop-head.html
+- https://developer.android.com/training/cars/apps#kotlin
+- https://github.com/android/car-samples/tree/main/car_app_library
+- https://developer.android.com/training/cars
+- https://docs.godotengine.org/en/3.4/tutorials/networking/http_request_class.html get text from online! see section scripting. you notice that you can get string from utf 8 out of body you've just http requested

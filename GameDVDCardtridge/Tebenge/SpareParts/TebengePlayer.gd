@@ -189,8 +189,9 @@ func _checkWhoCollide(handover:Node):
 	pass
 
 signal pointItIsNow(howMany)
-func receivePoint(howMany:int):
-	Input.vibrate_handheld(100)
+func receivePoint(howMany:int,noVibrate:bool = false):
+	if !noVibrate:
+		Input.vibrate_handheld(100)
 	_pointRightNow += howMany
 	$FloatingHUD.setPointsay(String(_pointRightNow))
 	$FloatingHUDBottom.setPointsay(String(_pointRightNow))

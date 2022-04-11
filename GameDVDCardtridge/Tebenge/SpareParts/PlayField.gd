@@ -2,6 +2,7 @@ extends Node2D
 
 class_name TebengePlayField
 
+const adMurderBonus:int = 10
 enum gameModes{Arcade=0,Endless=1}
 export(gameModes) var chooseGameMode
 export(NodePath) var PlayerThemselves:NodePath  #= get_node("TebengePlayer") # bug! it fails to compile!
@@ -398,4 +399,5 @@ func _on_EndlessTickoutTimer_timeout() -> void:
 
 func _on_Board_murderTheAd() -> void:
 	emit_signal("murderTheAd")
+	$TebengePlayer.receivePoint(adMurderBonus,true)
 	pass # Replace with function body.

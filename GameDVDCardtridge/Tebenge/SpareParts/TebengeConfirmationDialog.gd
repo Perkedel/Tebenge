@@ -11,7 +11,7 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func popWithMessage(ofThis:String = "Are You sure to...", centered:bool = true, titleDo:String = "Are you sure?", forConfirmation:String = ""):
-	titleDo
+	window_title = titleDo
 	dialog_text = ofThis
 	confirmation_id = forConfirmation
 	if centered:

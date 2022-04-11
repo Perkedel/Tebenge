@@ -1,8 +1,10 @@
 extends Node
 
+class_name Tebenge
 const savePath:String = "user://Simpan/Tebenge/Simpan.json"
 const saveDir:String = "Simpan/Tebenge/"
-const updateCheckDownloadMeURL:String = ""
+const updateCheckDownloadMeURL:String = "https://raw.githubusercontent.com/Perkedel/Tebenge/main/version.downloadMe"
+const downloadLatestVersionURL:String = "https://play.google.com/store/apps/details?id=com.Perkedel.tebenge"
 const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
 const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
 const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
@@ -18,6 +20,7 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
+const VERSION:String = "2022.03.4"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -72,6 +75,7 @@ var kludgeHiScoreEndless:int = 0
 var _anyKludgeHiScoreRightNow:int = 0
 var _pointRightNow:int = 0 setget set_point_right_now
 var _multiPointRightNow:PoolIntArray = [0,0,0,0]
+var _multiTicketRightNow:PoolIntArray = [0,0,0,0]
 var ticket:int = 0 # how many ticket rewarded. in Casino, it is chip $1
 var beenAlreadyHere:bool = false
 var confirmActionIdFor:String = ""
@@ -90,13 +94,24 @@ func _releaseDelay():
 	pass
 
 func _checkUpdate():
-	$HTTPRequest.request(updateCheckDownloadMeURL)
+	# Pls don't blame me, it was Kade's idea!
+	# https://github.com/KadeDev/Kade-Engine/blob/stable/version.downloadMe
+	var error = $HTTPRequest.request(updateCheckDownloadMeURL)
+	if error != OK:
+		printerr("Unable to connect properly! WERROR " + String(error))
+#		push_error("Unable to connect properly! WERROR " + String(error))
 	pass
 
 func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, headers: PoolStringArray =[], body: PoolByteArray = [])->void:
 	match(purpose):
 		0:
 			# Update check
+			var daStringe = body.get_string_from_utf8()
+			updateVerLog = daStringe.split(";",true,1)
+			if updateVerLog[0] != VERSION:
+				confirmActionIdFor = "NewVersion"
+				_confirmationDialog("A New version has been detected! sorta?\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress OK to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+				pass
 			pass
 		_:
 			pass
@@ -367,6 +382,7 @@ func murderAdNow():
 	emit_signal("PlayService_UnlockAchievement",adMurderedAchievement)
 	emit_signal("AdBanner_Terminate")
 	$AppearAdAgainTimer.start(-1)
+	
 	pass
 
 func _mainMenuPls():
@@ -383,7 +399,8 @@ func _aboutDialog():
 
 func _confirmationDialog(message:String, actionId:String = "",title:String = "Are you sure?"):
 	confirmActionIdFor = actionId
-	$CanvasLayer/ConfirmationDialog.popWithMessage(message,true,actionId)
+	$CanvasLayer/ConfirmationDialog.popWithMessage(message,true,title,actionId)
+	print("Ask user for " + actionId)
 
 func _acceptDialog(message:String = "", title:String = "Notification"):
 	$CanvasLayer/AcceptDialog.popWithMessage(message,true,title)
@@ -405,6 +422,10 @@ func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
 #			overwriteSaveFromCloud(__tempDownloadedSave)
 			smartlyOverwriteSaveFromCloud(__tempDownloadedSave)
 #			_saveSave()
+			pass
+		"NewVersion":
+			print("Let's open " + downloadLatestVersionURL)
+			OS.shell_open(downloadLatestVersionURL)
 			pass
 		_:
 			pass
@@ -475,11 +496,13 @@ func _pauseTheGame(pauseIt:bool = false):
 	$CanvasLayer/UIField.pauseTheGame(pauseIt)
 	pass
 
-func set_point_right_now(howMany:int):
+func set_point_right_now(howMany:int,toPlayer:int = 0):
 #	if $PlayField.gameplayStarted:
+	_multiPointRightNow[toPlayer] = howMany
 	_pointRightNow = howMany
 	# ticket = floor (point / 10)
 	ticket = floor(_pointRightNow/10)
+	_multiTicketRightNow[toPlayer] = floor(_pointRightNow/10)
 	# don't be but hole by not give ticket even gamer paid a dime
 	# and lose under 10 points!
 	if ticket < 1:
@@ -1059,8 +1082,8 @@ func _on_PlayField_continueCountdownTicked(remaining:int) -> void:
 
 func _on_PlayField_pointItIsNow(howMany:int,thatsForPlayer:int = 0) -> void:
 #	_pointRightNow = howMany
-	set_point_right_now(howMany)
-	_multiPointRightNow[thatsForPlayer] = howMany
+	set_point_right_now(howMany,thatsForPlayer)
+#	_multiPointRightNow[thatsForPlayer] = howMany
 	pass # Replace with function body.
 
 func _on_PlayField_continuousArcadeTimer(timeSecond:float) -> void:
@@ -1146,15 +1169,16 @@ func _on_HTTPRequest_request_completed(result: int, response_code: int, headers:
 	pass # Replace with function body.
 
 
-func _on_ConfirmationDialog_popup_canceled(confirmFor) -> void:
+func _on_ConfirmationDialog_popup_canceled(confirmFor:String) -> void:
 	_cancelDialog(confirmFor)
 	pass # Replace with function body.
 
-func _on_ConfirmationDialog_popup_confirmed(confirmFor) -> void:
+func _on_ConfirmationDialog_popup_confirmed(confirmFor:String) -> void:
+	print("OKEH " + confirmFor)
 	_confirmedDialogTo(confirmFor)
 	pass # Replace with function body.
 
 
-func _on_ConfirmationDialog_popup_customAction(confirmFor, actionFor) -> void:
+func _on_ConfirmationDialog_popup_customAction(confirmFor:String, actionFor:String) -> void:
 	_confirmedDialogTo(confirmFor,actionFor)
 	pass # Replace with function body.
