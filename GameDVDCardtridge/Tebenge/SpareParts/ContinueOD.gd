@@ -1,4 +1,4 @@
-extends "res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.gd"
+extends BaseOD
 
 
 # Declare member variables here. Examples:

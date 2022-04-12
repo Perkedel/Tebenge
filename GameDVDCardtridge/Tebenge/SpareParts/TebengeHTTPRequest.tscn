@@ -3,4 +3,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeHTTPRequest.gd" type="Script" id=1]
 
 [node name="TebengeHTTPRequest" type="HTTPRequest"]
+use_threads = true
 script = ExtResource( 1 )
+
+[connection signal="request_completed" from="." to="." method="_on_TebengeHTTPRequest_request_completed"]

@@ -37,15 +37,18 @@ func set_icon(into:Texture):
 	icon = into
 #	if theIcon != null:
 #		theIcon.set_deferred("texture",icon)
-	if theCheck != null:
-		theCheck.set_deferred("icon",icon if theCheck.pressed else iconOff)
+	_updateIcon()
 
 func set_iconOff(into:Texture):
 	iconOff = into
 #	if theIcon != null:
 #		theIcon.set_deferred("texture",icon)
+	_updateIcon()
+
+func _updateIcon():
 	if theCheck != null:
 		theCheck.set_deferred("icon",icon if theCheck.pressed else iconOff)
+	pass
 
 signal changeState(into)
 func set_state(into:bool = true):
@@ -55,6 +58,7 @@ func set_state(into:bool = true):
 	if theCheck != null:
 		theCheck.set_deferred("pressed",state)
 	emit_signal("changeState",into)
+	_updateIcon()
 	print("Change State into %s" % String(into))
 
 func grab_focus():

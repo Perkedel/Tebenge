@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.tscn" type="PackedScene" id=2]
@@ -7,41 +7,76 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/BeginButton.png" type="Texture" id=6]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/TebengeUhOh.png" type="Texture" id=7]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ActionLabelDT.tscn" type="PackedScene" id=8]
 
 [node name="ContinueOD" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 
-[node name="ToNoLabel" parent="." index="0" instance=ExtResource( 5 )]
+[node name="PressDownDT" parent="." index="0" instance=ExtResource( 8 )]
+margin_left = 20.0
+margin_right = 302.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 100 )
+title = "Press DOWN / LEFT"
+action = "Tebenge_Kiri"
+
+[node name="AndStart2DT" parent="." index="1" instance=ExtResource( 8 )]
+margin_left = 306.0
+margin_right = 506.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 100 )
+title = "+ START ->"
+action = "Tebenge_Start"
+
+[node name="ToNoLabel" parent="." index="2" instance=ExtResource( 5 )]
+visible = false
 margin_left = 89.0
 margin_top = 50.0
 margin_right = 521.0
 margin_bottom = 100.0
 text = "Press DOWN / LEFT + START ->"
 
-[node name="NOButton" parent="." index="1" instance=ExtResource( 2 )]
-margin_left = 525.0
-margin_right = 825.0
+[node name="NOButton" parent="." index="3" instance=ExtResource( 2 )]
+margin_left = 510.0
+margin_right = 810.0
 margin_bottom = 150.0
 focus_mode = 0
 text = "NO"
 icon = ExtResource( 7 )
 
-[node name="ContinueIndicatorDT" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 829.0
-margin_right = 1129.0
+[node name="ContinueIndicatorDT" parent="." index="4" instance=ExtResource( 3 )]
+margin_left = 814.0
+margin_right = 1114.0
 margin_bottom = 150.0
 
-[node name="YESButton" parent="." index="3" instance=ExtResource( 2 )]
-margin_left = 1133.0
-margin_right = 1433.0
+[node name="YESButton" parent="." index="5" instance=ExtResource( 2 )]
+margin_left = 1118.0
+margin_right = 1418.0
 margin_bottom = 150.0
 focus_mode = 0
 text = "YES"
 icon = ExtResource( 6 )
 
-[node name="ToYesLabel" parent="." index="4" instance=ExtResource( 5 )]
-margin_left = 1437.0
+[node name="ToYesLabel" parent="." index="6" instance=ExtResource( 5 )]
+visible = false
+margin_left = 1067.0
 margin_top = 50.0
-margin_right = 1831.0
+margin_right = 1461.0
 margin_bottom = 100.0
 text = "<- Press UP / RIGHT + START"
+
+[node name="PressUpDT" parent="." index="7" instance=ExtResource( 8 )]
+margin_left = 1422.0
+margin_right = 1696.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 100 )
+title = "<- Press UP / RIGHT"
+action = "Tebenge_Kanan"
+
+[node name="AndStartDT" parent="." index="8" instance=ExtResource( 8 )]
+margin_left = 1700.0
+margin_right = 1900.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 100 )
+title = "+ START"
+action = "Tebenge_Start"

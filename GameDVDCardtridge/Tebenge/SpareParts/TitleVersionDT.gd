@@ -1,3 +1,4 @@
+tool
 extends TitledValueLabelDT
 
 const hardCodeVersion:String = Tebenge.VERSION
@@ -26,6 +27,7 @@ const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	value = "v" + hardCodeVersion
 	$ValueLabel.text = "v" + hardCodeVersion
 	pass # Replace with function body.
 

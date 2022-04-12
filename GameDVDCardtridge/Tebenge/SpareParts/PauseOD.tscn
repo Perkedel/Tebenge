@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=2]
@@ -7,40 +7,47 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/settingButton.png" type="Texture" id=5]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/cancelButton.png" type="Texture" id=6]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/BeginButton.png" type="Texture" id=7]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TitleVersionDT.tscn" type="PackedScene" id=8]
 
 [node name="PauseOD" instance=ExtResource( 1 )]
 
-[node name="TimeRemainingDT" parent="." index="0" instance=ExtResource( 4 )]
-margin_left = 194.0
-margin_right = 494.0
+[node name="TitleVersionDT" parent="." index="0" instance=ExtResource( 8 )]
+margin_left = 50.0
+margin_right = 350.0
+margin_bottom = 150.0
+value = "v2022.03.4"
+
+[node name="TimeRemainingDT" parent="." index="1" instance=ExtResource( 4 )]
+margin_left = 354.0
+margin_right = 654.0
 margin_bottom = 150.0
 title = "Time Remaining"
 value = "120"
 
-[node name="HiScoreDT" parent="." index="1" instance=ExtResource( 4 )]
-margin_left = 502.0
-margin_right = 802.0
+[node name="HiScoreDT" parent="." index="2" instance=ExtResource( 4 )]
+margin_left = 658.0
+margin_right = 958.0
 margin_bottom = 150.0
 title = "High Score"
 value = "43"
 
-[node name="ResumeButton" parent="." index="2" instance=ExtResource( 2 )]
-margin_left = 810.0
-margin_right = 1110.0
+[node name="ResumeButton" parent="." index="3" instance=ExtResource( 2 )]
+margin_left = 962.0
+margin_right = 1262.0
 margin_bottom = 150.0
 text = "Resume"
 icon = ExtResource( 7 )
 
-[node name="SettingButton" parent="." index="3" instance=ExtResource( 3 )]
-margin_left = 1118.0
-margin_right = 1418.0
+[node name="SettingButton" parent="." index="4" instance=ExtResource( 3 )]
+margin_left = 1266.0
+margin_right = 1566.0
 margin_bottom = 150.0
 text = "Setting"
 icon = ExtResource( 5 )
 
-[node name="AbortButton" parent="." index="4" instance=ExtResource( 3 )]
-margin_left = 1426.0
-margin_right = 1726.0
+[node name="AbortButton" parent="." index="5" instance=ExtResource( 3 )]
+margin_left = 1570.0
+margin_right = 1870.0
 margin_bottom = 150.0
 text = "Quit"
 icon = ExtResource( 6 )

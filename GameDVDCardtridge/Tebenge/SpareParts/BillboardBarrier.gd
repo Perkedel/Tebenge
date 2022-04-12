@@ -27,7 +27,9 @@ func huertAd():
 			$AdMurdered.play()
 			emit_signal("murderTheAd")
 			currentAdHit = 0
-			Input.vibrate_handheld(200)
+#			Input.vibrate_handheld(200)
+			for thang in Input.get_connected_joypads():
+				Tebenge.vibrate(thang,200)
 			pass
 	pass
 

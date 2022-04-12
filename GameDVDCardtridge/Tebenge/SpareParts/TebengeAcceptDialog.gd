@@ -19,6 +19,11 @@ func popWithMessage(ofThis:String = "Message...", centered:bool = true, titleDo:
 		popup()
 	pass
 
+func get_ok_say()->String:
+	var daOK = get_ok()
+	return daOK.text
+	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass

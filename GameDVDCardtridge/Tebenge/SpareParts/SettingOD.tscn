@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/cloudGameIcon.png" type="Texture" id=9]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/updateCheckIcon.png" type="Texture" id=10]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/soundSpeakerIcon.png" type="Texture" id=11]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/soundSpeakerMuteIcon.png" type="Texture" id=12]
 
 [node name="SettingOD" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
@@ -22,6 +23,7 @@ margin_right = 502.0
 margin_bottom = 150.0
 title = "Sound (Master)"
 icon = ExtResource( 11 )
+iconOff = ExtResource( 12 )
 
 [node name="GooglePlayGamesButton" parent="." index="1" instance=ExtResource( 7 )]
 margin_left = 506.0

@@ -77,3 +77,4 @@ one_shot = true
 [connection signal="popup_hide" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_popup_hide"]
 [connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="request_doned" from="HTTPRequest" to="." method="_on_HTTPRequest_request_doned"]

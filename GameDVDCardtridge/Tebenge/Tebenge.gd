@@ -20,7 +20,7 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
-const VERSION:String = "2022.03.4"
+const VERSION:String = "2022.04.4"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -83,6 +83,7 @@ var appStarted:bool = false
 var theUploadSaveForCloudCheck:bool = false
 var commercialMode:bool = false
 var updateVerLog:PoolStringArray = ["2022","-idk"]
+var manualUpdateCheck:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -93,14 +94,27 @@ func _releaseDelay():
 		emit_signal("PlayService_UnlockAchievement",startMeAchievement)
 	pass
 
-func _checkUpdate():
+func _checkUpdate(manually:bool = false):
 	# Pls don't blame me, it was Kade's idea!
 	# https://github.com/KadeDev/Kade-Engine/blob/stable/version.downloadMe
+	manualUpdateCheck = manually
 	var error = $HTTPRequest.request(updateCheckDownloadMeURL)
 	if error != OK:
 		printerr("Unable to connect properly! WERROR " + String(error))
 #		push_error("Unable to connect properly! WERROR " + String(error))
+		_acceptDialog("Unable to connect properly! WERROR " + String(error) + "\nCould not check update right now! warm and bad.\nYour version is v" + VERSION + "\n\nDid you ran out of kuota? or maybe just the latest version source down at the moment, idk..")
 	pass
+
+static func vibrate(device:int = 0, duration:float = 500, weak_magnitude:float = 1, strong_magnitude:float = 1):
+	Input.vibrate_handheld(duration)
+	if device in Input.get_connected_joypads():
+		Input.start_joy_vibration(device,weak_magnitude,strong_magnitude,duration/1000)
+	pass
+
+static func stop_vibrate(device:int = 0):
+	Input.vibrate_handheld(0)
+	if device in Input.get_connected_joypads():
+		Input.stop_joy_vibration(device)
 
 func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, headers: PoolStringArray =[], body: PoolByteArray = [])->void:
 	match(purpose):
@@ -110,8 +124,12 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 			updateVerLog = daStringe.split(";",true,1)
 			if updateVerLog[0] != VERSION:
 				confirmActionIdFor = "NewVersion"
-				_confirmationDialog("A New version has been detected! sorta?\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress OK to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+				_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
 				pass
+			else:
+				if manualUpdateCheck:
+					_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n")
+					manualUpdateCheck = false
 			pass
 		_:
 			pass
@@ -800,6 +818,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(false)
 							pass
+						"Check Update":
+							_checkUpdate(true)
+							pass
 						"About":
 							_aboutDialog()
 							pass
@@ -905,6 +926,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(true)
 							pass
+						"Check Update":
+							_checkUpdate(true)
+							pass
 						"About":
 							_aboutDialog()
 							pass
@@ -994,6 +1018,8 @@ func _terminateThisDVD(changeDVD:bool = false):
 		emit_signal("ChangeDVD_Exec")
 	else:
 		emit_signal("Shutdown_Exec")
+	for thang in Input.get_connected_joypads():
+		stop_vibrate(thang)
 	pass
 
 func pauseNow(isIt:bool = false):
@@ -1165,7 +1191,7 @@ func _on_PlayField_continueExpired() -> void:
 
 
 func _on_HTTPRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray) -> void:
-	_getHTTPResult(0,result,response_code,headers,body)
+#	_getHTTPResult(0,result,response_code,headers,body)
 	pass # Replace with function body.
 
 
@@ -1181,4 +1207,10 @@ func _on_ConfirmationDialog_popup_confirmed(confirmFor:String) -> void:
 
 func _on_ConfirmationDialog_popup_customAction(confirmFor:String, actionFor:String) -> void:
 	_confirmedDialogTo(confirmFor,actionFor)
+	pass # Replace with function body.
+
+
+
+func _on_HTTPRequest_request_doned(purpose, result, response_code, headers, body) -> void:
+	_getHTTPResult(purpose,result,response_code,headers,body)
 	pass # Replace with function body.

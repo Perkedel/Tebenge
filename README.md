@@ -171,3 +171,16 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/android/car-samples/tree/main/car_app_library
 - https://developer.android.com/training/cars
 - https://docs.godotengine.org/en/3.4/tutorials/networking/http_request_class.html get text from online! see section scripting. you notice that you can get string from utf 8 out of body you've just http requested
+- https://godotengine.org/article/turn-android-app-quest-vr-app-3-steps
+- https://github.com/m4gr3d/GAST/tree/master/core/src/xrapp#usage
+- https://godotengine.org/asset-library/asset/1148 KoBeWi Action icon. gamepad procedural auto select icon based on action you fill with.
+- https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-get-connected-joypads
+- https://docs.godotengine.org/en/stable/tutorials/inputs/controllers_gamepads_joysticks.html
+- https://godotengine.org/qa/17892/check-if-controller-connected-or-not
+- https://godotengine.org/qa/17892/check-if-controller-connected-or-not
+- https://godotengine.org/qa/86245/detect-input-devices
+- https://github.com/godotengine/godot/issues/5465
+- https://docs.godotengine.org/en/3.4/tutorials/networking/http_request_class.html
+- https://github.com/android/car-samples/blob/main/car_app_library/showcase/automotive/src/main/AndroidManifest.xml
+- https://developer.android.com/training/cars/apps
+- https://developer.android.com/training/cars

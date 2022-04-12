@@ -13,6 +13,8 @@
 - Vibration. give immersiveness effect through tactile vibration feedback. unfortunately most devices does not grant ASMR quality experiences. Godot even, does not provide advanced ASMR vibration on its own.
 - Internet. annoying Admob, version checker.
 - Network state access. annoying admob wants to see the internet connection status.
+- Accounts. Maybe Google Play Service wants to know logged in Gmail?
+- Input State. For controller input stuffs. that includes gamepad, idk.
 
 ## Delete This! (NOT RECOMMENDED because you can screw up everything. Do this **ONLY** if your reputation got destroyed!)
 - Google Play Games (⚠️ Only available to delete entire data in your account, no particular).

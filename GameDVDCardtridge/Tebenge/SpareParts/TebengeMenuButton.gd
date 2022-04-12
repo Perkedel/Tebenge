@@ -18,6 +18,7 @@ func _ready():
 signal pressedName(name)
 
 func _on_TebengeMenuButton_pressed():
-	Input.vibrate_handheld(50)
+#	Input.vibrate_handheld(50)
+	Tebenge.vibrate(0,50,.5,.5)
 	emit_signal("pressedName",text)
 	pass # Replace with function body.

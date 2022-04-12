@@ -16,6 +16,7 @@ var active:bool = false
 var doingExcuseMe:bool = false
 var momentaryInvincible:bool = false
 var onTopAlready:bool = false
+var haveGamepad:bool = false # is this player ID have Joypad ID connected?
 export(float) var momentaryInvincibleDuration:float = 3
 export (bool) var enemyMode:bool = false
 export(bool) var movesToLeft:bool = false
@@ -46,11 +47,31 @@ export(AudioStream) var eikSerkatDuarSound:AudioStream = load("res://GameDVDCard
 func _ready():
 	$GunShotSounder.stream = shootSound
 	$HuertWoundeSounder.stream = huertSound
+	var connecteh = Input.get_connected_joypads()
+	Input.connect("joy_connection_changed",self,"_gamepadChange")
+	haveGamepad = playerNumber in Input.get_connected_joypads()
 	pass # Replace with function body.
 
 func _enter_tree():
 	reset(false)
 	pass
+
+func _gamepadChange(device:int=0,connected:bool=false):
+	if device == playerNumber:
+		haveGamepad = connected
+	pass
+
+func vibrateController(duration:float = 500,weakMagnitude:float = 1,strongMagnitude:float = 1):
+#	Input.vibrate_handheld(duration)
+#	if haveGamepad:
+#		Input.start_joy_vibration(playerNumber,weakMagnitude,strongMagnitude,duration)
+	Tebenge.vibrate(playerNumber,duration,weakMagnitude,strongMagnitude)
+	pass
+
+func stopVibrate():
+#	if haveGamepad:
+#		Input.stop_joy_vibration(playerNumber)
+	Tebenge.stop_vibrate(playerNumber)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -191,7 +212,8 @@ func _checkWhoCollide(handover:Node):
 signal pointItIsNow(howMany)
 func receivePoint(howMany:int,noVibrate:bool = false):
 	if !noVibrate:
-		Input.vibrate_handheld(100)
+#		Input.vibrate_handheld(100)
+		vibrateController(100)
 	_pointRightNow += howMany
 	$FloatingHUD.setPointsay(String(_pointRightNow))
 	$FloatingHUDBottom.setPointsay(String(_pointRightNow))
@@ -253,7 +275,8 @@ func _interpretHP():
 		$Form.hide()
 		$dedd.show() # screw this! I must make money because my parents gonna pension soon
 		$Collide.set_deferred("disabled", true)
-		Input.vibrate_handheld(2000)
+#		Input.vibrate_handheld(2000)
+		vibrateController(2000)
 		emit_signal("eikSerkat")
 		pass
 	else:
@@ -262,7 +285,8 @@ func _interpretHP():
 			# invinciblize momentarily
 			_startInvincibleMomentarily()
 			_reddens() #and red minecraft huert!
-			Input.vibrate_handheld(500)
+#			Input.vibrate_handheld(500)
+			vibrateController(500)
 			$HuertWoundeSounder.play()
 			pass
 		elif lastHPBefore < hp:
