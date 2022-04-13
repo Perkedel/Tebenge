@@ -19,6 +19,23 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    
+    <!-- Android TV optionalizers -->
+    <uses-feature android:name="android.software.leanback"
+            android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen"
+                  android:required="false" />
+    
+    <!-- Android Automotive optionalizers -->
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="false"/>
 
 <!-- Custom user permissions XML added by add-ons. It's recommended to add them from the export preset, though. -->
 <!--CHUNK_USER_PERMISSIONS_BEGIN-->
@@ -55,7 +72,7 @@
         <meta-data
             android:name="com.oculus.supportedDevices"
             android:value="all" />
-
+        
         <activity
             android:name=".GodotApp"
             android:label="@string/godot_project_name_string"
@@ -77,7 +94,13 @@
                 <!-- Enable access to OpenXR on Oculus mobile devices, no-op on other Android
                 platforms. -->
                 <category android:name="com.oculus.intent.category.VR" />
+
+                <!-- Enable real Android TV launcher support -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
+            <!-- Android Automotive allow distraction -->
+            <!-- Quite dangerous, make sure it is the passenger using this app -->
+            <meta-data android:name="distractionOptimized" android:value="true"/>
         </activity>
 
 <!-- Custom application XML added by add-ons. -->
@@ -92,6 +115,12 @@
             <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id"/>
+        <!-- Play Service -->
+            <meta-data android:name="com.google.android.gms.games.APP_ID"
+   	    android:value="@string/app_id" />
+            <meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="@string/app_id" />
+            <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
     </application>
 
 </manifest>

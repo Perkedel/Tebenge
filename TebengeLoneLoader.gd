@@ -368,6 +368,19 @@ func _on_leaderboard_score_submitting_failed(leaderboard_id: String):
 	print(leaderboard_id + " Faile submit")
 	pass
 
+# Span can be: TIME_SPAN_DAILY, TIME_SPAN_WEEKLY, or TIME_SPAN_ALL_TIME
+# LeaderboardCollection can be:  COLLECTION_PUBLIC or COLLECTION_FRIENDS
+# Callbacks: play_games_services.retrieveLeaderboardScore("LEADERBOARD_ID", "ALL_TIME", "ALL")
+func _on_leaderboard_score_retrieved(leaderboardId : String, playerScore : String):
+	var score_dictionary: Dictionary = parse_json(playerScore)
+	# Using below keys you can retrieve data about a player’s in-game activity
+#	score_dictionary["score"] # Player high score
+#	score_dictionary["rank"] # Player rank
+	pass
+
+func _on_leaderboard_score_retrieve_failed(leaderboardId : String):
+	pass
+
 # Callbacks: play_games_services.saveSnapshot("SNAPSHOT_NAME", to_json(data_to_save), "DESCRIPTION")
 func _on_game_saved_success():
 	pass
@@ -390,7 +403,11 @@ func _on_create_new_snapshot(name):
 
 # Callbacks: play_games_services.loadSnapshot("SNAPSHOT_NAME")
 func _on_game_load_success(data):
-	var game_data: Dictionary = parse_json(data)
+	var game_data:Dictionary
+#	if data != null && typeof(data.result) == TYPE_STRING:
+#		game_data= parse_json(data)
+#	else:
+#		game_data = {}
 	
 	$DVDsolder/Tebenge.receive_PlayService_DownloadSave(data, true)
 	pass

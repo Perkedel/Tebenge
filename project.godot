@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/TitledValueLabelDT.tres.gd"
 }, {
+"base": "ColorRect",
+"class": "VirtualBadvertisement",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/VirtualBadvertisement.gd"
+}, {
 "base": "Control",
 "class": "VirtualJoystick",
 "language": "GDScript",
@@ -99,6 +104,7 @@ _global_script_class_icons={
 "TebengePlayer": "",
 "TebengeRichTextLabel": "",
 "TitledValueLabelDT": "",
+"VirtualBadvertisement": "",
 "VirtualJoystick": ""
 }
 

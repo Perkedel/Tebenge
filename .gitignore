@@ -24,6 +24,7 @@ android/build/build/intermediates/compressed_assets
 *.googlecloud
 android/build/build/res/values/Strings.xml
 android/build/res/values/Strings.xml
+android_backup/backup/res/values/Strings.xml
 GoogleCloud/Tebenge.txt
 GoogleCloud/
 android/build/build/intermediates/merged_assets/debug/out/GoogleCloud/Tebenge.txt

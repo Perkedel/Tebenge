@@ -184,3 +184,4 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/android/car-samples/blob/main/car_app_library/showcase/automotive/src/main/AndroidManifest.xml
 - https://developer.android.com/training/cars/apps
 - https://developer.android.com/training/cars
+- https://godotengine.org/asset-library/asset/134 translation demo official

@@ -52,6 +52,7 @@ signal PlayService_UploadSave(nameSnapshot,dataOf,descOf)
 signal PlayService_DownloadSave(nameSnapshot)
 signal PlayService_CheckSaves(saved_games_screen_title, allow_add_button, allow_delete_button, max_saved_games_snapshots)
 signal PlayService_UploadScore(leaderID,howMany)
+signal PlayService_RetrieveScore(leaderID,timeSpanOf,collectionOf)
 signal PlayService_UnlockAchievement(achievedId)
 signal PlayService_RevealAchievement(achievedId)
 signal PlayService_IncrementAchievement(achievedId,stepNum)
@@ -81,6 +82,7 @@ var beenAlreadyHere:bool = false
 var confirmActionIdFor:String = ""
 var appStarted:bool = false
 var theUploadSaveForCloudCheck:bool = false
+var manuallyUploadSaveSoBeNoisy:bool= false
 var commercialMode:bool = false
 var updateVerLog:PoolStringArray = ["2022","-idk"]
 var manualUpdateCheck:bool = false
@@ -103,6 +105,7 @@ func _checkUpdate(manually:bool = false):
 		printerr("Unable to connect properly! WERROR " + String(error))
 #		push_error("Unable to connect properly! WERROR " + String(error))
 		_acceptDialog("Unable to connect properly! WERROR " + String(error) + "\nCould not check update right now! warm and bad.\nYour version is v" + VERSION + "\n\nDid you ran out of kuota? or maybe just the latest version source down at the moment, idk..")
+		manualUpdateCheck = false
 	pass
 
 static func vibrate(device:int = 0, duration:float = 500, weak_magnitude:float = 1, strong_magnitude:float = 1):
@@ -117,22 +120,29 @@ static func stop_vibrate(device:int = 0):
 		Input.stop_joy_vibration(device)
 
 func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, headers: PoolStringArray =[], body: PoolByteArray = [])->void:
-	match(purpose):
-		0:
-			# Update check
-			var daStringe = body.get_string_from_utf8()
-			updateVerLog = daStringe.split(";",true,1)
-			if updateVerLog[0] != VERSION:
-				confirmActionIdFor = "NewVersion"
-				_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+	if result == HTTPRequest.RESULT_SUCCESS:
+		match(purpose):
+			0:
+				# Update check
+				var daStringe = body.get_string_from_utf8()
+				updateVerLog = daStringe.split(";",true,1)
+				if updateVerLog[0] != VERSION:
+					confirmActionIdFor = "NewVersion"
+					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+					pass
+				else:
+					if manualUpdateCheck:
+						_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n")
+						manualUpdateCheck = false
 				pass
-			else:
-				if manualUpdateCheck:
-					_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n")
-					manualUpdateCheck = false
+			_:
+				pass
+	else:
+		printerr("HTTP Werror " + String(result) + " While purpose " + String(purpose))
+		if manualUpdateCheck:
+			_acceptDialog("HTTP Werror " + String(result) + " While purpose " + String(purpose),"Unable to open page")
 			pass
-		_:
-			pass
+	manualUpdateCheck = false
 	pass
 
 func _checkStartup():
@@ -194,22 +204,51 @@ func _checkIfCloudBackupExist():
 		_saveSave()
 	pass
 
-func _offerDownloadSaveFromGooglePlay():
-	# ask whether to  overwrite save thing
-	_confirmationDialog("It appears you have save backup on your Google Play Games. Would you like to overwrite your save with that one?\n(Using Smart Overwrite that keeps only the highest score between Cloud vs. Local)", "OverwriteSaveNow")
+func _offerDownloadSaveFromGooglePlay(saveThatGot:String = ""):
+	if saveThatGot.begins_with("{") && saveThatGot.ends_with("}"):
+#		if typeof(saveThatGot) == TYPE_NIL || typeof(parse_json(saveThatGot)) || saveThatGot.begins_with("0:") || typeof(saveThatGot) != TYPE_STRING:
+#			_acceptDialog("It appears that you don't have valid save backup on your Google Play Games / GMail. If this is the 1st time you're here, this is completely normal.\n\nWelcome! have fun.\n\nYour cloud save backup looks like:\n"+String(saveThatGot)+"","Save Backup Nil / invalid!")
+#			return
+		# ask whether to  overwrite save thing
+		_confirmationDialog("It appears that you have save backup on your Google Play Games / GMail. Would you like to overwrite your save with that one?\n(Using Smart Overwrite that keeps only the highest score between Cloud vs. Local)\n\nYou Have cloud save as follows:\n"+JSONBeautifier.beautify_json(saveThatGot)+"", "OverwriteSaveNow","Save Backup found!")
+	else:
+		_acceptDialog("It appears that you don't have valid save backup on your Google Play Games / GMail. If this is the 1st time you're here, this is completely normal.\n\nWelcome! have fun.\n\nYour cloud save backup looks like:\n"+String(saveThatGot)+"","Save Backup Nil / invalid!")
+		pass
 	pass
 
 func justFetchCloudSave():
 	pass
 
-func smartlyUploadSaveToCloud(step:int = 0):
+func smartlySyncHighscores(step:int = 0,LeaderboardId:String="",scoreJSON:String = ""):
+	# Nope, this looks like retrieve all players highscore in this game.
+	match(step):
+		0:
+			# begin asking Arcade score!
+			pass
+		1:
+			# receive Arcade score
+			pass
+		2:
+			# begin asking Endless score
+			pass
+		3:
+			# receive Endless score
+			pass
+		_:
+			pass
+	pass
+
+func smartlyUploadSaveToCloud(step:int = 0, beNoisy:bool = false):
+	
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		pass
 	else:
 		print("Google Play Service missing, cannot upload save to cloud!")
+		return
 	
 	match (step):
 		0:
+#			manuallyUploadSaveSoBeNoisy = beNoisy
 			# You need to sync the save first!
 			saveDictionary["kludgeHiScore"]["arcade"] = kludgeHiScoreArcade
 			saveDictionary["kludgeHiScore"]["endless"] = kludgeHiScoreEndless
@@ -218,10 +257,37 @@ func smartlyUploadSaveToCloud(step:int = 0):
 			theUploadSaveForCloudCheck = true
 			# First, check the cloud save data. only keep highest score
 			emit_signal("PlayService_DownloadSave","Tebenge")
+#			_acceptDialog("Please wait while checking save & upload","Uploading save")
 		1:
+			if typeof(__tempDownloadedSave) != TYPE_STRING:
+				if manuallyUploadSaveSoBeNoisy:
+					_acceptDialog("This compare save is not string! stupidly overwriting instead..\n"+String(__tempDownloadedSave),"Werror")
+					push_error("This compare save is not string! stupidly overwriting instead..\n"+String(__tempDownloadedSave))
+				emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary), "Tebenge Save")
+				manuallyUploadSaveSoBeNoisy = false
+				theUploadSaveForCloudCheck = false
+				return
+			if typeof(__tempDownloadedSave) == TYPE_NIL || typeof(parse_json(__tempDownloadedSave)) == TYPE_NIL || __tempDownloadedSave.begins_with("0:"):
+				if manuallyUploadSaveSoBeNoisy:
+					# This one (Nil) is the one that says if Null.
+					_acceptDialog("This compare save is Nil! stupidly overwriting instead..\n"+String(__tempDownloadedSave),"Werror")
+					push_error("This compare save is Nil! stupidly overwriting instead..\n"+String(__tempDownloadedSave))
+				emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary), "Tebenge Save")
+				manuallyUploadSaveSoBeNoisy = false
+				theUploadSaveForCloudCheck = false
+				return
+			if !(__tempDownloadedSave.begins_with("{") && __tempDownloadedSave.ends_with("}")):
+				if manuallyUploadSaveSoBeNoisy:
+					# This one (Nil) is the one that says if Null.
+					_acceptDialog("This compare save format is invalid! stupidly overwriting instead..\n"+String(__tempDownloadedSave),"Werror")
+					push_error("This compare save format is invalid! stupidly overwriting instead..\n"+String(__tempDownloadedSave))
+				emit_signal("PlayService_UploadSave","Tebenge",to_json(saveDictionary), "Tebenge Save")
+				manuallyUploadSaveSoBeNoisy = false
+				theUploadSaveForCloudCheck = false
+				return
 			# Then start comparing save
 			var compareSave:Dictionary = parse_json(__tempDownloadedSave)
-			
+			print("Compare & Upload\n"+JSONBeautifier.beautify_json(to_json(compareSave)))
 			# if the cloud is lesser than local, overwrite cloud with local
 			if compareSave["kludgeHiScore"]["arcade"] < saveDictionary["kludgeHiScore"]["arcade"]:
 				compareSave["kludgeHiScore"]["arcade"] = saveDictionary["kludgeHiScore"]["arcade"]
@@ -230,9 +296,13 @@ func smartlyUploadSaveToCloud(step:int = 0):
 				pass
 			compareSave["beenAlreadyHere"] = true
 			
+			print("\ntime to upload\n"+JSONBeautifier.beautify_json(to_json(compareSave)))
 			emit_signal("PlayService_UploadSave","Tebenge",to_json(compareSave), "Tebenge Save")
 			
 			# return back everything
+			if manuallyUploadSaveSoBeNoisy:
+				_acceptDialog("Upload save complete! your cloud save should looks like:\n"+JSONBeautifier.beautify_json(to_json(compareSave))+"\n\n")
+			manuallyUploadSaveSoBeNoisy = false
 			theUploadSaveForCloudCheck = false
 			pass
 		_:
@@ -244,12 +314,18 @@ func smartlyUploadSaveToCloud(step:int = 0):
 	pass
 
 func smartlyOverwriteSaveFromCloud(theJSON:String):
+	print("Do smart overwrite save from cloud")
 	if saveDictionary.empty():
 		# The save is gone.
 		overwriteSaveFromCloud(theJSON,true)
 		pass
 	else:
 		var compareDictionary:Dictionary = parse_json(theJSON)
+		if compareDictionary.empty():
+			# The save is gone.
+			overwriteSaveFromCloud(theJSON,true)
+			_acceptDialog("Save overwrite empty!")
+			return
 		saveDictionary["beenAlreadyHere"] = true
 		if compareDictionary["kludgeHiScore"]["arcade"] > saveDictionary["kludgeHiScore"]["arcade"]:
 			saveDictionary["kludgeHiScore"]["arcade"] = compareDictionary["kludgeHiScore"]["arcade"]
@@ -259,6 +335,7 @@ func smartlyOverwriteSaveFromCloud(theJSON:String):
 			saveDictionary["kludgeHiScore"]["endless"] = compareDictionary["kludgeHiScore"]["endless"]
 			kludgeHiScoreEndless = compareDictionary["kludgeHiScore"]["endless"]
 		beenAlreadyHere = saveDictionary["beenAlreadyHere"]
+		_acceptDialog("Save smart overwrite Complete! Your local save is now looks like:\n"+JSONBeautifier.beautify_json(to_json(saveDictionary))+"\n\n","Save smart overwrite done!")
 		_saveSave()
 		pass
 	pass
@@ -278,13 +355,23 @@ func overwriteSaveFromCloud(theJSON:String, beStupid:bool = false):
 func theCloudSaveIndeedExist(theJSON:String, working:bool = false):
 	if working:
 		__tempDownloadedSave = theJSON
+		
+#		if __tempDownloadedSave.begins_with("{") and __tempDownloadedSave.ends_with("}"):
+
 		if theUploadSaveForCloudCheck:
 			smartlyUploadSaveToCloud(1)
 			pass
 		else:
-			_offerDownloadSaveFromGooglePlay()
+			if __tempDownloadedSave.begins_with("0:") or typeof(__tempDownloadedSave) == TYPE_NIL:
+				_acceptDialog("Save is null! Looks like:\n"+__tempDownloadedSave+"")
+				return
+			_offerDownloadSaveFromGooglePlay(__tempDownloadedSave)
+		
+#		else:
+#			_acceptDialog("The checked save is invalid format! it looks like:\n"+__tempDownloadedSave+"\nIf this is your first time here, this is normal. Welcome!","Werror")
+#			pass
 	else:
-		_acceptDialog("Sorry, Download / Upload backup failed. Try again at setting")
+		_acceptDialog("Sorry, Download / Upload backup failed. Try again at setting","Werror")
 		_saveSave()
 #		$CanvasLayer/UIField.theOOBEhasBeenDone()
 		$CanvasLayer/UIField.checkGetStuck()
@@ -332,6 +419,7 @@ func _uploadOverwriteSave(confirmed:bool = false):
 		if($PlayField.gameplayStarted):
 	#		OS.alert("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
 			_acceptDialog("Cannot upload save during Gameplay.", "Werror 400! Forbidden!")
+			manuallyUploadSaveSoBeNoisy = false
 			pass
 		else:
 			# yes you can
@@ -371,7 +459,8 @@ func _downloadOverwriteSave(confirmed:bool = false):
 	pass
 
 func _checkAllSaves():
-	emit_signal("PlayService_CheckSaves","Tebenge Cloud Saves", true, true, 0)
+	print("Try check save")
+	emit_signal("PlayService_CheckSaves","Tebenge", true, true, 0)
 	pass
 
 func cloudSavePressAdd(name:String):
@@ -399,6 +488,7 @@ func _enter_tree():
 func murderAdNow():
 	emit_signal("PlayService_UnlockAchievement",adMurderedAchievement)
 	emit_signal("AdBanner_Terminate")
+	$CanvasLayer/VirtualBadvertisement.hide()
 	$AppearAdAgainTimer.start(-1)
 	
 	pass
@@ -850,6 +940,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_checkAllSaves()
 							pass
 						"Upload Save":
+							manuallyUploadSaveSoBeNoisy = true
 							_uploadOverwriteSave(false)
 							pass
 						"Download Save":
@@ -957,6 +1048,7 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Check Saves":
 							_checkAllSaves()
 						"Upload Save":
+							manuallyUploadSaveSoBeNoisy = true
 							_uploadOverwriteSave(false)
 							pass
 						"Download Save":
@@ -1096,6 +1188,9 @@ func receive_PlayService_DownloadSave(data:String, working:bool = false):
 	theCloudSaveIndeedExist(data,working)
 	pass
 
+func receive_PlayService_DownloadScore(leaderBoardId:String, ScoreJSON:String):
+	pass
+
 func _on_PlayField_askedContinue() -> void:
 	_receiveAskedContinue()
 	pass # Replace with function body.
@@ -1145,6 +1240,7 @@ func _on_PlayField_murderTheAd() -> void:
 
 func _on_AppearAdAgainTimer_timeout() -> void:
 	emit_signal("AdBanner_Reshow")
+	$CanvasLayer/VirtualBadvertisement.show()
 	pass # Replace with function body.
 
 
