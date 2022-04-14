@@ -1310,3 +1310,8 @@ func _on_ConfirmationDialog_popup_customAction(confirmFor:String, actionFor:Stri
 func _on_HTTPRequest_request_doned(purpose, result, response_code, headers, body) -> void:
 	_getHTTPResult(purpose,result,response_code,headers,body)
 	pass # Replace with function body.
+
+
+func _on_PlayField_forcedPressContinue(whichIs:bool) -> void:
+	_iWantToContinue(whichIs)
+	pass # Replace with function body.

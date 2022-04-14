@@ -4,7 +4,21 @@
 Shoot bullet, destroy enemy, ⚽ tackle bullet, avoid enemy bullet. yess.
 
 # DOWNLOAD! Pls Google Play
-LINK
+https://play.google.com/store/apps/details?id=com.Perkedel.tebenge
+
+Please keep in mind, in order to avoid redundancy, we will not release standalone build for other than mobile platforms like above.  
+This project here serves as Quick buck revenue source as well as reputation net backup in case force majeur has occured against our reputation of our lifetime.  
+Tebenge game itself will be available as a ModPCK for OpenCX (Hexagon Engine) which of course available to all platforms as all as possible.
+
+# PLAY NOW! GOTM.io
+https://gotm.io/perkedel/tebenge
+
+Try Tebenge without downloading first!
+
+# PLAY NOW! itch.io
+https://joelwindows7.itch.io/tebenge
+
+Try Tebenge without downloading first!
 
 # DOWNLOAD! Pls Hexagon Engine ModPCK
 LINK
@@ -185,3 +199,6 @@ The following are tab links opened during this development. Some of which are as
 - https://developer.android.com/training/cars/apps
 - https://developer.android.com/training/cars
 - https://godotengine.org/asset-library/asset/134 translation demo official
+- https://ezgif.com/ make GIF, edit GIF, fast GIF, slow GIF, any GIF tools at your arsenal
+- https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
+- https://gotm.io publish Godot Game pck. gameplay fast & performant!

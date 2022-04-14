@@ -24,12 +24,14 @@ var last_placed_position:Vector2 = Vector2(0,0)
 var gameplayStarted:bool = false
 var continueThreat:bool = false # whether or not you are in continue screen
 var continueRemaining:int = 10
+var didIt:bool = false
 var abortedTheGame:bool = false
 signal continuousArcadeTimer(timeSecond)
 signal continuousEndlessTimer(timeSecond)
 signal tickedArcadeTimer(timeSecond)
 signal tickedEndlessTimer(timeSecond)
 signal murderTheAd()
+signal forcedPressContinue(whichIs)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -87,6 +89,7 @@ func cancelTheGame() -> void:
 #	set_active(false)
 #	finishTheGame(false)
 	abortedTheGame = true
+	$TebengePlayer.cannotDie = false # prevent softlock because the quit expect player die and game over first.
 	$TebengePlayer._eikSerkat()
 	
 #	gameplayStarted = false
@@ -102,18 +105,24 @@ func pauseTheGame(pauseIt:bool = false) -> void:
 
 signal askedContinue()
 func askContinue():
-	set_active(false)
-	print("Ask continue on %s" % [String(gameModes)])
-	match(chooseGameMode):
-		gameModes.Arcade:
-			_startContinueFate(true)
-			emit_signal("askedContinue")
-			pass
-		gameModes.Endless:
-			emit_signal("game_over")
-			pass
-		_:
-			pass
+	if !didIt:
+		set_active(false)
+		print("Ask continue on %s" % [String(gameModes)])
+		match(chooseGameMode):
+			gameModes.Arcade:
+				_startContinueFate(true)
+				emit_signal("askedContinue")
+				pass
+			gameModes.Endless:
+				emit_signal("game_over")
+				pass
+			_:
+				pass
+	else:
+		print("Ask continue on %s, but wait, you already did it. here resurrect instant!" % [String(gameModes)])
+#		selectedAContinue(true)
+		emit_signal("forcedPressContinue",true)
+		pass
 	pass
 
 func selectedAContinue(saidYes:bool = false):
@@ -164,6 +173,7 @@ func arcadeTimeHasRanOut():
 		$ArcadeTickoutTimer.stop()
 		
 		sulapEnemiesIntoBonus()
+		didIt = true # Even if quit in bonus, it still considered game finish.
 		
 		$BonusTimerLimit.start(bonusMomentTimeLimit)
 		$TebengePlayer.cannotDie = true
@@ -259,6 +269,7 @@ func resetPlayfield(continueIt:bool = false):
 	endlessTimeElapsed = 0
 	arcadeTimeLeft = arcadePlayTimeLimit
 	abortedTheGame = false
+	didIt = false
 	pass
 
 func _enemyDown():
@@ -276,7 +287,7 @@ func _youDied():
 	if abortedTheGame:
 		# using clicked NO on continue
 		set_active(false)
-		finishTheGame(false)
+		finishTheGame(didIt) # if quit in bonus, consider Finish, otherwise, Game Over.
 		pass
 	else:
 		askContinue()
