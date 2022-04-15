@@ -202,3 +202,6 @@ The following are tab links opened during this development. Some of which are as
 - https://ezgif.com/ make GIF, edit GIF, fast GIF, slow GIF, any GIF tools at your arsenal
 - https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
 - https://gotm.io publish Godot Game pck. gameplay fast & performant!
+- https://linuxhint.com/add-tag-specific-commit-git/ commit & then tag. how to tag commit yey
+- https://dev.to/neshaz/a-tutorial-for-tagging-releases-in-git-147e
+- 
