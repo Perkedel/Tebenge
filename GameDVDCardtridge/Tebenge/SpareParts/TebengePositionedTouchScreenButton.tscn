@@ -6,6 +6,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeTouchScreenButtonCollisionShape.tres" type="Shape2D" id=4]
 
 [node name="TebengePositionedTouchScreenButton" type="CenterContainer"]
+modulate = Color( 1, 1, 1, 0.27451 )
 margin_right = 304.0
 margin_bottom = 316.0
 script = ExtResource( 1 )

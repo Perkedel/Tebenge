@@ -16,6 +16,10 @@
 - Accounts. Maybe Google Play Service wants to know logged in Gmail?
 - Input State. For controller input stuffs. that includes gamepad, idk.
 
+## Delete Personal Data collection
+- Google Admob https://adssettings.google.com/authenticated
+  - login Gmail
+  - flick disable `Ad personalization` switch
 ## Delete This! (NOT RECOMMENDED because you can screw up everything. Do this **ONLY** if your reputation got destroyed!)
 - Google Play Games (⚠️ Only available to delete entire data in your account, no particular).
   - Open `Play Games` app.
