@@ -20,7 +20,7 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
-const VERSION:String = "2022.04.4"
+const VERSION:String = "2022.04.3"
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
