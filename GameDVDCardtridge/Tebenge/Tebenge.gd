@@ -20,7 +20,8 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
-const VERSION:String = "2022.04.3"
+const VERSION:String = "2022.08.1"
+var loadSays:PoolStringArray = ['-', '\\', '|', '/']
 
 var _saveTemplate:Dictionary = {
 	kludgeHiScore = {
@@ -148,7 +149,7 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 func _checkStartup():
 	print("checking startup")
 	_checkUpdate()
-	yield(get_tree().create_timer(5),"timeout")
+#	yield(get_tree().create_timer(5),"timeout")
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		print("check startup found Google Play")
 		pass

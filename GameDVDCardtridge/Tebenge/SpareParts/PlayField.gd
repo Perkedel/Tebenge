@@ -54,6 +54,8 @@ func startTheGame(withMode = gameModes.Arcade) -> void:
 			pass
 		gameModes.Endless:
 			$EndlessTickoutTimer.start(1)
+			# dad want endless start HP from 5. let's give bonus 2 HP, idk...
+			$TebengePlayer.addHP(2)
 			pass
 		_:
 			pass

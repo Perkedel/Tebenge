@@ -23,6 +23,7 @@ BonusBullet = ExtResource( 3 )
 [node name="Bekgron" parent="." instance=ExtResource( 5 )]
 
 [node name="TebengePlayer" parent="." instance=ExtResource( 7 )]
+unique_name_in_owner = true
 position = Vector2( 960, 540 )
 reddenHuertMaterial = SubResource( 1 )
 

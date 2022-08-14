@@ -8,7 +8,8 @@ func _notification(what: int) -> void:
 			NOTIFICATION_WM_FOCUS_IN:
 				pass
 			NOTIFICATION_WM_FOCUS_OUT:
-				$PauseButton.pressed = true
+#				$PauseButton.pressed = true
+				$PositionedPauseButtonxDT/PauseButton.pressed = true
 				pass
 			_:
 				pass

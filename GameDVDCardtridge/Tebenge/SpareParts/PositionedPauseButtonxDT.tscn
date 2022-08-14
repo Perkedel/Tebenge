@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ComplexDT.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuPauseButton.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/PositionedPauseButtonxDT.gd" type="Script" id=3]
+
+[node name="PositionedPauseButtonxDT" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="PauseButton" parent="." index="0" instance=ExtResource( 2 )]
+margin_right = 300.0
+margin_bottom = 100.0
+
+[connection signal="pressedName" from="PauseButton" to="." method="_on_PauseButton_pressedName"]

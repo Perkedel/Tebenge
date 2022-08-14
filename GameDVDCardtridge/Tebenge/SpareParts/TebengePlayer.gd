@@ -75,6 +75,21 @@ func stopVibrate():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	# Moved to _physics_process to prepare Physics Interpolation 2D
+	pass
+
+func _physics_process(delta: float) -> void:
+#	if hasCollidenKinematic:
+#		var metadataing = hasCollidenKinematic.collider
+#		if metadataing:
+#			if metadataing.is_in_group("Tebenge_Enemy"):
+#				if enemyMode:
+##					doingExcuseMe = true
+##					$ExcuseMeTimer.start(2)
+##					position = Vector2(position.x + (-200 if movesToLeft else 200), position.y)
+#					movesToLeft != movesToLeft
+#					pass
+#	
 	movening = Vector2(Input.get_axis("Tebenge_Kiri","Tebenge_Kanan"),Input.get_axis("Tebenge_Atas","Tebenge_Bawah"))
 	excuseMeY = ((1 if movesToLeft else -1) * speed * 10) if doingExcuseMe else 0
 	autoMovening = Vector2(speed * (-1 if movesToLeft else 1),excuseMeY)
@@ -123,20 +138,6 @@ func _process(delta):
 		pass
 	# bug! positional did not work well. it veer off to right.
 	# use mirror Floating HUD instead!
-	pass
-
-func _physics_process(delta: float) -> void:
-#	if hasCollidenKinematic:
-#		var metadataing = hasCollidenKinematic.collider
-#		if metadataing:
-#			if metadataing.is_in_group("Tebenge_Enemy"):
-#				if enemyMode:
-##					doingExcuseMe = true
-##					$ExcuseMeTimer.start(2)
-##					position = Vector2(position.x + (-200 if movesToLeft else 200), position.y)
-#					movesToLeft != movesToLeft
-#					pass
-#
 	pass
 
 func plsExcuseMe():

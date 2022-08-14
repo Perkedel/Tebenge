@@ -28,6 +28,7 @@ margin_left = 169.0
 margin_top = 116.0
 margin_right = 1791.0
 margin_bottom = 1015.0
+theme_type_variation = "BigButtonOK"
 
 [node name="ConfirmationDialog" parent="CanvasLayer" instance=ExtResource( 5 )]
 margin_left = 479.0

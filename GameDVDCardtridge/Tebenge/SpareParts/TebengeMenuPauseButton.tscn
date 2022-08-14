@@ -8,6 +8,7 @@
 [node name="TebengeMenuPauseButton" instance=ExtResource( 1 )]
 self_modulate = Color( 1, 1, 1, 0.6 )
 focus_mode = 0
+size_flags_vertical = 0
 shortcut = ExtResource( 3 )
 text = "Pause"
 icon = ExtResource( 4 )

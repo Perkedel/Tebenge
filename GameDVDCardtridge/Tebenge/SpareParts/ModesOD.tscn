@@ -14,8 +14,7 @@ startQueryFromSelectionNum = 1
 margin_left = 202.0
 margin_right = 502.0
 margin_bottom = 150.0
-title = "Arcade High Score"
-value = "43"
+title = "Arcade Hi-score"
 
 [node name="ArcadeButton" parent="." index="1" instance=ExtResource( 2 )]
 margin_left = 506.0
@@ -42,8 +41,7 @@ icon = ExtResource( 5 )
 margin_left = 1114.0
 margin_right = 1414.0
 margin_bottom = 150.0
-title = "Endless High Score"
-value = "123"
+title = "Endless Hi-score"
 
 [node name="BackButton" parent="." index="4" instance=ExtResource( 6 )]
 margin_left = 1418.0

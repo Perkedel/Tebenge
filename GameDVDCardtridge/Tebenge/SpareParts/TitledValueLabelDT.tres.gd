@@ -7,18 +7,24 @@ export(String) var value = "value" setget set_value
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"
+#var isReady:bool = false
 
 func set_title(into:String):
-	title = into
-	$TitleLabel.text = title
+#	if isReady:
+		title = into
+		if $TitleLabel != null:
+			$TitleLabel.text = title
 
 func set_value(into:String):
-	value = into
-	$ValueLabel.text = value
+#	if isReady:
+		value = into
+		if $ValueLabel != null:
+			$ValueLabel.text = value
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+#	isReady = true
 	pass # Replace with function body.
 
 

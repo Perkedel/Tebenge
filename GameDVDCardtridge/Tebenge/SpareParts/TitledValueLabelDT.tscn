@@ -6,6 +6,8 @@
 
 [node name="TitledValueLabelDT" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
+title = "Title"
+value = "value"
 
 [node name="TitleLabel" parent="." index="0" instance=ExtResource( 2 )]
 margin_right = 300.0
