@@ -187,7 +187,7 @@ func _readBilling():
 		# Then check if customer gave their soul to Shang Tsung
 		# billing check Subscription Remove Ad
 	else:
-		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work.")
+		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work. SHANG_TSUNG_BLOCKED")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
