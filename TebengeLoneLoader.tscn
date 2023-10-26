@@ -46,9 +46,7 @@ script = ExtResource( 1 )
 [connection signal="rewarded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded"]
 [connection signal="rewarded_video_closed" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_closed"]
 [connection signal="rewarded_video_failed_to_load" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_failed_to_load"]
-[connection signal="rewarded_video_left_application" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_left_application"]
 [connection signal="rewarded_video_loaded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_loaded"]
 [connection signal="rewarded_video_opened" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_opened"]
-[connection signal="rewarded_video_started" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_rewarded_video_started"]
 
 [editable path="BuiltInSystemer"]

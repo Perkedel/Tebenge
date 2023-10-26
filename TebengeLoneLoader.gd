@@ -7,6 +7,7 @@ onready var insertCoinSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/
 # var b = "text"
 var admobStrings:PoolStringArray
 var play_games_services:Object
+var shangTsung # Google Play IAP
 var is_play_games_signed_in:bool = false
 var is_play_games_available:bool = false
 var __secret_GoogleCloud_Oauth_Client_ID:String = ""
@@ -34,6 +35,9 @@ func _ready() -> void:
 		printerr("Google Cloud failed to load! Check firmware software! Contact technician & Reflash if corrupted.")
 #		$DVDsolder/Tebenge._releaseDelay()
 		pass
+	
+	# and finally, this pecking Shang Tsung soul stealer / Google IAP
+	_readBilling()
 	pass # Replace with function body.
 
 func _input(event: InputEvent) -> void:
@@ -155,6 +159,35 @@ func _readAdmobio():
 
 func _testAdbmobio():
 	$BuiltInSystemer/AdMob.load_banner()
+	pass
+
+func _readBilling():
+	# https://docs.godotengine.org/en/3.6/tutorials/platform/android/android_in_app_purchases.html
+	# https://github.com/godotengine/godot-google-play-billing
+	# https://developer.android.com/google/play/billing/integrate?hl=id#process
+	if Engine.has_singleton("GodotGooglePlayBilling"):
+		shangTsung = Engine.get_singleton("GodotGooglePlayBilling")
+
+		# These are all signals supported by the API
+		# You can drop some of these based on your needs
+		shangTsung.connect("connected", self, "_on_connected") # No params
+		shangTsung.connect("disconnected", self, "_on_disconnected") # No params
+		shangTsung.connect("connect_error", self, "_on_connect_error") # Response ID (int), Debug message (string)
+		shangTsung.connect("purchases_updated", self, "_on_purchases_updated") # Purchases (Dictionary[])
+		shangTsung.connect("purchase_error", self, "_on_purchase_error") # Response ID (int), Debug message (string)
+		shangTsung.connect("sku_details_query_completed", self, "_on_sku_details_query_completed") # SKUs (Dictionary[])
+		shangTsung.connect("sku_details_query_error", self, "_on_sku_details_query_error") # Response ID (int), Debug message (string), Queried SKUs (string[])
+		shangTsung.connect("purchase_acknowledged", self, "_on_purchase_acknowledged") # Purchase token (string)
+		shangTsung.connect("purchase_acknowledgement_error", self, "_on_purchase_acknowledgement_error") # Response ID (int), Debug message (string), Purchase token (string)
+		shangTsung.connect("purchase_consumed", self, "_on_purchase_consumed") # Purchase token (string)
+		shangTsung.connect("purchase_consumption_error", self, "_on_purchase_consumption_error") # Response ID (int), Debug message (string), Purchase token (string)
+
+		shangTsung.startConnection()
+		
+		# Then check if customer gave their soul to Shang Tsung
+		# billing check Subscription Remove Ad
+	else:
+		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work.")
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

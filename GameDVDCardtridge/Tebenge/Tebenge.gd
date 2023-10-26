@@ -5,6 +5,7 @@ const savePath:String = "user://Simpan/Tebenge/Simpan.json"
 const saveDir:String = "Simpan/Tebenge/"
 const updateCheckDownloadMeURL:String = "https://raw.githubusercontent.com/Perkedel/Tebenge/main/version.downloadMe"
 const downloadLatestVersionURL:String = "https://play.google.com/store/apps/details?id=com.Perkedel.tebenge"
+const githubIssueURL:String = "https://github.com/Perkedel/Tebenge/issues"
 const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
 const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
 const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
@@ -20,7 +21,7 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
-const VERSION:String = "2022.08.1"
+const VERSION:String = "2022.09.1"
 var loadSays:PoolStringArray = ['-', '\\', '|', '/']
 
 var _saveTemplate:Dictionary = {
@@ -127,13 +128,83 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 				# Update check
 				var daStringe = body.get_string_from_utf8()
 				updateVerLog = daStringe.split(";",true,1)
-				if updateVerLog[0] != VERSION:
-					confirmActionIdFor = "NewVersion"
-					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+				var granularVerLog:PoolStringArray = updateVerLog[0].split(".",true,3) # This one was my idea.
+				# splited the version says so
+				var granularVersion:PoolStringArray = VERSION.split(".",true,3)
+				var datedStatus:int = 0
+				# -1 out of date
+				# 0 latest
+				# 1 cutting edge
+				var granularVersionNum:PoolIntArray
+				for thei in granularVersion:
+					# Right now this instance
+					granularVersionNum.push_back(thei)
+					pass
+				var granularVerLogNum:PoolIntArray # nope, PoolIntArray you see, is 32-bit int. we want 64-bit!
+				for thei in granularVerLog:
+					# Latest from repo
+					granularVerLogNum.push_back(thei)
+					pass
+				print("Latest: " + String(granularVerLogNum))
+				print("Right here: "+  String(granularVersionNum))
+				# check Year, Month, Patch.
+				if granularVerLogNum[0] > granularVersionNum[0]:
+					# Year out of date
+					datedStatus = -1
+					print('Year out of date')
+					pass
+				elif granularVerLogNum[0] < granularVerLogNum[0]:
+					# Year beyond date
+					datedStatus = 1
+					print('Year beyond date')
 					pass
 				else:
+					# Year latest
+					print('Year latest')
+					if granularVerLogNum[1] > granularVersionNum[1]:
+						# Month out of date
+						datedStatus = -1
+						print('Month out of date')
+						print('latest month = ' + String(granularVerLogNum[1]))
+						print('latest month = ' + String(granularVerLogNum[1]))
+						pass
+					elif granularVerLogNum[1] < granularVersionNum[1]:
+						# Month beyond date
+						datedStatus = 1
+						print('Month beyond date')
+						pass
+					else:
+						# Month latest
+						print('Month latest')
+						if granularVerLogNum[2] > granularVersionNum[2]:
+							# Patch out of date
+							datedStatus = -1
+							print('Patch out of date')
+							pass
+						elif granularVerLogNum[2] < granularVersionNum[2]:
+							# Patch beyond date
+							datedStatus = 1
+							print('Patch beyond date')
+							pass
+						else:
+							# Patch latest
+							datedStatus = 0
+							print('Latest version')
+							pass
+						pass
+					pass
+				
+#				if updateVerLog[0] != VERSION:
+				if datedStatus < 0:
+					confirmActionIdFor = "NewVersion"
+					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the firmware you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\n\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Firware Update!")
+					pass
+				elif datedStatus > 0:
+					confirmActionIdFor = "BeyondVersion"
+					_confirmationDialog("You are using cutting edge version!\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nYour firmware (v" + VERSION + ") \nis beyond than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up GitHub issue, & please report any issues you find.\n\nUnlike competitors, we are leading technology company that does not create litigation lawsuits\njust because customers leaked unfinished & unreleased firmware software.\nAs long that the leak does not affect reputation in bad way, we are always fine with such leaks.\nBeware though, you will find alot of bugs! So if you found one,\nit'd be helpful to report those at\n"+githubIssueURL+" .\nThank you!","BeyondVersion", "Leaked firmware software")
+				else:
 					if manualUpdateCheck:
-						_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n")
+						_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nReport issues at "+githubIssueURL+"")
 						manualUpdateCheck = false
 				pass
 			_:
@@ -536,6 +607,9 @@ func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
 			print("Let's open " + downloadLatestVersionURL)
 			OS.shell_open(downloadLatestVersionURL)
 			pass
+		"BeyondVersion":
+			print("Let's open " + githubIssueURL)
+			OS.shell_open(githubIssueURL)
 		_:
 			pass
 	emit_signal("AdBanner_Reshow")
