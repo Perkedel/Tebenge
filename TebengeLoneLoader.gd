@@ -1,17 +1,23 @@
 extends Node
 # This is hastily made up Hexagon Engine Core just to run the Tebenge GameDVDCardtridge.
 
+const ITEM_SKU = ['just_donate']
+const SUBS_SKU = ['remove_ad']
+
 onready var insertCoinSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/deleh.wav")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
 var admobStrings:PoolStringArray
 var play_games_services:Object
-var shangTsung # Google Play IAP
+var shangTsung # Google Play IAP # payment
 var is_play_games_signed_in:bool = false
 var is_play_games_available:bool = false
 var __secret_GoogleCloud_Oauth_Client_ID:String = ""
 var creditInserted:int = 0
+var ___yourSoulsBelongsToShangTsungInsteadOfGoogle:bool = false # you subscribed to remove_ad
+var ___testShangTsungMight = null # test_item_purchase_token
+
 onready var requiresCredit:int = 1
 
 func _init() -> void:
@@ -23,6 +29,11 @@ func _ready() -> void:
 	print("Welcome to Tebenge")
 	yield(get_tree().create_timer(5),"timeout")
 	print("Ready")
+	
+	# (No, actually first) ~~and finally~~, this pecking Shang Tsung soul stealer / Google IAP
+	_readBilling()
+	# if the billing works & user payment active, then ___yourSoulsBelongsToShangTsungInsteadOfGoogle is true 
+	
 	$DVDsolder/Tebenge.loadedHexagonEngine = false
 	var tryGoogleCloud:bool = _readGoogleCloud()
 	_readAdmobio()
@@ -36,8 +47,7 @@ func _ready() -> void:
 #		$DVDsolder/Tebenge._releaseDelay()
 		pass
 	
-	# and finally, this pecking Shang Tsung soul stealer / Google IAP
-	_readBilling()
+	
 	pass # Replace with function body.
 
 func _input(event: InputEvent) -> void:
@@ -135,50 +145,69 @@ func _postCheckGooglePlay():
 
 func _readAdmobio():
 	# use https://godotengine.org/qa/57130/how-to-import-and-read-text
-	var f = File.new()
-	if f.file_exists("res://Admob/Tebenge.admob"):
-		f.open("res://Admob/Tebenge.admob", File.READ)
-		var index = 0
-		while not f.eof_reached():
-			admobStrings.append(f.get_line())
-			index += 1
-			pass
-		f.close()
-		$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
-		$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
-		$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+	if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
+		$BuiltInSystemer/AdMob.banner_id = ""
+		$BuiltInSystemer/AdMob.interstitial_id = ""
+		$BuiltInSystemer/AdMob.rewarded_id = ""
+		print('YOUR SOUL IS MINE')
 	else:
-		printerr("WERROR 404 Admob ID file missing!")
-	
-	
-#	$BuiltInSystemer/AdMob.init()
-	$BuiltInSystemer/AdMob.load_banner()
-	$BuiltInSystemer/AdMob.load_interstitial()
-	$BuiltInSystemer/AdMob.load_rewarded_video()
+		var f = File.new()
+		if f.file_exists("res://Admob/Tebenge.admob"):
+			f.open("res://Admob/Tebenge.admob", File.READ)
+			var index = 0
+			while not f.eof_reached():
+				admobStrings.append(f.get_line())
+				index += 1
+				pass
+			f.close()
+			$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
+			$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
+			$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+		else:
+			printerr("WERROR 404 Admob ID file missing!")
+	#	$BuiltInSystemer/AdMob.init()
+		$BuiltInSystemer/AdMob.load_banner()
+		$BuiltInSystemer/AdMob.load_interstitial()
+		$BuiltInSystemer/AdMob.load_rewarded_video()
 	pass
 
 func _testAdbmobio():
-	$BuiltInSystemer/AdMob.load_banner()
+	if not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
+		$BuiltInSystemer/AdMob.load_banner()
+	pass
+
+func _updateAdmobioStatus():
+	if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
+		pass
+	else:
+		$BuiltInSystemer/AdMob.banner_id = ""
+		$BuiltInSystemer/AdMob.interstitial_id = ""
+		$BuiltInSystemer/AdMob.rewarded_id = ""
+		$BuiltInSystemer/AdMob.hide_banner()
+		print('YOUR SOUL IS MINE')
+		pass
 	pass
 
 func _readBilling():
 	# https://docs.godotengine.org/en/3.6/tutorials/platform/android/android_in_app_purchases.html
 	# https://github.com/godotengine/godot-google-play-billing
 	# https://developer.android.com/google/play/billing/integrate?hl=id#process
+	# https://youtu.be/5W7xsGWPfdU?si=sDosiJDu2coTaCsW
+	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
 	if Engine.has_singleton("GodotGooglePlayBilling"):
 		shangTsung = Engine.get_singleton("GodotGooglePlayBilling")
 
 		# These are all signals supported by the API
 		# You can drop some of these based on your needs
-		shangTsung.connect("connected", self, "_on_connected") # No params
-		shangTsung.connect("disconnected", self, "_on_disconnected") # No params
-		shangTsung.connect("connect_error", self, "_on_connect_error") # Response ID (int), Debug message (string)
-		shangTsung.connect("purchases_updated", self, "_on_purchases_updated") # Purchases (Dictionary[])
-		shangTsung.connect("purchase_error", self, "_on_purchase_error") # Response ID (int), Debug message (string)
-		shangTsung.connect("sku_details_query_completed", self, "_on_sku_details_query_completed") # SKUs (Dictionary[])
-		shangTsung.connect("sku_details_query_error", self, "_on_sku_details_query_error") # Response ID (int), Debug message (string), Queried SKUs (string[])
-		shangTsung.connect("purchase_acknowledged", self, "_on_purchase_acknowledged") # Purchase token (string)
-		shangTsung.connect("purchase_acknowledgement_error", self, "_on_purchase_acknowledgement_error") # Response ID (int), Debug message (string), Purchase token (string)
+		shangTsung.connect("connected", self, "_on_GP_IAP_connected") # No params
+		shangTsung.connect("disconnected", self, "_on_GP_IAP_disconnected") # No params
+		shangTsung.connect("connect_error", self, "_on_GP_IAP_connect_error") # Response ID (int), Debug message (string)
+		shangTsung.connect("purchases_updated", self, "_on_GP_IAP_purchases_updated") # Purchases (Dictionary[])
+		shangTsung.connect("purchase_error", self, "_on_GP_IAP_purchase_error") # Response ID (int), Debug message (string)
+		shangTsung.connect("sku_details_query_completed", self, "_on_GP_IAP_sku_details_query_completed") # SKUs (Dictionary[])
+		shangTsung.connect("sku_details_query_error", self, "_on_GP_IAP_sku_details_query_error") # Response ID (int), Debug message (string), Queried SKUs (string[])
+		shangTsung.connect("purchase_acknowledged", self, "_on_GP_IAP_purchase_acknowledged") # Purchase token (string)
+		shangTsung.connect("purchase_acknowledgement_error", self, "_on_GP_IAP_purchase_acknowledgement_error") # Response ID (int), Debug message (string), Purchase token (string)
 		shangTsung.connect("purchase_consumed", self, "_on_purchase_consumed") # Purchase token (string)
 		shangTsung.connect("purchase_consumption_error", self, "_on_purchase_consumption_error") # Response ID (int), Debug message (string), Purchase token (string)
 
@@ -186,8 +215,118 @@ func _readBilling():
 		
 		# Then check if customer gave their soul to Shang Tsung
 		# billing check Subscription Remove Ad
+		# HOW AM I SUPPOSED TO DO THAT?! WHICH SIGNAL CALLBACK?!?!?
+#		print('IT HAS BEGUN')
 	else:
 		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work. SHANG_TSUNG_BLOCKED")
+	pass
+	
+func _on_GP_IAP_connected():
+	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
+	if Engine.has_singleton("GodotGooglePlayBilling") and shangTsung:
+		print('Connecteh the Microtransactor')
+#		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
+		var query_subs = shangTsung.queryPurchases("subs")
+		print(query_subs)
+		
+		if query_subs.status == OK:
+			for purchase in query_subs.purchases:
+				match purchase.sku:
+					"remove_ad":
+						
+						print('IT HAS BEGUN')
+						pass
+					_:
+						pass
+				if !purchase.is_acknowledged:
+					___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+					print('YOUR SOUL IS MINE')
+					shangTsung.acknowledgePurchase(purchase.purchase_token)
+			pass
+		
+		
+#		print('IT HAS BEGUN')
+	pass
+
+func _on_GP_IAP_disconnected():
+	# connection to Shang Tsung's green minion dropped!
+	yield(get_tree().create_timer(10),"timeout")
+	if shangTsung:
+		shangTsung.startConnection()
+
+
+func _on_GP_IAP_purchases_updated(purchases):
+	print("Purchases updated: %s" % to_json(purchases))
+	purchased_inapp = to_buy_item
+	# See _on_connected
+	for purchase in purchases:
+		if !purchase.is_acknowledged:
+			print("Purchase " + str(purchase.sku) + " has not been acknowledged. Acknowledging...")
+			shangTsung.acknowledgePurchase(purchase.purchase_token)
+
+	if purchases.size() > 0:
+		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
+	pass
+
+var purchasable_inapp:Dictionary
+var subs:bool = false
+func _on_GP_IAP_sku_details_query_completed(sku_details):
+	if !subs:
+		for available_sku in sku_details:
+			purchasable_inapp[available_sku.sku] = available_sku
+			"{inapp1:{data},inapp2:{data}}" 
+		subs = true
+		shangTsung.querySkuDetails(SUBS_SKU,"subs")
+	else: #or if subs:
+		for available_sku in sku_details:
+			if available_sku.sku == "remove_ad":
+				pass
+		"Loading.hide()"
+	pass
+
+var purchased_inapp:String
+var purchased_subs:bool = false
+func _on_GP_IAP_purchase_acknowledged(purchase_token):
+	print("Purchase acknowledged: %s" % purchase_token)
+	if !purchased_subs:
+		"open functions of purchased_inapp"
+# warning-ignore:standalone_expression
+		match purchased_inapp:
+			"inapp1":
+				pass
+			"inapp2":
+				pass
+			"just_donate":
+				pass
+	else:
+		"subscription func"
+		purchased_subs = false
+	"Global._save_game()"
+	
+	"or"
+	
+	match purchased_inapp:
+		"inapp1":
+			pass
+		"inapp2":
+			pass
+		"free_ads_1":
+			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+			pass
+		"remove_ad":
+			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+			pass
+	"Global._save_game()"
+	_updateAdmobioStatus()
+	pass
+
+var to_buy_item:String
+func commencePurchase(whichIs:String = '', sellSoul:bool = false):
+	purchased_subs = true
+	to_buy_item = whichIs
+	if shangTsung:
+		shangTsung.purchase(to_buy_item)
+		print('HAVE A SOUL TO SPARE, YOUNG BEING? | buying ' + to_buy_item)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
