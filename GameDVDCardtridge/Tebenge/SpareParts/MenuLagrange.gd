@@ -35,6 +35,11 @@ func openGooglePlayOd():
 	$GooglePlayOD.show()
 	pass
 
+func openDisableAdsOd():
+	hideAllODs()
+	$DisableAdsOD.show()
+	pass
+
 func quitPls():
 	hideAllODs()
 	$QuitDialogOD.show()

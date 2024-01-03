@@ -91,6 +91,7 @@ var manuallyUploadSaveSoBeNoisy:bool= false
 var commercialMode:bool = false
 var updateVerLog:PoolStringArray = ["2022","-idk"]
 var manualUpdateCheck:bool = false
+var adDisableBeingChecked:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -561,7 +562,19 @@ func _enter_tree():
 	pass
 
 func _checkAdDisableSubscription():
-	
+	adDisableBeingChecked = true
+	emit_signal("PlayBilling_Query",'subs')
+	pass
+
+func adDisableResponse(subbed:bool):
+	if adDisableBeingChecked:
+		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with Buy buttons below.", 'Ad Disabler Status')
+		pass
+	adDisableBeingChecked = false
+	pass
+
+func _buySubscription():
+	emit_signal("PlayBilling_Subscribe",'remove_ad')
 	pass
 
 func murderAdNow():
@@ -879,6 +892,10 @@ func _openGooglePlayOd(inGame:bool = false):
 	$CanvasLayer/UIField.openGooglePlayOd(inGame)
 	pass
 
+func _openDisableAdsOd(inGame:bool = false):
+	$CanvasLayer/UIField.openDisableAdsOd(inGame)
+	pass
+
 func _changeLoginGooglePlay(into:bool = true):
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		if($PlayField.gameplayStarted):
@@ -988,7 +1005,8 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					match(nameToDo):
 						"Disable Ads":
 							# Check Subscription for Disable ad button
-							_checkAdDisableSubscription()
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(false)
 							pass
 						"Google Play Games":
 #							_justCheckGooglePlay()
@@ -1031,6 +1049,20 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"Download Save":
 							_downloadOverwriteSave(false)
+							pass
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
+					pass
+				"DisableAdsOD":
+					match(nameToDo):
+						"Query Purchases":
+							_checkAdDisableSubscription()
+							pass
+						"Buy 1 Month":
+							_buySubscription()
 							pass
 						"Back":
 							_settingPls()
@@ -1099,6 +1131,11 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(true)
+							pass
 						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(true)
@@ -1146,6 +1183,19 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						_:
 							pass
 					pass
+				"DisableAdsOD":
+					match(nameToDo):
+						"Query Purchases":
+							_checkAdDisableSubscription()
+							pass
+						"Buy 1 Month":
+							_buySubscription()
+							pass
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
 				"AbortDialogOD":
 					match(nameToDo):
 						"Yes":

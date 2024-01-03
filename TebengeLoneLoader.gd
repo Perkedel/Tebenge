@@ -17,6 +17,7 @@ var __secret_GoogleCloud_Oauth_Client_ID:String = ""
 var creditInserted:int = 0
 var ___yourSoulsBelongsToShangTsungInsteadOfGoogle:bool = false # you subscribed to remove_ad
 var ___testShangTsungMight = null # test_item_purchase_token
+onready var ___tebengeItself = $DVDsolder/Tebenge
 
 onready var requiresCredit:int = 1
 
@@ -34,7 +35,7 @@ func _ready() -> void:
 	_readBilling()
 	# if the billing works & user payment active, then ___yourSoulsBelongsToShangTsungInsteadOfGoogle is true 
 	
-	$DVDsolder/Tebenge.loadedHexagonEngine = false
+	___tebengeItself.loadedHexagonEngine = false
 	var tryGoogleCloud:bool = _readGoogleCloud()
 	_readAdmobio()
 #	_testAdbmobio()
@@ -44,7 +45,7 @@ func _ready() -> void:
 		
 	else:
 		printerr("Google Cloud failed to load! Check firmware software! Contact technician & Reflash if corrupted.")
-#		$DVDsolder/Tebenge._releaseDelay()
+#		___tebengeItself._releaseDelay()
 		pass
 	
 	
@@ -138,7 +139,7 @@ func _postCheckGooglePlay():
 		#is_play_games_available = play_game_services.isGooglePlayServicesAvailable()
 		play_games_services.signIn()
 		is_play_games_signed_in = play_games_services.isSignedIn()
-#		$DVDsolder/Tebenge._releaseDelay()
+#		___tebengeItself._releaseDelay()
 	else:
 		print("No Play Service available. Mevem")
 	pass
@@ -246,6 +247,8 @@ func _queryPurchases(whichAre:String = 'subs'):
 #				print('YOUR SOUL IS MINE')
 				shangTsung.acknowledgePurchase(purchase.purchase_token)
 				pass
+			pass
+		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 		pass
 	pass
 
@@ -337,8 +340,12 @@ func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 	purchased_subs = true
 	to_buy_item = whichIs
 	if shangTsung:
+		___tebengeItself._acceptDialog('You should see the purchase options', 'Buying now')
 		shangTsung.purchase(to_buy_item)
 		print('HAVE A SOUL TO SPARE, YOUNG BEING? | buying ' + to_buy_item)
+	else:
+		___tebengeItself._acceptDialog('Wait, where\'s Shang Tsung??', '404 Google Play Billing Not found!')
+		pass
 	pass
 
 func checkPurchase(whichIs:String = '', sellSoul:bool = false):
@@ -353,22 +360,22 @@ func _process(delta):
 	pass
 
 func _on_AdMob_banner_loaded():
-	$DVDsolder/Tebenge.receive_AdBanner_success()
+	___tebengeItself.receive_AdBanner_success()
 	pass # Replace with function body.
 
 
 func _on_AdMob_interstitial_closed():
-	$DVDsolder/Tebenge.receive_AdInterstitial_closed()
+	___tebengeItself.receive_AdInterstitial_closed()
 	pass # Replace with function body.
 
 
 func _on_AdMob_interstitial_failed_to_load(error_code):
-	$DVDsolder/Tebenge.receive_AdInterstitial_failed()
+	___tebengeItself.receive_AdInterstitial_failed()
 	pass # Replace with function body.
 
 
 func _on_AdMob_interstitial_loaded():
-	$DVDsolder/Tebenge.receive_AdInterstitial_success()
+	___tebengeItself.receive_AdInterstitial_success()
 	pass # Replace with function body.
 
 func _on_AdMob_banner_failed_to_load(error_code):
@@ -381,7 +388,7 @@ func _on_Tebenge_ChangeDVD_Exec():
 
 func _on_Tebenge_Shutdown_Exec():
 	#TODO: resave all high scores!
-	$DVDsolder/Tebenge.queue_free()
+	___tebengeItself.queue_free()
 	
 	if OS.get_name() == "iOS" || OS.get_name() == "HTML5":
 		$BuiltInSystemer/AcceptDialog.window_title = "Notification"
@@ -448,7 +455,7 @@ func _on_Tebenge_AdInterstitial_Terminate() -> void:
 
 
 func _on_AdMob_rewarded(currency, ammount) -> void:
-	$DVDsolder/Tebenge.receive_AdRewarded_success()
+	___tebengeItself.receive_AdRewarded_success()
 	pass # Replace with function body.
 
 
@@ -457,7 +464,7 @@ func _on_AdMob_rewarded_video_closed() -> void:
 
 
 func _on_AdMob_rewarded_video_failed_to_load(error_code) -> void:
-	$DVDsolder/Tebenge.receive_AdRewarded_failed()
+	___tebengeItself.receive_AdRewarded_failed()
 	pass # Replace with function body.
 
 
@@ -489,12 +496,12 @@ func _on_sign_in_success(userProfile_json: String) -> void:
 #	userProfile["id"] # The user's id
 	print("Successful login as ID " + userProfile["displayName"])
 	# do not mistake again!!! `userProfile` Dictionary is the parsed version of `userProfile_json` String!!!
-	$DVDsolder/Tebenge.googlePlayLoggedIn(true,userProfile_json,0)
+	___tebengeItself.googlePlayLoggedIn(true,userProfile_json,0)
 	pass
   
 func _on_sign_in_failed(error_code: int) -> void:
 	printerr("WERROR login Google Play Faile " + String(error_code))
-	$DVDsolder/Tebenge.googlePlayLoggedIn(false,"",error_code)
+	___tebengeItself.googlePlayLoggedIn(false,"",error_code)
 	pass
 
 # Callbacks: play_games_services.signOut()
@@ -586,7 +593,7 @@ func _on_create_new_snapshot(name):
 #		"is_gamer": true
 #	}
 #	play_games_services.save_snapshot(name, to_json(game_data_to_save), "DESCRIPTION")
-	$DVDsolder/Tebenge.cloudSavePressYes(name)
+	___tebengeItself.cloudSavePressYes(name)
 	pass
 
 # Callbacks: play_games_services.loadSnapshot("SNAPSHOT_NAME")
@@ -597,11 +604,11 @@ func _on_game_load_success(data):
 #	else:
 #		game_data = {}
 	
-	$DVDsolder/Tebenge.receive_PlayService_DownloadSave(data, true)
+	___tebengeItself.receive_PlayService_DownloadSave(data, true)
 	pass
 	
 func _on_game_load_fail():
-	$DVDsolder/Tebenge.receive_PlayService_DownloadSave("",false)
+	___tebengeItself.receive_PlayService_DownloadSave("",false)
 	pass
 
 func _on_Tebenge_PlayService_JustCheck(menuId:int = 0) -> void:
@@ -689,7 +696,7 @@ func insertCoin():
 	print("Insert Coin! now you have " + String(creditInserted))
 	$BuiltInSystemer/InternalSpeaker.stream = insertCoinSound
 	$BuiltInSystemer/InternalSpeaker.play()
-	$DVDsolder/Tebenge._receiveInsertCoin(creditInserted)
+	___tebengeItself._receiveInsertCoin(creditInserted)
 	pass
 
 func useCoin():
@@ -697,11 +704,11 @@ func useCoin():
 	print("You need " + String(requiresCredit) + " " + "Coins" if requiresCredit > 1 else "Coin")
 	if creditInserted > requiresCredit:
 		creditInserted -= requiresCredit
-		$DVDsolder/Tebenge._receiveCoinEligibilityResult(true, creditInserted)
+		___tebengeItself._receiveCoinEligibilityResult(true, creditInserted)
 		print("Coin is enough! Great luck! Now you have " + String(creditInserted))
 		pass
 	else:
-		$DVDsolder/Tebenge._receiveCoinEligibilityResult(false, creditInserted)
+		___tebengeItself._receiveCoinEligibilityResult(false, creditInserted)
 		print("Coin is not enough! Exchange coin! You still have " + String(creditInserted))
 		pass
 	
@@ -727,7 +734,8 @@ func _on_Tebenge_PlayBilling_Buy(what) -> void:
 
 
 func _on_Tebenge_PlayBilling_Subscribe(toWhat) -> void:
-	checkPurchase(toWhat)
+#	checkPurchase(toWhat)
+	commencePurchase(toWhat)
 	pass # Replace with function body.
 
 

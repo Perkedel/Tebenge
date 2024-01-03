@@ -59,6 +59,18 @@ func openGooglePlayOd(inGame:bool = false):
 		pass
 	pass
 
+func openDisableAdsOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openDisableAdsOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openDisableAdsOd()
+		pass
+	pass
+
 func attemptAbortGame():
 	$GameplayLagrange.attemptAbortGame()
 	pass

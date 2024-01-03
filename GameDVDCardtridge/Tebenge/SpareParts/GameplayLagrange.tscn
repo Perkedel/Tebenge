@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseLagrange.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/HUDOD.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/AbortDialogOD.tscn" type="PackedScene" id=8]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/SettingOD.tscn" type="PackedScene" id=9]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/GooglePlayOD.tscn" type="PackedScene" id=10]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/DisableAdsOD.tscn" type="PackedScene" id=11]
 
 [node name="GameplayLagrange" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
@@ -77,6 +78,15 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 
 [node name="GooglePlayOD" parent="." index="7" instance=ExtResource( 10 )]
+visible = false
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 930.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="DisableAdsOD" parent="." index="8" instance=ExtResource( 11 )]
 visible = false
 anchor_top = 0.0
 anchor_right = 0.0
