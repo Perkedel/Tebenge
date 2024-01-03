@@ -62,6 +62,8 @@ signal PlayService_SetStepAchievement(achievedId,stepsTo)
 signal PlayBilling_Subscribe(toWhat)
 signal PlayBilling_Buy(what)
 signal PlayBilling_Query(what)
+signal PlayBilling_Consume(what)
+signal PlayBilling_Update() # update what purchased
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
@@ -92,6 +94,7 @@ var commercialMode:bool = false
 var updateVerLog:PoolStringArray = ["2022","-idk"]
 var manualUpdateCheck:bool = false
 var adDisableBeingChecked:bool = false
+var checkingBought:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -573,12 +576,28 @@ func adDisableResponse(subbed:bool):
 	adDisableBeingChecked = false
 	pass
 
+func _checkWhatDidWeBuy():
+	checkingBought = true
+	emit_signal("PlayBilling_Update")
+	pass
+
+func askedWhatPurchases(rawSay:String = '???'):
+	if checkingBought:
+		_acceptDialog('Your Bought info:\n'+rawSay, 'Purchased items')
+		pass
+	checkingBought = false
+	pass
+
 func _buySubscription():
-	emit_signal("PlayBilling_Subscribe",'remove-ad0')
+	emit_signal("PlayBilling_Subscribe",'remove_ad')
 	pass
 
 func _buyUseless():
 	emit_signal("PlayBilling_Buy",'just_donate')
+	pass
+
+func _consumeUseless():
+	emit_signal("PlayBilling_Consume",'just_donate')
 	pass
 
 func murderAdNow():
@@ -1071,6 +1090,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Test Buy Useless":
 							_buyUseless()
 							pass
+						"Consume Useless":
+							_consumeUseless()
+							pass
 						"Back":
 							_settingPls()
 							pass
@@ -1200,6 +1222,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"Test Buy Useless":
 							_buyUseless()
+							pass
+						"Consume Useless":
+							_consumeUseless()
 							pass
 						"Back":
 							_settingPls()

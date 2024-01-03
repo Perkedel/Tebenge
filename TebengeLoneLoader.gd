@@ -3,6 +3,11 @@ extends Node
 
 const ITEM_SKU = ['just_donate']
 const SUBS_SKU = ['remove_ad']
+enum PurchaseState {
+	UNSPECIFIED,
+	PURCHASED,
+	PENDING,
+}
 
 onready var insertCoinSound:AudioStream = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/deleh.wav")
 # Declare member variables here. Examples:
@@ -241,6 +246,15 @@ func _queryPurchases(whichAre:String = 'subs'):
 					print('IT HAS BEGUN')
 					continue
 					pass
+				"just_donate":
+					if !purchase.is_acknowledged:
+						shangTsung.consumePurchase(purchase.purchase_token)
+					if purchase.purchase_state == PurchaseState.PURCHASED:
+						shangTsung.consumePurchase(purchase.purchase_token)
+						pass
+					
+					continue
+					pass
 				_:
 					pass
 			if !purchase.is_acknowledged:
@@ -285,6 +299,8 @@ func _on_GP_IAP_purchases_updated(purchases):
 
 	if purchases.size() > 0:
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
+		
+	___tebengeItself.askedWhatPurchases(String(purchases))
 	pass
 
 var purchasable_inapp:Dictionary
@@ -307,7 +323,7 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 				pass
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
-	___tebengeItself._acceptDialog(String(purchasable_inapp),'SKU DETAILS') # DEBUG
+#	___tebengeItself._acceptDialog(String(purchasable_inapp),'SKU DETAILS') # DEBUG
 #	print(sku_details)
 	pass
 
@@ -368,6 +384,14 @@ func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 
 func checkPurchase(whichIs:String = '', sellSoul:bool = false):
 	commencePurchase(whichIs, sellSoul)
+	pass
+
+func consumePurchase(whichIs:String = ''):
+	if shangTsung:
+		shangTsung.consumePurhcase(whichIs)
+		pass
+	else:
+		pass
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -760,4 +784,12 @@ func _on_Tebenge_PlayBilling_Subscribe(toWhat) -> void:
 
 func _on_Tebenge_PlayBilling_Query(what) -> void:
 	_queryPurchases(what)
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_Consume(what) -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_Update() -> void:
 	pass # Replace with function body.
