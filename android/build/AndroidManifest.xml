@@ -105,6 +105,10 @@
                 <!-- Enable real Android TV / Google TV launcher support -->
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
+
+            <!-- Android Automotive allow distraction -->
+            <!-- Quite dangerous, make sure it is the passenger using this app -->
+            <meta-data android:name="distractionOptimized" android:value="false"/>
         </activity>
 
 <!-- Custom application XML added by add-ons. -->

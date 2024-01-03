@@ -220,29 +220,41 @@ func _readBilling():
 	else:
 		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work. SHANG_TSUNG_BLOCKED")
 	pass
+
+func _checkAcknowledge():
+	pass
+
+func _queryPurchases(whichAre:String = 'subs'):
+	var query_subs = shangTsung.queryPurchases(whichAre)
+	print(query_subs)
 	
+	if query_subs.status == OK:
+		for purchase in query_subs.purchases:
+			match purchase.sku:
+				"remove_ad":
+					if !purchase.is_acknowledged:
+						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+						print('YOUR SOUL IS MINE')
+						shangTsung.acknowledgePurchase(purchase.purchase_token)
+					print('IT HAS BEGUN')
+					continue
+					pass
+				_:
+					pass
+			if !purchase.is_acknowledged:
+#				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+#				print('YOUR SOUL IS MINE')
+				shangTsung.acknowledgePurchase(purchase.purchase_token)
+				pass
+		pass
+	pass
+
 func _on_GP_IAP_connected():
 	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
 	if Engine.has_singleton("GodotGooglePlayBilling") and shangTsung:
 		print('Connecteh the Microtransactor')
 #		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
-		var query_subs = shangTsung.queryPurchases("subs")
-		print(query_subs)
-		
-		if query_subs.status == OK:
-			for purchase in query_subs.purchases:
-				match purchase.sku:
-					"remove_ad":
-						
-						print('IT HAS BEGUN')
-						pass
-					_:
-						pass
-				if !purchase.is_acknowledged:
-					___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-					print('YOUR SOUL IS MINE')
-					shangTsung.acknowledgePurchase(purchase.purchase_token)
-			pass
+		_queryPurchases('subs')
 		
 		
 #		print('IT HAS BEGUN')
@@ -327,6 +339,10 @@ func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 	if shangTsung:
 		shangTsung.purchase(to_buy_item)
 		print('HAVE A SOUL TO SPARE, YOUNG BEING? | buying ' + to_buy_item)
+	pass
+
+func checkPurchase(whichIs:String = '', sellSoul:bool = false):
+	commencePurchase(whichIs, sellSoul)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -703,4 +719,18 @@ func _on_Tebenge_PlayService_CheckSaves(saved_games_screen_title, allow_add_butt
 
 func _on_Tebenge_UseCoinCheck_Exec() -> void:
 	useCoin()
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_Buy(what) -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_Subscribe(toWhat) -> void:
+	checkPurchase(toWhat)
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_Query(what) -> void:
+	_queryPurchases(what)
 	pass # Replace with function body.

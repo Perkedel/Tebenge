@@ -59,6 +59,9 @@ signal PlayService_UnlockAchievement(achievedId)
 signal PlayService_RevealAchievement(achievedId)
 signal PlayService_IncrementAchievement(achievedId,stepNum)
 signal PlayService_SetStepAchievement(achievedId,stepsTo)
+signal PlayBilling_Subscribe(toWhat)
+signal PlayBilling_Buy(what)
+signal PlayBilling_Query(what)
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
@@ -153,7 +156,7 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 					datedStatus = -1
 					print('Year out of date')
 					pass
-				elif granularVerLogNum[0] < granularVerLogNum[0]:
+				elif granularVerLogNum[0] < granularVersionNum[0]:
 					# Year beyond date
 					datedStatus = 1
 					print('Year beyond date')
@@ -554,6 +557,10 @@ func _ready():
 	pass # Replace with function body.
 
 func _enter_tree():
+	
+	pass
+
+func _checkAdDisableSubscription():
 	
 	pass
 
@@ -979,6 +986,10 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+							_checkAdDisableSubscription()
+							pass
 						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(false)
