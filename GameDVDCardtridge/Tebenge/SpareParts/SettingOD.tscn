@@ -18,41 +18,56 @@ script = ExtResource( 4 )
 startQueryFromSelectionNum = 1
 
 [node name="SoundOnOffDT" parent="." index="0" instance=ExtResource( 3 )]
-margin_left = 202.0
-margin_right = 502.0
+margin_left = 50.0
+margin_right = 350.0
 margin_bottom = 150.0
 title = "Sound (Master)"
 icon = ExtResource( 11 )
 iconOff = ExtResource( 12 )
+state = true
 
-[node name="GooglePlayGamesButton" parent="." index="1" instance=ExtResource( 7 )]
-margin_left = 506.0
-margin_right = 806.0
+[node name="CheckDisableAdsButton" parent="." index="1" instance=ExtResource( 7 )]
+margin_left = 354.0
+margin_right = 654.0
+margin_bottom = 150.0
+text = "Disable Ads"
+
+[node name="DisableAdDT" parent="." index="2" instance=ExtResource( 3 )]
+visible = false
+margin_left = 354.0
+margin_right = 654.0
+margin_bottom = 150.0
+title = "Disable Ads"
+state = true
+
+[node name="GooglePlayGamesButton" parent="." index="3" instance=ExtResource( 7 )]
+margin_left = 658.0
+margin_right = 958.0
 margin_bottom = 150.0
 hint_tooltip = "Opens your Google Play profile dashboard"
 text = "Google Play Games"
 icon = ExtResource( 9 )
 
-[node name="TebengeMenuButton" parent="." index="2" instance=ExtResource( 7 )]
-margin_left = 810.0
-margin_right = 1110.0
+[node name="TebengeMenuButton" parent="." index="4" instance=ExtResource( 7 )]
+margin_left = 962.0
+margin_right = 1262.0
 margin_bottom = 150.0
 text = "Check Update"
 icon = ExtResource( 10 )
 
-[node name="AboutButton" parent="." index="3" instance=ExtResource( 7 )]
-margin_left = 1114.0
-margin_right = 1414.0
+[node name="AboutButton" parent="." index="5" instance=ExtResource( 7 )]
+margin_left = 1266.0
+margin_right = 1566.0
 margin_bottom = 150.0
 text = "About"
 icon = ExtResource( 8 )
 
-[node name="BackButton" parent="." index="4" instance=ExtResource( 2 )]
-margin_left = 1418.0
-margin_right = 1718.0
+[node name="BackButton" parent="." index="6" instance=ExtResource( 2 )]
+margin_left = 1570.0
+margin_right = 1870.0
 margin_bottom = 150.0
 
-[node name="TestSpeaker" parent="." index="5" instance=ExtResource( 6 )]
+[node name="TestSpeaker" parent="." index="7" instance=ExtResource( 6 )]
 stream = ExtResource( 5 )
 
 [connection signal="changeState" from="SoundOnOffDT" to="." method="_on_SoundOnOffDT_changeState"]
