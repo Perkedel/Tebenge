@@ -574,7 +574,11 @@ func adDisableResponse(subbed:bool):
 	pass
 
 func _buySubscription():
-	emit_signal("PlayBilling_Subscribe",'remove_ad')
+	emit_signal("PlayBilling_Subscribe",'remove-ad0')
+	pass
+
+func _buyUseless():
+	emit_signal("PlayBilling_Buy",'just_donate')
 	pass
 
 func murderAdNow():
@@ -1064,6 +1068,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Buy 1 Month":
 							_buySubscription()
 							pass
+						"Test Buy Useless":
+							_buyUseless()
+							pass
 						"Back":
 							_settingPls()
 							pass
@@ -1190,6 +1197,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"Buy 1 Month":
 							_buySubscription()
+							pass
+						"Test Buy Useless":
+							_buyUseless()
 							pass
 						"Back":
 							_settingPls()

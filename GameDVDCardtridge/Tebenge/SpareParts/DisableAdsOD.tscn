@@ -9,18 +9,24 @@
 script = ExtResource( 4 )
 
 [node name="QueryPurchaseButton" parent="." index="0" instance=ExtResource( 2 )]
-margin_left = 506.0
-margin_right = 806.0
+margin_left = 354.0
+margin_right = 654.0
 margin_bottom = 150.0
 text = "Query Purchases"
 
 [node name="Buy1MonthButton" parent="." index="1" instance=ExtResource( 2 )]
-margin_left = 810.0
-margin_right = 1110.0
+margin_left = 658.0
+margin_right = 958.0
 margin_bottom = 150.0
 text = "Buy 1 Month"
 
-[node name="TebengeMenuBackButton" parent="." index="2" instance=ExtResource( 3 )]
-margin_left = 1114.0
-margin_right = 1414.0
+[node name="TestBuyButton" parent="." index="2" instance=ExtResource( 2 )]
+margin_left = 962.0
+margin_right = 1262.0
+margin_bottom = 150.0
+text = "Test Buy Useless"
+
+[node name="TebengeMenuBackButton" parent="." index="3" instance=ExtResource( 3 )]
+margin_left = 1266.0
+margin_right = 1566.0
 margin_bottom = 150.0

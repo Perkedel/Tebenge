@@ -200,6 +200,7 @@ func _readBilling():
 
 		# These are all signals supported by the API
 		# You can drop some of these based on your needs
+		shangTsung.connect("billing_resume",self,"_on_GP_IAP_billing_resume")
 		shangTsung.connect("connected", self, "_on_GP_IAP_connected") # No params
 		shangTsung.connect("disconnected", self, "_on_GP_IAP_disconnected") # No params
 		shangTsung.connect("connect_error", self, "_on_GP_IAP_connect_error") # Response ID (int), Debug message (string)
@@ -257,7 +258,10 @@ func _on_GP_IAP_connected():
 	if Engine.has_singleton("GodotGooglePlayBilling") and shangTsung:
 		print('Connecteh the Microtransactor')
 #		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
+		shangTsung.querySkuDetails(SUBS_SKU,"subs")
+		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		_queryPurchases('subs')
+		_queryPurchases('inapp')
 		
 		
 #		print('IT HAS BEGUN')
@@ -286,17 +290,25 @@ func _on_GP_IAP_purchases_updated(purchases):
 var purchasable_inapp:Dictionary
 var subs:bool = false
 func _on_GP_IAP_sku_details_query_completed(sku_details):
+	for available_sku in sku_details:
+		purchasable_inapp[available_sku.sku] = available_sku
+		pass
+	
 	if !subs:
-		for available_sku in sku_details:
-			purchasable_inapp[available_sku.sku] = available_sku
-			"{inapp1:{data},inapp2:{data}}" 
+#		for available_sku in sku_details:
+#			purchasable_inapp[available_sku.sku] = available_sku
+#			"{inapp1:{data},inapp2:{data}}" 
+			
 		subs = true
-		shangTsung.querySkuDetails(SUBS_SKU,"subs")
+#		shangTsung.querySkuDetails(SUBS_SKU,"subs")
 	else: #or if subs:
 		for available_sku in sku_details:
 			if available_sku.sku == "remove_ad":
 				pass
+#		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
+	___tebengeItself._acceptDialog(String(purchasable_inapp),'SKU DETAILS') # DEBUG
+#	print(sku_details)
 	pass
 
 var purchased_inapp:String
@@ -312,6 +324,7 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 			"inapp2":
 				pass
 			"just_donate":
+				___tebengeItself._acceptDialog('Thank you for your donation!', 'Donation Received')
 				pass
 	else:
 		"subscription func"
@@ -329,10 +342,15 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 			pass
 		"remove_ad":
+			___tebengeItself._acceptDialog('Ad Disabled\nThank you for your purchase', 'Ad Disabled')
 			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 			pass
 	"Global._save_game()"
 	_updateAdmobioStatus()
+	pass
+
+func _on_GP_IAP_purchase_error(response:int = 0, message:String = ''):
+	___tebengeItself._acceptDialog('WERROR '+String(response)+'\n'+message,'Purchase Error')
 	pass
 
 var to_buy_item:String
@@ -340,7 +358,7 @@ func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 	purchased_subs = true
 	to_buy_item = whichIs
 	if shangTsung:
-		___tebengeItself._acceptDialog('You should see the purchase options', 'Buying now')
+		___tebengeItself._acceptDialog('You should see the purchase options\nBuying: ' + to_buy_item, 'Buying now')
 		shangTsung.purchase(to_buy_item)
 		print('HAVE A SOUL TO SPARE, YOUNG BEING? | buying ' + to_buy_item)
 	else:
@@ -730,6 +748,7 @@ func _on_Tebenge_UseCoinCheck_Exec() -> void:
 
 
 func _on_Tebenge_PlayBilling_Buy(what) -> void:
+	commencePurchase(what)
 	pass # Replace with function body.
 
 
