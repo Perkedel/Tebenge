@@ -206,3 +206,16 @@ The following are tab links opened during this development. Some of which are as
 - https://dev.to/neshaz/a-tutorial-for-tagging-releases-in-git-147e
 - https://github.com/oneseedfruit/PGSGP
 - https://github.com/cgisca/PGSGP
+- https://github.com/studioschade/json-beautifier-for-godot/blob/master/addons/json_beautifier/json_beautifier.gd
+- https://godotassetlibrary.com/asset/ZoJknH/json-beautifier
+- https://github.com/Perkedel/HexagonEngine/blob/master/addons/json_beautifier/LICENSE here
+- https://codeberg.org/Yeldham/json-beautifier-for-godot/src/branch/master/addons/json_beautifier/json_beautifier.gd latest 4
+- https://godotengine.org/asset-library/asset/157 latest 4
+- https://github.com/oneseedfruit/PGSGP?tab=readme-ov-file#achievements
+- https://github.com/godotengine/godot-demo-projects/blob/master/mobile/android_iap/iap_demo.gd
+- https://docs.godotengine.org/en/stable/tutorials/platform/android/android_in_app_purchases.html
+- https://developer.android.com/topic/google-play-instant/tech-requirements?hl=id
+- https://support.google.com/googleplay/android-developer/answer/9900182
+- https://play.google.com/about/developer-content-policy/
+- https://developer.android.com/docs/quality-guidelines/tv-app-quality?hl=id
+- 
