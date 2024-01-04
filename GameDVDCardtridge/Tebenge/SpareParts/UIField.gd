@@ -3,6 +3,7 @@ extends Control
 signal wantsToPlay
 signal wantsToQuit
 signal wantsToShutdown
+signal outOfWelcome
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -151,4 +152,9 @@ func _on_MenuLagrange_LagrangeWantsTo(nameOf:String,fromOD:String, fromLagrange:
 func _on_GameplayLangrange_LagrangeWantsTo(nameOf, fromOD, fromLagrange):
 	print("UI wants to %s from OD %s Lagrange %s" % [nameOf, fromOD, fromLagrange])
 	emit_signal("uiWantsTo",nameOf,fromOD,fromLagrange)
+	pass # Replace with function body.
+
+
+func _on_MenuLagrange_OutOfWelcome() -> void:
+	emit_signal("outOfWelcome")
 	pass # Replace with function body.

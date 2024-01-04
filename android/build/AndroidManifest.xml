@@ -122,6 +122,7 @@
             android:value="@string/admob_app_id"/>
         <!-- Play Service -->
         <!-- Mauville https://github.com/mauville-technologies/PGSGP -->
+        <!-- OneSeedFruit https://github.com/oneseedfruit/PGSGP -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"
    	        android:value="@string/app_id" />
         <meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="@string/app_id" />

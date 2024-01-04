@@ -3,6 +3,7 @@ extends Node
 
 const ITEM_SKU = ['just_donate']
 const SUBS_SKU = ['remove_ad']
+const debugMode:bool = true
 enum PurchaseState {
 	UNSPECIFIED,
 	PURCHASED,
@@ -21,10 +22,16 @@ var is_play_games_available:bool = false
 var __secret_GoogleCloud_Oauth_Client_ID:String = ""
 var creditInserted:int = 0
 var ___yourSoulsBelongsToShangTsungInsteadOfGoogle:bool = false # you subscribed to remove_ad
+var ___interstitialDestroyed:bool = false # you bought remove interstitial
 var ___testShangTsungMight = null # test_item_purchase_token
 onready var ___tebengeItself = $DVDsolder/Tebenge
 
 onready var requiresCredit:int = 1
+
+func _debugAlert(message:String = 'Hello', title:String = 'Alert'):
+	if debugMode:
+		OS.alert(message,title)
+	pass
 
 func _init() -> void:
 	print("Initen")
@@ -200,6 +207,7 @@ func _readBilling():
 	# https://developer.android.com/google/play/billing/integrate?hl=id#process
 	# https://youtu.be/5W7xsGWPfdU?si=sDosiJDu2coTaCsW
 	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
+	# https://docs.godotengine.org/en/stable/tutorials/platform/android/android_in_app_purchases.html
 	if Engine.has_singleton("GodotGooglePlayBilling"):
 		shangTsung = Engine.get_singleton("GodotGooglePlayBilling")
 
@@ -215,8 +223,9 @@ func _readBilling():
 		shangTsung.connect("sku_details_query_error", self, "_on_GP_IAP_sku_details_query_error") # Response ID (int), Debug message (string), Queried SKUs (string[])
 		shangTsung.connect("purchase_acknowledged", self, "_on_GP_IAP_purchase_acknowledged") # Purchase token (string)
 		shangTsung.connect("purchase_acknowledgement_error", self, "_on_GP_IAP_purchase_acknowledgement_error") # Response ID (int), Debug message (string), Purchase token (string)
-		shangTsung.connect("purchase_consumed", self, "_on_purchase_consumed") # Purchase token (string)
-		shangTsung.connect("purchase_consumption_error", self, "_on_purchase_consumption_error") # Response ID (int), Debug message (string), Purchase token (string)
+		shangTsung.connect("purchase_consumed", self, "_on_GP_IAP_purchase_consumed") # Purchase token (string)
+		shangTsung.connect("purchase_consumption_error", self, "_on_GP_IAP_purchase_consumption_error") # Response ID (int), Debug message (string), Purchase token (string)
+		shangTsung.connect("query_purchases_response",self,"_on_GP_IAP_query_purchases_response") # Purchases (Dictionary[])
 
 		shangTsung.startConnection()
 		
@@ -231,40 +240,70 @@ func _readBilling():
 func _checkAcknowledge():
 	pass
 
+var listQueryBoughtItem:Dictionary
+var listQueryBoughtSubs:Dictionary
 func _queryPurchases(whichAre:String = 'subs'):
-	var query_subs = shangTsung.queryPurchases(whichAre)
-	print(query_subs)
-	
-	if query_subs.status == OK:
-		for purchase in query_subs.purchases:
-			match purchase.sku:
-				"remove_ad":
-					if !purchase.is_acknowledged:
-						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-						print('YOUR SOUL IS MINE')
-						shangTsung.acknowledgePurchase(purchase.purchase_token)
-					print('IT HAS BEGUN')
-					continue
-					pass
-				"just_donate":
-					if !purchase.is_acknowledged:
-						shangTsung.consumePurchase(purchase.purchase_token)
-					if purchase.purchase_state == PurchaseState.PURCHASED:
-						shangTsung.consumePurchase(purchase.purchase_token)
-						pass
-					
-					continue
-					pass
-				_:
-					pass
-			if !purchase.is_acknowledged:
-#				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-#				print('YOUR SOUL IS MINE')
-				shangTsung.acknowledgePurchase(purchase.purchase_token)
-				pass
-			pass
+	if !shangTsung:
+		___tebengeItself._acceptDialog('Missing Billing! Querying: ' + whichAre,'404 Google Play Billing Not found!')
 		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+		return
+	else:
+#		_debugAlert('QUERY CHECKING ' + whichAre,'Please wait') # DEBUG
 		pass
+#	_debugAlert('Will check ' + whichAre, 'before') # DEBUG
+	var query_subs = shangTsung.queryPurchases(whichAre)
+#	_debugAlert('Had check ' + whichAre + '\n'+String(query_subs), 'after') # DEBUG
+#	match(whichAre):
+#		'inapp':
+#			listQueryBoughtItem = query_subs
+#			_debugAlert(String(listQueryBoughtItem))
+#		'subs':
+#			listQueryBoughtSubs = query_subs
+#			_debugAlert(String(listQueryBoughtSubs))
+#		_:
+#			pass
+#	print(query_subs)
+#	_debugAlert('QUERY:\n'+String(query_subs),'Query Billing') # DEBUG
+#
+#	if query_subs.status == OK:
+#		for purchase in query_subs.purchases:
+#			match purchase.sku:
+#				"remove_ad":
+#					if !purchase.is_acknowledged:
+#						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+#						print('YOUR SOUL IS MINE')
+#						shangTsung.acknowledgePurchase(purchase.purchase_token)
+#					print('IT HAS BEGUN')
+#					continue
+#					pass
+#				"just_donate":
+#					_debugAlert('Just donate found','Boughte')
+#					if !purchase.is_acknowledged:
+#						shangTsung.consumePurchase(purchase.purchase_token)
+#						continue
+##					if purchase.purchase_state == PurchaseState.PURCHASED:
+##						shangTsung.consumePurchase(purchase.purchase_token)
+##						pass
+#					shangTsung.consumePurchase(purchase.purchase_token)
+#
+#					continue
+#					pass
+#				"remove_interstitial":
+#					___interstitialDestroyed = true
+#					pass
+#				_:
+#					pass
+#			if !purchase.is_acknowledged:
+##				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+##				print('YOUR SOUL IS MINE')
+#				shangTsung.acknowledgePurchase(purchase.purchase_token)
+#				pass
+#			pass
+#		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+#		pass
+#	else:
+#		_debugAlert('WERROR QUERYING\n'+String(query_subs.status)+'\n\n'+String(query_subs),'Query Werror') # DEBUG
+#		pass
 	pass
 
 func _on_GP_IAP_connected():
@@ -296,6 +335,16 @@ func _on_GP_IAP_purchases_updated(purchases):
 		if !purchase.is_acknowledged:
 			print("Purchase " + str(purchase.sku) + " has not been acknowledged. Acknowledging...")
 			shangTsung.acknowledgePurchase(purchase.purchase_token)
+		match purchase.sku:
+			'just_donate':
+				_debugAlert('Consume Just donate','Yum')
+				shangTsung.consumePurchase(purchase.purchase_token)
+				pass
+			'remove_interstitial':
+				___interstitialDestroyed = true
+				pass
+			_:
+				pass
 
 	if purchases.size() > 0:
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
@@ -304,6 +353,7 @@ func _on_GP_IAP_purchases_updated(purchases):
 	pass
 
 var purchasable_inapp:Dictionary
+var purchasable_subs:Dictionary
 var subs:bool = false
 func _on_GP_IAP_sku_details_query_completed(sku_details):
 	for available_sku in sku_details:
@@ -323,7 +373,7 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 				pass
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
-#	___tebengeItself._acceptDialog(String(purchasable_inapp),'SKU DETAILS') # DEBUG
+	_debugAlert(JSONBeautifier.beautify_json(to_json(purchasable_inapp)),'SKU DETAILS') # DEBUG
 #	print(sku_details)
 	pass
 
@@ -341,6 +391,7 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 				pass
 			"just_donate":
 				___tebengeItself._acceptDialog('Thank you for your donation!', 'Donation Received')
+				shangTsung.consumePurchase(purchase_token)
 				pass
 	else:
 		"subscription func"
@@ -369,6 +420,62 @@ func _on_GP_IAP_purchase_error(response:int = 0, message:String = ''):
 	___tebengeItself._acceptDialog('WERROR '+String(response)+'\n'+message,'Purchase Error')
 	pass
 
+func _on_GP_IAP_purchase_consumed(token):
+	___tebengeItself._acceptDialog('Consuming '+ String(token), 'Consume')
+	pass
+
+func _on_GP_IAP_purchase_consumption_error(response:int = 0, message:String = ''):
+	___tebengeItself._acceptDialog('WERROR CONSUME '+String(response)+'\n'+message,'Consume Error')
+	pass
+
+func _on_GP_IAP_query_purchases_response(purchases):
+	if purchases.status == OK:
+#		listQueryBoughtItem = purchases
+		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
+		for purchase in purchases.purchases:
+#			_process_purchase(purchase)
+			listQueryBoughtItem[purchase.sku] = purchase
+			match purchase.sku:
+				"remove_ad":
+					if !purchase.is_acknowledged:
+						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+						print('YOUR SOUL IS MINE')
+						shangTsung.acknowledgePurchase(purchase.purchase_token)
+					print('IT HAS BEGUN')
+					continue
+					pass
+				"just_donate":
+#					_debugAlert('Just donate found','Boughte')
+					if !purchase.is_acknowledged:
+						shangTsung.consumePurchase(purchase.purchase_token)
+						continue
+#					if purchase.purchase_state == PurchaseState.PURCHASED:
+#						shangTsung.consumePurchase(purchase.purchase_token)
+#						pass
+					shangTsung.consumePurchase(purchase.purchase_token)
+
+					continue
+					pass
+				"remove_interstitial":
+					___interstitialDestroyed = true
+					pass
+				_:
+					pass
+			if !purchase.is_acknowledged:
+#				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+#				print('YOUR SOUL IS MINE')
+				shangTsung.acknowledgePurchase(purchase.purchase_token)
+				pass
+			pass
+#		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
+		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+	else:
+		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
+		print("queryPurchases failed, response code: ",
+				purchases.response_code,
+				" debug message: ", purchases.debug_message)
+	pass
+
 var to_buy_item:String
 func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 	purchased_subs = true
@@ -378,7 +485,7 @@ func commencePurchase(whichIs:String = '', sellSoul:bool = false):
 		shangTsung.purchase(to_buy_item)
 		print('HAVE A SOUL TO SPARE, YOUNG BEING? | buying ' + to_buy_item)
 	else:
-		___tebengeItself._acceptDialog('Wait, where\'s Shang Tsung??', '404 Google Play Billing Not found!')
+		___tebengeItself._acceptDialog('Wait, where\'s Shang Tsung??\nBuying: ' + to_buy_item, '404 Google Play Billing Not found!')
 		pass
 	pass
 
@@ -388,7 +495,9 @@ func checkPurchase(whichIs:String = '', sellSoul:bool = false):
 
 func consumePurchase(whichIs:String = ''):
 	if shangTsung:
-		shangTsung.consumePurhcase(whichIs)
+		var token = listQueryBoughtItem[whichIs].purchase_token
+		_debugAlert('Consuming ' + whichIs+'\nToken = ' + token, ' COnsumption')
+		shangTsung.consumePurhcase(token)
 		pass
 	else:
 		pass
@@ -482,12 +591,17 @@ func _on_Tebenge_AdBanner_Exec() -> void:
 
 
 func _on_Tebenge_AdRewarded_Reshow() -> void:
-	$BuiltInSystemer/AdMob.show_rewarded_video()
+	if not ___interstitialDestroyed:
+		$BuiltInSystemer/AdMob.show_rewarded_video()
+	else:
+		_on_AdMob_rewarded('pts',1)
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdInterstitial_Reshow() -> void:
-	$BuiltInSystemer/AdMob.show_interstitial()
+	if not ___interstitialDestroyed:
+		$BuiltInSystemer/AdMob.show_interstitial()
+		pass
 	pass # Replace with function body.
 
 
@@ -788,6 +902,7 @@ func _on_Tebenge_PlayBilling_Query(what) -> void:
 
 
 func _on_Tebenge_PlayBilling_Consume(what) -> void:
+	consumePurchase(what)
 	pass # Replace with function body.
 
 

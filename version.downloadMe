@@ -1,4 +1,6 @@
 2024.02.0;
 - Shrank Pause Button
 - Fix version year error logic
+- Fix Continue Expired achievement forgot connect
+- Improved Getstuck detection maybe
 - Other bugfix

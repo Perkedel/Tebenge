@@ -51,6 +51,12 @@ bus = "SoundEffect"
 wait_time = 15.0
 one_shot = true
 
+[node name="GetStuckTimer" type="Timer" parent="."]
+pause_mode = 2
+wait_time = 120.0
+one_shot = true
+autostart = true
+
 [node name="HTTPRequest" parent="." instance=ExtResource( 7 )]
 
 [connection signal="askedContinue" from="PlayField" to="." method="_on_PlayField_askedContinue"]
@@ -66,6 +72,7 @@ one_shot = true
 [connection signal="pointItIsNow" from="PlayField" to="." method="_on_PlayField_pointItIsNow"]
 [connection signal="tickedArcadeTimer" from="PlayField" to="." method="_on_PlayField_tickedArcadeTimer"]
 [connection signal="tickedEndlessTimer" from="PlayField" to="." method="_on_PlayField_tickedEndlessTimer"]
+[connection signal="outOfWelcome" from="CanvasLayer/UIField" to="." method="_on_UIField_outOfWelcome"]
 [connection signal="uiWantsTo" from="CanvasLayer/UIField" to="." method="_on_UIField_uiWantsTo"]
 [connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
 [connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]
@@ -81,5 +88,6 @@ one_shot = true
 [connection signal="confirmed" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_popup_hide"]
 [connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]
+[connection signal="timeout" from="GetStuckTimer" to="." method="_on_GetStuckTimer_timeout"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="request_doned" from="HTTPRequest" to="." method="_on_HTTPRequest_request_doned"]

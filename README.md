@@ -204,4 +204,5 @@ The following are tab links opened during this development. Some of which are as
 - https://gotm.io publish Godot Game pck. gameplay fast & performant!
 - https://linuxhint.com/add-tag-specific-commit-git/ commit & then tag. how to tag commit yey
 - https://dev.to/neshaz/a-tutorial-for-tagging-releases-in-git-147e
-- 
+- https://github.com/oneseedfruit/PGSGP
+- https://github.com/cgisca/PGSGP

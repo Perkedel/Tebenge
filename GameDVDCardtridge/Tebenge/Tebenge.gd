@@ -204,7 +204,8 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 #				if updateVerLog[0] != VERSION:
 				if datedStatus < 0:
 					confirmActionIdFor = "NewVersion"
-					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the firmware you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\n\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Firware Update!")
+					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the firmware you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\n\n","NewVersion", "New Firware Update!")
+					# "Ignore if you are testing cutting edge (nightly, beta, alpha, special) branch."
 					pass
 				elif datedStatus > 0:
 					confirmActionIdFor = "BeyondVersion"
@@ -569,6 +570,10 @@ func _checkAdDisableSubscription():
 	emit_signal("PlayBilling_Query",'subs')
 	pass
 
+func _checkJustDonate():
+	emit_signal("PlayBilling_Query",'inapp')
+	pass
+
 func adDisableResponse(subbed:bool):
 	if adDisableBeingChecked:
 		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with Buy buttons below.", 'Ad Disabler Status')
@@ -661,7 +666,8 @@ func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
 func _cancelDialog(forConfirmation:String = ""):
 	emit_signal("AdBanner_Reshow")
 	confirmActionIdFor = ""
-	$CanvasLayer/UIField.checkGetStuck()
+#	$CanvasLayer/UIField.checkGetStuck()
+	$GetStuckTimer.stop()
 	theUploadSaveForCloudCheck = false
 	pass
 
@@ -1084,6 +1090,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Query Purchases":
 							_checkAdDisableSubscription()
 							pass
+						"Query Items":
+							_checkJustDonate()
+							pass
 						"Buy 1 Month":
 							_buySubscription()
 							pass
@@ -1216,6 +1225,9 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					match(nameToDo):
 						"Query Purchases":
 							_checkAdDisableSubscription()
+							pass
+						"Query Items":
+							_checkJustDonate()
 							pass
 						"Buy 1 Month":
 							_buySubscription()
@@ -1454,6 +1466,7 @@ func _on_AboutDialog_popup_hide() -> void:
 
 
 func _on_PlayField_continueExpired() -> void:
+	_continueExpired()
 	pass # Replace with function body.
 
 
@@ -1485,4 +1498,14 @@ func _on_HTTPRequest_request_doned(purpose, result, response_code, headers, body
 
 func _on_PlayField_forcedPressContinue(whichIs:bool) -> void:
 	_iWantToContinue(whichIs)
+	pass # Replace with function body.
+
+
+func _on_GetStuckTimer_timeout() -> void:
+	$CanvasLayer/UIField.checkGetStuck()
+	pass # Replace with function body.
+
+
+func _on_UIField_outOfWelcome() -> void:
+	$GetStuckTimer.stop()
 	pass # Replace with function body.
