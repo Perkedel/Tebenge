@@ -1,8 +1,8 @@
 extends Node
 # This is hastily made up Hexagon Engine Core just to run the Tebenge GameDVDCardtridge.
 
-const ITEM_SKU = ['just_donate']
-const SUBS_SKU = ['remove_ad']
+const ITEM_SKU = ['just_donate','remove_interstitial']
+const SUBS_SKU = ['remove_ad', 'remove-ad0']
 const debugMode:bool = true
 enum PurchaseState {
 	UNSPECIFIED,
