@@ -223,3 +223,4 @@ The following are tab links opened during this development. Some of which are as
 - https://forum.godotengine.org/t/unpackaged-images-question/25923
 - https://forum.godotengine.org/t/how-to-download-and-load-a-file-as-texture-into-a-sprite-node-using-httprequest/26039
 - https://docs.godotengine.org/en/stable/tutorials/platform/android/android_in_app_purchases.html
+- https://developer.android.com/training/tv/start/start?hl=id
