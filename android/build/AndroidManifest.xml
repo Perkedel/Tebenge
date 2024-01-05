@@ -103,6 +103,7 @@
                 <category android:name="com.oculus.intent.category.VR" />
 
                 <!-- Enable real Android TV / Google TV launcher support -->
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
 
