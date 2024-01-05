@@ -308,6 +308,7 @@ func _queryPurchases(whichAre:String = 'subs'):
 	pass
 
 func _querySKUs(ofWhat):
+	print('query sku of '+ofWhat)
 	if shangTsung:
 		shangTsung.querySkuDetails(ITEM_SKU,ofWhat)
 	pass

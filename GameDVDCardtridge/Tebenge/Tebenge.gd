@@ -1047,6 +1047,12 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(false)
 							pass
+						"Info":
+							# TODO: info section
+							pass
+						"Google":
+							# TODO: Google section
+							pass
 						"Check Update":
 							_checkUpdate(true)
 							pass
