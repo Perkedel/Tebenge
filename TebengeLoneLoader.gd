@@ -1,8 +1,8 @@
 extends Node
 # This is hastily made up Hexagon Engine Core just to run the Tebenge GameDVDCardtridge.
 
-const ITEM_SKU = ['just_donate','remove_interstitial','remove_ad', 'remove-ad0']
-const SUBS_SKU = ['remove_ad', 'remove-ad0']
+const ITEM_SKU = ['just_donate','remove_interstitial','remove_ad', 'remove-ad0', 'remove-ad-recur0']
+const SUBS_SKU = ['remove_ad', 'remove-ad0', 'remove-ad-recur0']
 const debugMode:bool = true
 enum PurchaseState {
 	UNSPECIFIED,
@@ -307,6 +307,66 @@ func _queryPurchases(whichAre:String = 'subs'):
 #		pass
 	pass
 
+func _querySKUs(ofWhat):
+	if shangTsung:
+		shangTsung.querySkuDetails(ITEM_SKU,ofWhat)
+	pass
+
+func _processPurchases(purchases):
+	
+	if purchases.status == OK:
+#		listQueryBoughtItem = purchases
+		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
+		for purchase in purchases.purchases:
+#			_process_purchase(purchase)
+			listQueryBoughtItem[purchase.sku] = purchase
+			match purchase.sku:
+				"remove_ad":
+					if !purchase.is_acknowledged:
+						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+						print('YOUR SOUL IS MINE')
+						shangTsung.acknowledgePurchase(purchase.purchase_token)
+					print('IT HAS BEGUN')
+					continue
+					pass
+				"just_donate":
+#					_debugAlert('Just donate found','Boughte')
+					if !purchase.is_acknowledged:
+						shangTsung.consumePurchase(purchase.purchase_token)
+						continue
+#					if purchase.purchase_state == PurchaseState.PURCHASED:
+#						shangTsung.consumePurchase(purchase.purchase_token)
+#						pass
+					shangTsung.consumePurchase(purchase.purchase_token)
+
+					continue
+					pass
+				"remove_interstitial":
+					___interstitialDestroyed = true
+					pass
+				_:
+					pass
+			if !purchase.is_acknowledged:
+#				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+#				print('YOUR SOUL IS MINE')
+				shangTsung.acknowledgePurchase(purchase.purchase_token)
+				pass
+			pass
+#		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
+		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+	else:
+		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
+		print("queryPurchases failed, response code: ",
+				purchases.response_code,
+				" debug message: ", purchases.debug_message)
+	
+	if purchases.size() > 0:
+		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
+	
+	_updateAdmobioStatus()
+	___tebengeItself.askedWhatPurchases(String(purchases))
+	pass
+
 func _on_GP_IAP_connected():
 	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
 	if Engine.has_singleton("GodotGooglePlayBilling") and shangTsung:
@@ -332,25 +392,26 @@ func _on_GP_IAP_purchases_updated(purchases):
 	print("Purchases updated: %s" % to_json(purchases))
 	purchased_inapp = to_buy_item
 	# See _on_connected
-	for purchase in purchases:
-		if !purchase.is_acknowledged:
-			print("Purchase " + str(purchase.sku) + " has not been acknowledged. Acknowledging...")
-			shangTsung.acknowledgePurchase(purchase.purchase_token)
-		match purchase.sku:
-			'just_donate':
-				_debugAlert('Consume Just donate','Yum')
-				shangTsung.consumePurchase(purchase.purchase_token)
-				pass
-			'remove_interstitial':
-				___interstitialDestroyed = true
-				pass
-			_:
-				pass
-
-	if purchases.size() > 0:
-		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
-		
-	___tebengeItself.askedWhatPurchases(String(purchases))
+#	for purchase in purchases:
+#		if !purchase.is_acknowledged:
+#			print("Purchase " + str(purchase.sku) + " has not been acknowledged. Acknowledging...")
+#			shangTsung.acknowledgePurchase(purchase.purchase_token)
+#		match purchase.sku:
+#			'just_donate':
+#				_debugAlert('Consume Just donate','Yum')
+#				shangTsung.consumePurchase(purchase.purchase_token)
+#				pass
+#			'remove_interstitial':
+#				___interstitialDestroyed = true
+#				pass
+#			_:
+#				pass
+#
+#	if purchases.size() > 0:
+#		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
+#
+#	___tebengeItself.askedWhatPurchases(String(purchases))
+	_processPurchases(purchases)
 	pass
 
 var purchasable_inapp:Dictionary
@@ -430,51 +491,52 @@ func _on_GP_IAP_purchase_consumption_error(response:int = 0, message:String = ''
 	pass
 
 func _on_GP_IAP_query_purchases_response(purchases):
-	if purchases.status == OK:
-#		listQueryBoughtItem = purchases
-		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
-		for purchase in purchases.purchases:
-#			_process_purchase(purchase)
-			listQueryBoughtItem[purchase.sku] = purchase
-			match purchase.sku:
-				"remove_ad":
-					if !purchase.is_acknowledged:
-						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-						print('YOUR SOUL IS MINE')
-						shangTsung.acknowledgePurchase(purchase.purchase_token)
-					print('IT HAS BEGUN')
-					continue
-					pass
-				"just_donate":
-#					_debugAlert('Just donate found','Boughte')
-					if !purchase.is_acknowledged:
-						shangTsung.consumePurchase(purchase.purchase_token)
-						continue
-#					if purchase.purchase_state == PurchaseState.PURCHASED:
+#	if purchases.status == OK:
+##		listQueryBoughtItem = purchases
+#		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
+#		for purchase in purchases.purchases:
+##			_process_purchase(purchase)
+#			listQueryBoughtItem[purchase.sku] = purchase
+#			match purchase.sku:
+#				"remove_ad":
+#					if !purchase.is_acknowledged:
+#						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+#						print('YOUR SOUL IS MINE')
+#						shangTsung.acknowledgePurchase(purchase.purchase_token)
+#					print('IT HAS BEGUN')
+#					continue
+#					pass
+#				"just_donate":
+##					_debugAlert('Just donate found','Boughte')
+#					if !purchase.is_acknowledged:
 #						shangTsung.consumePurchase(purchase.purchase_token)
-#						pass
-					shangTsung.consumePurchase(purchase.purchase_token)
-
-					continue
-					pass
-				"remove_interstitial":
-					___interstitialDestroyed = true
-					pass
-				_:
-					pass
-			if !purchase.is_acknowledged:
-#				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-#				print('YOUR SOUL IS MINE')
-				shangTsung.acknowledgePurchase(purchase.purchase_token)
-				pass
-			pass
-#		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
-		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
-	else:
-		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
-		print("queryPurchases failed, response code: ",
-				purchases.response_code,
-				" debug message: ", purchases.debug_message)
+#						continue
+##					if purchase.purchase_state == PurchaseState.PURCHASED:
+##						shangTsung.consumePurchase(purchase.purchase_token)
+##						pass
+#					shangTsung.consumePurchase(purchase.purchase_token)
+#
+#					continue
+#					pass
+#				"remove_interstitial":
+#					___interstitialDestroyed = true
+#					pass
+#				_:
+#					pass
+#			if !purchase.is_acknowledged:
+##				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
+##				print('YOUR SOUL IS MINE')
+#				shangTsung.acknowledgePurchase(purchase.purchase_token)
+#				pass
+#			pass
+##		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
+#		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+#	else:
+#		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
+#		print("queryPurchases failed, response code: ",
+#				purchases.response_code,
+#				" debug message: ", purchases.debug_message)
+	_processPurchases(purchases)
 	pass
 
 var to_buy_item:String
@@ -908,4 +970,9 @@ func _on_Tebenge_PlayBilling_Consume(what) -> void:
 
 
 func _on_Tebenge_PlayBilling_Update() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayBilling_SKU(what) -> void:
+	_querySKUs(what)
 	pass # Replace with function body.

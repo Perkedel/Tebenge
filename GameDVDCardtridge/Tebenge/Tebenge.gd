@@ -61,7 +61,8 @@ signal PlayService_IncrementAchievement(achievedId,stepNum)
 signal PlayService_SetStepAchievement(achievedId,stepsTo)
 signal PlayBilling_Subscribe(toWhat)
 signal PlayBilling_Buy(what)
-signal PlayBilling_Query(what)
+signal PlayBilling_Query(what) # Query the purchases
+signal PlayBilling_SKU(what) # Query the SKU
 signal PlayBilling_Consume(what)
 signal PlayBilling_Update() # update what purchased
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
@@ -605,6 +606,10 @@ func _consumeUseless():
 	emit_signal("PlayBilling_Consume",'just_donate')
 	pass
 
+func _SKUquery(what):
+	emit_signal("PlayBilling_SKU",what)
+	pass
+
 func murderAdNow():
 	emit_signal("PlayService_UnlockAchievement",adMurderedAchievement)
 	emit_signal("AdBanner_Terminate")
@@ -1103,6 +1108,12 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 						"Consume Useless":
 							_consumeUseless()
 							pass
+						"SKU Subs":
+							_SKUquery('subs')
+							pass
+						"SKU Items":
+							_SKUquery('inapp')
+							pass
 						"Back":
 							_settingPls()
 							pass
@@ -1238,6 +1249,12 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							pass
 						"Consume Useless":
 							_consumeUseless()
+							pass
+						"SKU Subs":
+							_SKUquery('subs')
+							pass
+						"SKU Items":
+							_SKUquery('inapp')
 							pass
 						"Back":
 							_settingPls()

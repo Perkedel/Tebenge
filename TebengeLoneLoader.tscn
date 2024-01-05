@@ -29,6 +29,7 @@ script = ExtResource( 1 )
 [connection signal="PlayBilling_Buy" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_Buy"]
 [connection signal="PlayBilling_Consume" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_Consume"]
 [connection signal="PlayBilling_Query" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_Query"]
+[connection signal="PlayBilling_SKU" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_SKU"]
 [connection signal="PlayBilling_Subscribe" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_Subscribe"]
 [connection signal="PlayBilling_Update" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayBilling_Update"]
 [connection signal="PlayService_ChangeLogin" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_ChangeLogin"]
