@@ -234,6 +234,7 @@ func _readBilling():
 		# HOW AM I SUPPOSED TO DO THAT?! WHICH SIGNAL CALLBACK?!?!?
 #		print('IT HAS BEGUN')
 	else:
+		_debugAlert('Android IAP support is not enabled. Make sure you have enabled \'Custom Build\' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work','Shang Tsung Blocked')
 		print("Android IAP support is not enabled. Make sure you have enabled 'Custom Build' and the GodotGooglePlayBilling plugin in your Android export settings! IAP will not work. SHANG_TSUNG_BLOCKED")
 	pass
 
@@ -311,9 +312,9 @@ func _on_GP_IAP_connected():
 	if Engine.has_singleton("GodotGooglePlayBilling") and shangTsung:
 		print('Connecteh the Microtransactor')
 #		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
-		shangTsung.querySkuDetails(SUBS_SKU,"subs")
+#		shangTsung.querySkuDetails(SUBS_SKU,"subs")
 		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
-		_queryPurchases('subs')
+#		_queryPurchases('subs')
 		_queryPurchases('inapp')
 		
 		
