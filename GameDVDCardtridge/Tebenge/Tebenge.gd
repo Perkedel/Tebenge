@@ -618,6 +618,7 @@ func _mainMenuPls():
 	pass
 
 func _settingPls(inGame:bool = false):
+	print('huuuuuuuuuuuuu')
 	$CanvasLayer/UIField.settingPls(inGame)
 	pass
 

@@ -36,6 +36,7 @@ func mainMenuPls():
 
 func settingPls(inGame:bool = false):
 	_hideAllLagranges()
+	print('haaaaaaaaaaaaaaaaaa')
 #	$MenuLagrange.show()
 	if !inGame:
 #		_hideAllLagranges()
