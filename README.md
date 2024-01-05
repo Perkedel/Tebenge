@@ -220,3 +220,6 @@ The following are tab links opened during this development. Some of which are as
 - https://developer.android.com/docs/quality-guidelines/tv-app-quality?hl=id
 - https://stackoverflow.com/questions/29892657/admob-for-android-tv-app
 - https://groups.google.com/g/google-admob-ads-sdk/c/7NMy67EzPMg?pli=1
+- https://forum.godotengine.org/t/unpackaged-images-question/25923
+- https://forum.godotengine.org/t/how-to-download-and-load-a-file-as-texture-into-a-sprite-node-using-httprequest/26039
+- https://docs.godotengine.org/en/stable/tutorials/platform/android/android_in_app_purchases.html

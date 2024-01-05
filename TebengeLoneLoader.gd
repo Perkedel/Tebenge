@@ -195,13 +195,14 @@ func _testAdbmobio():
 func _updateAdmobioStatus():
 	if adInited:
 		if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
-			pass
-		else:
 			$BuiltInSystemer/AdMob.banner_id = ""
 			$BuiltInSystemer/AdMob.interstitial_id = ""
 			$BuiltInSystemer/AdMob.rewarded_id = ""
 			$BuiltInSystemer/AdMob.hide_banner()
 			print('YOUR SOUL IS MINE')
+			pass
+		else:
+			
 			pass
 	else:
 		_readAdmobio()
@@ -335,6 +336,8 @@ func _processPurchases(purchases):
 						shangTsung.acknowledgePurchase(purchase.purchase_token)
 					___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 					print('IT HAS BEGUN')
+					_updateAdmobioStatus()
+					___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 					continue
 					pass
 				"just_donate":
@@ -361,7 +364,7 @@ func _processPurchases(purchases):
 				pass
 			pass
 #		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
-		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+#		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 	else:
 		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
 		print("queryPurchases failed, response code: ",
@@ -371,7 +374,7 @@ func _processPurchases(purchases):
 	if purchases.size() > 0:
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
 	
-	_updateAdmobioStatus()
+#	_updateAdmobioStatus()
 	___tebengeItself.askedWhatPurchases(String(purchases))
 	pass
 
@@ -381,9 +384,9 @@ func _on_GP_IAP_connected():
 		print('Connecteh the Microtransactor')
 #		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
 #		shangTsung.querySkuDetails(SUBS_SKU,"subs")
-		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
-#		_queryPurchases('subs')
-		_queryPurchases('inapp')
+#		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
+		_queryPurchases('subs')
+#		_queryPurchases('inapp')
 		
 		
 #		print('IT HAS BEGUN')

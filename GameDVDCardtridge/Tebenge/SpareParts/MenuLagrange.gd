@@ -41,6 +41,16 @@ func openDisableAdsOd():
 	$DisableAdsOD.show()
 	pass
 
+func openGoogleSectionOd():
+	hideAllODs()
+	$GoogleSectionOD.show()
+	pass
+
+func openInfoSectionOd():
+	hideAllODs()
+	$InfoSectionOD.show()
+	pass
+
 func quitPls():
 	hideAllODs()
 	$QuitDialogOD.show()

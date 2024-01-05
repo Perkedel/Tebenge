@@ -577,12 +577,13 @@ func _checkJustDonate():
 	pass
 
 func adDisableResponse(subbed:bool):
-	if adDisableBeingChecked:
-		for theraig in disableAdsMenus:
-			if theraig is DisableAdsOD:
-				theraig.congratulationAdDisabled(subbed)
-				pass
+	for theraig in disableAdsMenus:
+		if theraig is DisableAdsOD:
+			theraig.congratulationAdDisabled(subbed)
 			pass
+		pass
+	if adDisableBeingChecked:
+		
 		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
 		pass
 	adDisableBeingChecked = false
@@ -937,6 +938,14 @@ func _openDisableAdsOd(inGame:bool = false):
 	$CanvasLayer/UIField.openDisableAdsOd(inGame)
 	pass
 
+func _openGoogleSectionOd(inGame:bool = false):
+	$CanvasLayer/UIField.openGoogleSectionOd(inGame)
+	pass
+	
+func _openInfoSectionOd(inGame:bool = false):
+	$CanvasLayer/UIField.openInfoSectionOd(inGame)
+	pass
+
 func _changeLoginGooglePlay(into:bool = true):
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		if($PlayField.gameplayStarted):
@@ -1054,10 +1063,12 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_openGooglePlayOd(false)
 							pass
 						"Info":
-							# TODO: info section
+							# DONE: info section
+							_openInfoSectionOd()
 							pass
 						"Google":
-							# TODO: Google section
+							# DONE: Google section
+							_openGoogleSectionOd()
 							pass
 						"Check Update":
 							_checkUpdate(true)
@@ -1098,7 +1109,8 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_downloadOverwriteSave(false)
 							pass
 						"Back":
-							_settingPls()
+#							_settingPls()
+							_openGoogleSectionOd()
 							pass
 						_:
 							pass
@@ -1127,11 +1139,40 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_SKUquery('inapp')
 							pass
 						"Back":
-							_settingPls()
+#							_settingPls()
+							_openGoogleSectionOd()
 							pass
 						_:
 							pass
 					pass
+				"GoogleSectionOD":
+					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(false)
+							pass
+						"Google Play Games":
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(false)
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
+				"InfoSectionOD":
+					match(nameToDo):
+						"Check Update":
+							_checkUpdate(true)
+							pass
+						"About":
+							_aboutDialog()
+							pass
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
 				"QuitDialogOD":
 					match(nameToDo):
 						"Shutdown":
@@ -1202,6 +1243,14 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(true)
 							pass
+						"Info":
+							# DONE: info section
+							_openInfoSectionOd(true)
+							pass
+						"Google":
+							# DONE: Google section
+							_openGoogleSectionOd(true)
+							pass
 						"Check Update":
 							_checkUpdate(true)
 							pass
@@ -1240,7 +1289,8 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_downloadOverwriteSave(false)
 							pass
 						"Back":
-							_settingPls(true)
+#							_settingPls(true)
+							_openGoogleSectionOd(true)
 							pass
 						_:
 							pass
@@ -1269,7 +1319,36 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_SKUquery('inapp')
 							pass
 						"Back":
-							_settingPls()
+#							_settingPls(true)
+							_openGoogleSectionOd(true)
+							pass
+						_:
+							pass
+				"GoogleSectionOD":
+					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(true)
+							pass
+						"Google Play Games":
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(true)
+						"Back":
+							_settingPls(true)
+							pass
+						_:
+							pass
+				"InfoSectionOD":
+					match(nameToDo):
+						"Check Update":
+							_checkUpdate(true)
+							pass
+						"About":
+							_aboutDialog()
+							pass
+						"Back":
+							_settingPls(true)
 							pass
 						_:
 							pass

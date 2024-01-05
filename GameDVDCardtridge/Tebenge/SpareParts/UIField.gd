@@ -73,6 +73,30 @@ func openDisableAdsOd(inGame:bool = false):
 		pass
 	pass
 
+func openInfoSectionOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openInfoSectionOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openInfoSectionOd()
+		pass
+	pass
+
+func openGoogleSectionOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openGoogleSectionOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openGoogleSectionOd()
+		pass
+	pass
+
 func attemptAbortGame():
 	$GameplayLagrange.attemptAbortGame()
 	pass
