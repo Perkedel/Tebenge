@@ -27,6 +27,7 @@ var ___testShangTsungMight = null # test_item_purchase_token
 onready var ___tebengeItself = $DVDsolder/Tebenge
 
 onready var requiresCredit:int = 1
+onready var adInited:bool = false
 
 func _debugAlert(message:String = 'Hello', title:String = 'Alert'):
 	if debugMode:
@@ -49,7 +50,7 @@ func _ready() -> void:
 	
 	___tebengeItself.loadedHexagonEngine = false
 	var tryGoogleCloud:bool = _readGoogleCloud()
-	_readAdmobio()
+#	_readAdmobio()
 #	_testAdbmobio()
 	if tryGoogleCloud:
 		print("Load Google Play Service")
@@ -158,30 +159,32 @@ func _postCheckGooglePlay():
 
 func _readAdmobio():
 	# use https://godotengine.org/qa/57130/how-to-import-and-read-text
-	if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
-		$BuiltInSystemer/AdMob.banner_id = ""
-		$BuiltInSystemer/AdMob.interstitial_id = ""
-		$BuiltInSystemer/AdMob.rewarded_id = ""
-		print('YOUR SOUL IS MINE')
-	else:
-		var f = File.new()
-		if f.file_exists("res://Admob/Tebenge.admob"):
-			f.open("res://Admob/Tebenge.admob", File.READ)
-			var index = 0
-			while not f.eof_reached():
-				admobStrings.append(f.get_line())
-				index += 1
-				pass
-			f.close()
-			$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
-			$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
-			$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+	if not adInited:
+		if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
+			$BuiltInSystemer/AdMob.banner_id = ""
+			$BuiltInSystemer/AdMob.interstitial_id = ""
+			$BuiltInSystemer/AdMob.rewarded_id = ""
+			print('YOUR SOUL IS MINE')
 		else:
-			printerr("WERROR 404 Admob ID file missing!")
-	#	$BuiltInSystemer/AdMob.init()
-		$BuiltInSystemer/AdMob.load_banner()
-		$BuiltInSystemer/AdMob.load_interstitial()
-		$BuiltInSystemer/AdMob.load_rewarded_video()
+			var f = File.new()
+			if f.file_exists("res://Admob/Tebenge.admob"):
+				f.open("res://Admob/Tebenge.admob", File.READ)
+				var index = 0
+				while not f.eof_reached():
+					admobStrings.append(f.get_line())
+					index += 1
+					pass
+				f.close()
+				$BuiltInSystemer/AdMob.banner_id = admobStrings[1]
+				$BuiltInSystemer/AdMob.interstitial_id = admobStrings[2]
+				$BuiltInSystemer/AdMob.rewarded_id = admobStrings[3]
+			else:
+				printerr("WERROR 404 Admob ID file missing!")
+		#	$BuiltInSystemer/AdMob.init()
+			$BuiltInSystemer/AdMob.load_banner()
+			$BuiltInSystemer/AdMob.load_interstitial()
+			$BuiltInSystemer/AdMob.load_rewarded_video()
+	adInited = true
 	pass
 
 func _testAdbmobio():
@@ -190,15 +193,18 @@ func _testAdbmobio():
 	pass
 
 func _updateAdmobioStatus():
-	if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
-		pass
+	if adInited:
+		if ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
+			pass
+		else:
+			$BuiltInSystemer/AdMob.banner_id = ""
+			$BuiltInSystemer/AdMob.interstitial_id = ""
+			$BuiltInSystemer/AdMob.rewarded_id = ""
+			$BuiltInSystemer/AdMob.hide_banner()
+			print('YOUR SOUL IS MINE')
+			pass
 	else:
-		$BuiltInSystemer/AdMob.banner_id = ""
-		$BuiltInSystemer/AdMob.interstitial_id = ""
-		$BuiltInSystemer/AdMob.rewarded_id = ""
-		$BuiltInSystemer/AdMob.hide_banner()
-		print('YOUR SOUL IS MINE')
-		pass
+		_readAdmobio()
 	pass
 
 func _readBilling():
@@ -327,6 +333,7 @@ func _processPurchases(purchases):
 						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 						print('YOUR SOUL IS MINE')
 						shangTsung.acknowledgePurchase(purchase.purchase_token)
+					___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 					print('IT HAS BEGUN')
 					continue
 					pass
@@ -616,11 +623,13 @@ func _on_Tebenge_Shutdown_Exec():
 
 
 func _on_Tebenge_AdInterstitial_Exec() -> void:
-	$BuiltInSystemer/AdMob.load_interstitial()
+	if adInited:
+		$BuiltInSystemer/AdMob.load_interstitial()
 	pass # Replace with function body.
 
 func _on_Tebenge_AdRewarded_Exec() -> void:
-	$BuiltInSystemer/AdMob.load_rewarded_video()
+	if adInited:
+		$BuiltInSystemer/AdMob.load_rewarded_video()
 	pass # Replace with function body.
 
 func _notification(what: int) -> void:
@@ -641,22 +650,27 @@ func _notification(what: int) -> void:
 # Da Admobion
 
 func _on_Tebenge_AdBanner_Terminate() -> void:
-	$BuiltInSystemer/AdMob.hide_banner()
+	if adInited:
+		$BuiltInSystemer/AdMob.hide_banner()
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdBanner_Reshow() -> void:
-	$BuiltInSystemer/AdMob.show_banner()
+	if adInited:
+		$BuiltInSystemer/AdMob.show_banner()
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdBanner_Exec() -> void:
+	if adInited:
+		pass
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdRewarded_Reshow() -> void:
 	if not ___interstitialDestroyed:
-		$BuiltInSystemer/AdMob.show_rewarded_video()
+		if adInited:
+			$BuiltInSystemer/AdMob.show_rewarded_video()
 	else:
 		_on_AdMob_rewarded('pts',1)
 	pass # Replace with function body.
@@ -664,13 +678,16 @@ func _on_Tebenge_AdRewarded_Reshow() -> void:
 
 func _on_Tebenge_AdInterstitial_Reshow() -> void:
 	if not ___interstitialDestroyed:
-		$BuiltInSystemer/AdMob.show_interstitial()
+		if adInited:
+			$BuiltInSystemer/AdMob.show_interstitial()
 		pass
 	pass # Replace with function body.
 
 
 func _on_Tebenge_AdInterstitial_Terminate() -> void:
-#	$BuiltInSystemer/AdMob
+	if adInited:
+#		$BuiltInSystemer/AdMob
+		pass
 	pass # Replace with function body.
 
 

@@ -1,5 +1,6 @@
 2024.02.0;
 - Shrank Pause Button
+- Endless mode HP starts from 5 instead of 3
 - Fix version year error logic
 - Fix Continue Expired achievement forgot connect
 - Improved Getstuck detection maybe

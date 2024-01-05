@@ -70,6 +70,7 @@ export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
 export(AudioStream) var unpauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseClose.wav")
 onready var loadedHexagonEngine:bool = true
+onready var disableAdsMenus = [$CanvasLayer/UIField/GameplayLagrange/DisableAdsOD, $CanvasLayer/UIField/MenuLagrange/DisableAdsOD]
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -577,7 +578,12 @@ func _checkJustDonate():
 
 func adDisableResponse(subbed:bool):
 	if adDisableBeingChecked:
-		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with Buy buttons below.", 'Ad Disabler Status')
+		for theraig in disableAdsMenus:
+			if theraig is DisableAdsOD:
+				theraig.congratulationAdDisabled(subbed)
+				pass
+			pass
+		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
 		pass
 	adDisableBeingChecked = false
 	pass
