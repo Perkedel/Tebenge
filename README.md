@@ -218,4 +218,5 @@ The following are tab links opened during this development. Some of which are as
 - https://support.google.com/googleplay/android-developer/answer/9900182
 - https://play.google.com/about/developer-content-policy/
 - https://developer.android.com/docs/quality-guidelines/tv-app-quality?hl=id
-- 
+- https://stackoverflow.com/questions/29892657/admob-for-android-tv-app
+- https://groups.google.com/g/google-admob-ads-sdk/c/7NMy67EzPMg?pli=1
