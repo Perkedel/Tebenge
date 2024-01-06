@@ -11,6 +11,7 @@ margin_bottom = 258.0
 script = ExtResource( 3 )
 title = "Double Decker Buttons"
 buttonSays = PoolStringArray( "Button A", "Button B" )
+buttonTips = PoolStringArray( "", "" )
 buttonIcons = [ null, null ]
 
 [node name="DeckerName" parent="." index="0" instance=ExtResource( 4 )]

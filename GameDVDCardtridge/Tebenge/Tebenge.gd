@@ -38,6 +38,8 @@ var _saveTemplate:Dictionary = {
 
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
+signal saveOK()
+signal saveFailed()
 signal UseCoinCheck_Exec()
 signal AdInterstitial_Exec()
 signal AdInterstitial_Reshow()
@@ -494,6 +496,7 @@ func _saveSave():
 	
 	thing.close()
 #	_interpretHiScore()
+	emit_signal('saveOK')
 	pass
 
 func _uploadOverwriteSave(confirmed:bool = false):
@@ -576,10 +579,11 @@ func _checkJustDonate():
 	emit_signal("PlayBilling_Query",'inapp')
 	pass
 
-func adDisableResponse(subbed:bool):
+func adDisableResponse(subbed:bool=false,price:String='???'):
 	for theraig in disableAdsMenus:
 		if theraig is DisableAdsOD:
 			theraig.congratulationAdDisabled(subbed)
+			
 			pass
 		pass
 	if adDisableBeingChecked:
@@ -587,6 +591,19 @@ func adDisableResponse(subbed:bool):
 		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
 		pass
 	adDisableBeingChecked = false
+	pass
+
+func adDisablePriceResponse(howMuch:String,subbed:bool=false):
+	for theraig in disableAdsMenus:
+		if theraig is DisableAdsOD:
+			theraig.adPriceInfo(
+				{
+					price=howMuch,
+					subbed=subbed,
+				}
+			)
+			pass
+		pass
 	pass
 
 func _checkWhatDidWeBuy():

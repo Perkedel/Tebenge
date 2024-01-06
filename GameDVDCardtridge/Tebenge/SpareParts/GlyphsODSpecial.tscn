@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/controller_icons/assets/key/arrow_left.png" type="Texture" id=3]
+[ext_resource path="res://addons/controller_icons/objects/Button.gd" type="Script" id=4]
+[ext_resource path="res://addons/controller_icons/assets/key/esc.png" type="Texture" id=5]
+
+[node name="GlyphsODSpecial" instance=ExtResource( 1 )]
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 25 )
+alignment = 0
+
+[node name="TebengeLabel" parent="." index="0" instance=ExtResource( 2 )]
+margin_right = 320.0
+margin_bottom = 50.0
+text = "Menu at WHaWhaWhat"
+align = 0
+
+[node name="SampelGlyph" type="Button" parent="." index="1"]
+margin_left = 324.0
+margin_right = 574.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 250, 0 )
+focus_mode = 0
+text = "Press Left"
+icon = ExtResource( 3 )
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 4 )
+path = "ui_left"
+
+[node name="SampelGlyph2" type="Button" parent="." index="2"]
+margin_left = 578.0
+margin_right = 828.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 250, 0 )
+focus_mode = 0
+text = "Back"
+icon = ExtResource( 5 )
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 4 )
+path = "ui_cancel"

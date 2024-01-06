@@ -184,6 +184,8 @@ func _readAdmobio():
 			$BuiltInSystemer/AdMob.load_banner()
 			$BuiltInSystemer/AdMob.load_interstitial()
 			$BuiltInSystemer/AdMob.load_rewarded_video()
+		
+		_debugAlert('You have subscription!' if ___yourSoulsBelongsToShangTsungInsteadOfGoogle else 'No subscription')
 	adInited = true
 	pass
 
@@ -374,9 +376,53 @@ func _processPurchases(purchases):
 	if purchases.size() > 0:
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
 	
-#	_updateAdmobioStatus()
+	_updateAdmobioStatus()
 	___tebengeItself.askedWhatPurchases(String(purchases))
 	pass
+
+func _shangTsungErrorHorroscope(code:int = 0):
+	var itseems:String = ''
+	# https://developer.android.com/google/play/billing/errors?hl=id
+	# https://developer.android.com/reference/com/android/billingclient/api/BillingClient.BillingResponseCode
+	match code:
+		OK:
+			# 0
+			itseems = 'OK'
+			pass
+		-3:
+			#timeout
+			itseems = 'Timeout! Your signal low?'
+		-2:
+			itseems = 'Feature Unsupported! API tried to trigger unsupported feature??'
+		-1:
+			itseems = 'Disconnected! Your internet died OR did you sparsdated / pirated?'
+		0:
+			pass
+		1:
+			#canceled
+			itseems = 'User canceled! You canceled purchase?'
+		2:
+			itseems = 'Internet faile! You ran out of quota?'
+			pass
+		3:
+			itseems = 'Your card rejected?'
+		4:
+			itseems = 'Item Unavailable! Sorry, I think we don\' have this in shelf atm?'
+		5:
+			itseems = 'Dev Error! I think we made mistake? Idk which one, Google can\'t tell us either! '
+			pass
+		6:
+			itseems = 'Fatal error idk! Google doesn\'t even know!'
+			pass
+		7:
+			itseems = 'Item already owned! You already have this item! Maybe try to consume it first OR stop subscribing a while?'
+		8:
+			itseems = 'Item not owned yet! You have not bought this yet?'
+		9:
+			itseems = ''
+		_:
+			pass
+	return itseems
 
 func _on_GP_IAP_connected():
 	# https://github.com/himaghnam/Himaghnam/blob/master/IAP.gd
@@ -385,6 +431,8 @@ func _on_GP_IAP_connected():
 #		shangTsung.querySkuDetails(SUBS_SKU,'remove_ad')
 #		shangTsung.querySkuDetails(SUBS_SKU,"subs")
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
+#		_querySKUs('inapp')
+		_querySKUs('subs')
 		_queryPurchases('subs')
 #		_queryPurchases('inapp')
 		
@@ -443,6 +491,7 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 	else: #or if subs:
 		for available_sku in sku_details:
 			if available_sku.sku == "remove_ad":
+				___tebengeItself.adDisablePriceResponse(available_sku.price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 				pass
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
@@ -490,7 +539,8 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 	pass
 
 func _on_GP_IAP_purchase_error(response:int = 0, message:String = ''):
-	___tebengeItself._acceptDialog('WERROR '+String(response)+'\n'+message,'Purchase Error')
+	# itseems
+	___tebengeItself._acceptDialog('WERROR '+String(response)+'\n'+message+'\n\n'+_shangTsungErrorHorroscope(response),'Purchase Error')
 	pass
 
 func _on_GP_IAP_purchase_consumed(token):
@@ -502,51 +552,7 @@ func _on_GP_IAP_purchase_consumption_error(response:int = 0, message:String = ''
 	pass
 
 func _on_GP_IAP_query_purchases_response(purchases):
-#	if purchases.status == OK:
-##		listQueryBoughtItem = purchases
-#		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
-#		for purchase in purchases.purchases:
-##			_process_purchase(purchase)
-#			listQueryBoughtItem[purchase.sku] = purchase
-#			match purchase.sku:
-#				"remove_ad":
-#					if !purchase.is_acknowledged:
-#						___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-#						print('YOUR SOUL IS MINE')
-#						shangTsung.acknowledgePurchase(purchase.purchase_token)
-#					print('IT HAS BEGUN')
-#					continue
-#					pass
-#				"just_donate":
-##					_debugAlert('Just donate found','Boughte')
-#					if !purchase.is_acknowledged:
-#						shangTsung.consumePurchase(purchase.purchase_token)
-#						continue
-##					if purchase.purchase_state == PurchaseState.PURCHASED:
-##						shangTsung.consumePurchase(purchase.purchase_token)
-##						pass
-#					shangTsung.consumePurchase(purchase.purchase_token)
-#
-#					continue
-#					pass
-#				"remove_interstitial":
-#					___interstitialDestroyed = true
-#					pass
-#				_:
-#					pass
-#			if !purchase.is_acknowledged:
-##				___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
-##				print('YOUR SOUL IS MINE')
-#				shangTsung.acknowledgePurchase(purchase.purchase_token)
-#				pass
-#			pass
-##		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
-#		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
-#	else:
-#		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
-#		print("queryPurchases failed, response code: ",
-#				purchases.response_code,
-#				" debug message: ", purchases.debug_message)
+	# purchases.status == OK
 	_processPurchases(purchases)
 	pass
 
@@ -607,21 +613,27 @@ func _on_AdMob_banner_failed_to_load(error_code):
 	pass # Replace with function body.
 
 
+var iWantToQuit:bool = false
 func _on_Tebenge_ChangeDVD_Exec():
 	pass # Replace with function body.
 
+func _readyToQuitNow():
+	if iWantToQuit:
+		___tebengeItself.queue_free()
+		
+		if OS.get_name() == "iOS" || OS.get_name() == "HTML5":
+			$BuiltInSystemer/AcceptDialog.window_title = "Notification"
+			$BuiltInSystemer/AcceptDialog.dialog_text = "It is now safe to close this app. \n(iOS does not support auto-quit per interface guidelines)\n(HTML5 does not support auto-quit / close tab)"
+			$BuiltInSystemer/AcceptDialog.popup_centered()
+			pass
+		
+		get_tree().quit()
+	pass
 
 func _on_Tebenge_Shutdown_Exec():
 	#TODO: resave all high scores!
-	___tebengeItself.queue_free()
-	
-	if OS.get_name() == "iOS" || OS.get_name() == "HTML5":
-		$BuiltInSystemer/AcceptDialog.window_title = "Notification"
-		$BuiltInSystemer/AcceptDialog.dialog_text = "It is now safe to close this app. \n(iOS does not support auto-quit per interface guidelines)\n(HTML5 does not support auto-quit / close tab)"
-		$BuiltInSystemer/AcceptDialog.popup_centered()
-		pass
-	
-	get_tree().quit()
+	iWantToQuit = true
+	___tebengeItself._saveSave()
 	pass # Replace with function body.
 
 
@@ -996,4 +1008,14 @@ func _on_Tebenge_PlayBilling_Update() -> void:
 
 func _on_Tebenge_PlayBilling_SKU(what) -> void:
 	_querySKUs(what)
+	pass # Replace with function body.
+
+
+func _on_Tebenge_saveOK() -> void:
+	if iWantToQuit:
+		_readyToQuitNow()
+	pass # Replace with function body.
+
+
+func _on_Tebenge_saveFailed() -> void:
 	pass # Replace with function body.

@@ -19,13 +19,13 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-    
+
     <!-- Android TV / Google TV optionalizers -->
     <uses-feature android:name="android.software.leanback"
             android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen"
                   android:required="false" />
-    
+
     <!-- Android Automotive optionalizers -->
     <uses-feature
         android:name="android.hardware.wifi"
@@ -36,6 +36,9 @@
     <uses-feature
         android:name="android.hardware.screen.landscape"
         android:required="false"/>
+    <uses-feature 
+        android:name="android.hardware.gamepad" 
+        android:required="false"/>
 
 <!-- Custom user permissions XML added by add-ons. It's recommended to add them from the export preset, though. -->
 <!--CHUNK_USER_PERMISSIONS_BEGIN-->
@@ -44,7 +47,6 @@
     <!-- Any tag in this line after android:icon will be erased when doing custom builds. -->
     <!-- If you want to add tags manually, do before it. -->
     <!-- WARNING: This should stay on a single line until the parsing code is improved. See GH-32414. -->
-    <!-- TODO: Remove the 'requestLegacyExternalStorage' attribute when https://github.com/godotengine/godot/issues/38913 is resolved -->
     <application android:label="@string/godot_project_name_string" android:allowBackup="false" android:isGame="true" android:hasFragileUserData="false" android:requestLegacyExternalStorage="false" tools:ignore="GoogleAppIndexingWarning" android:icon="@mipmap/icon">
 
         <!-- Records the version of the Godot editor used for building -->
@@ -67,11 +69,21 @@
             android:name="xr_hand_tracking_metadata_name"
             android:value="xr_hand_tracking_metadata_value"/>
 
+        <!-- XR hand tracking version -->
+        <!-- This is modified by the exporter based on the selected xr mode. DO NOT CHANGE the values here. -->
+        <!-- Removed at export time if the xr mode is not VR or hand tracking is disabled. -->
+        <meta-data
+            android:name="xr_hand_tracking_version_name"
+            android:value="xr_hand_tracking_version_value"/>
+
         <!-- Supported Meta devices -->
         <!-- This is removed by the exporter if the xr mode is not VR. -->
         <meta-data
             android:name="com.oculus.supportedDevices"
             android:value="all" />
+
+        <!-- Android Automotive extra what -->
+        <!-- <uses-feature android:name="android.hardware.gamepad" android:required="false"/> -->
 
         <activity
             android:name=".GodotApp"
@@ -79,6 +91,7 @@
             android:theme="@style/GodotAppSplashTheme"
             android:launchMode="singleTask"
             android:excludeFromRecents="false"
+            android:exported="true"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
             android:resizeableActivity="false"
@@ -96,8 +109,10 @@
                 <category android:name="com.oculus.intent.category.VR" />
 
                 <!-- Enable real Android TV / Google TV launcher support -->
+                <!-- <action android:name="android.intent.action.MAIN" /> -->
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
+
             <!-- Android Automotive allow distraction -->
             <!-- Quite dangerous, make sure it is the passenger using this app -->
             <meta-data android:name="distractionOptimized" android:value="false"/>
@@ -114,6 +129,7 @@
             android:value="@string/admob_app_id"/>
         <!-- Play Service -->
         <!-- Mauville https://github.com/mauville-technologies/PGSGP -->
+        <!-- OneSeedFruit https://github.com/oneseedfruit/PGSGP -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"
    	        android:value="@string/app_id" />
         <meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="@string/app_id" />

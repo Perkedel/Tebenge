@@ -5,6 +5,7 @@ extends ComplexDT
 
 export(String) var title:String = 'Double Decker Buttons' setget set_title
 export(PoolStringArray) var buttonSays:PoolStringArray = ['Button A', 'Button B'] setget set_buttons
+export(PoolStringArray) var buttonTips:PoolStringArray = ['',''] setget set_tips
 export(Array) var buttonIcons:Array = [null,null]
 onready var theLabel:Label = $DeckerName
 onready var theButtons = [$MenuButtonA,$MenuButtonB]
@@ -18,6 +19,16 @@ func set_title(into:String):
 	title = into
 	if theLabel != null:
 		theLabel.set_deferred('text',title)
+	pass
+
+func set_tips(into:PoolStringArray):
+	buttonTips = into
+	
+	for buttone in range(into.size()):
+		if theButtons != null:
+			if theButtons[buttone] != null:
+				theButtons[buttone].set_deferred('hint_tooltip',buttonTips[buttone])
+				pass
 	pass
 
 func set_buttons(into:PoolStringArray):

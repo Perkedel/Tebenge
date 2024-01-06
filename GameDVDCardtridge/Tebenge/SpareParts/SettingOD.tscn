@@ -55,7 +55,7 @@ icon = ExtResource( 9 )
 margin_left = 658.0
 margin_right = 958.0
 margin_bottom = 150.0
-hint_tooltip = "Opens your Google Play profile dashboard"
+hint_tooltip = "Open Google Play settings (Disable Ads & Google Play Games)"
 text = "Google"
 icon = ExtResource( 9 )
 
@@ -79,6 +79,7 @@ icon = ExtResource( 8 )
 margin_left = 962.0
 margin_right = 1262.0
 margin_bottom = 150.0
+hint_tooltip = "View informations, credits, & check update"
 text = "Info"
 icon = ExtResource( 14 )
 

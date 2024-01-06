@@ -44,6 +44,8 @@ script = ExtResource( 1 )
 [connection signal="PlayService_UploadScore" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_UploadScore"]
 [connection signal="Shutdown_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_Shutdown_Exec"]
 [connection signal="UseCoinCheck_Exec" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_UseCoinCheck_Exec"]
+[connection signal="saveFailed" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_saveFailed"]
+[connection signal="saveOK" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_saveOK"]
 [connection signal="banner_failed_to_load" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_failed_to_load"]
 [connection signal="banner_loaded" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_banner_loaded"]
 [connection signal="interstitial_closed" from="BuiltInSystemer/AdMob" to="." method="_on_AdMob_interstitial_closed"]

@@ -14,6 +14,7 @@ script = ExtResource( 2 )
 margin_left = 506.0
 margin_right = 806.0
 margin_bottom = 150.0
+hint_tooltip = "Buy & Check Disable Ad"
 text = "Disable Ads"
 icon = ExtResource( 6 )
 
