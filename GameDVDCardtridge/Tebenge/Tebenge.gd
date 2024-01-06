@@ -99,6 +99,7 @@ var updateVerLog:PoolStringArray = ["2022","-idk"]
 var manualUpdateCheck:bool = false
 var adDisableBeingChecked:bool = false
 var checkingBought:bool = false
+var checkingSKUs:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -458,7 +459,7 @@ func theCloudSaveIndeedExist(theJSON:String, working:bool = false):
 		_acceptDialog("Sorry, Download / Upload backup failed. Try again at setting","Werror")
 		_saveSave()
 #		$CanvasLayer/UIField.theOOBEhasBeenDone()
-		$CanvasLayer/UIField.checkGetStuck()
+#		$CanvasLayer/UIField.checkGetStuck()
 		pass
 	pass
 
@@ -571,11 +572,13 @@ func _enter_tree():
 	pass
 
 func _checkAdDisableSubscription():
+	checkingBought = true
 	adDisableBeingChecked = true
 	emit_signal("PlayBilling_Query",'subs')
 	pass
 
 func _checkJustDonate():
+	checkingBought = true
 	emit_signal("PlayBilling_Query",'inapp')
 	pass
 
@@ -606,17 +609,32 @@ func adDisablePriceResponse(howMuch:String,subbed:bool=false):
 		pass
 	pass
 
+func listSKUs(items:Array):
+	$CanvasLayer/TebengeSKUListDialog.readSKULists(items)
+	pass
+
+func listPurchases(items:Array):
+	$CanvasLayer/TebengeSKUListDialog.readPurchasedLists(items)
+	pass
+
 func _checkWhatDidWeBuy():
 	checkingBought = true
 	emit_signal("PlayBilling_Update")
 	pass
 
-func askedWhatPurchases(rawSay:String = '???'):
+func askedWhatPurchases(rawSay:String = '???', data:Array = []):
 	if checkingBought:
-		_acceptDialog('Your Bought info:\n'+rawSay, 'Purchased items')
+#		_acceptDialog('Your Bought info:\n'+rawSay, 'Purchased items')
+		listPurchases(data)
 		pass
 	checkingBought = false
 	pass
+
+func askedWhatSKUs(rawSay:String = '???', data:Array = []):
+	if checkingSKUs:
+		listSKUs(data)
+		pass
+	checkingSKUs = false
 
 func _buySubscription():
 	emit_signal("PlayBilling_Subscribe",'remove_ad')
@@ -631,6 +649,7 @@ func _consumeUseless():
 	pass
 
 func _SKUquery(what):
+	checkingSKUs = true
 	emit_signal("PlayBilling_SKU",what)
 	pass
 

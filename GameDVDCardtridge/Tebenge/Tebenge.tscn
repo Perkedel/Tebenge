@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=6]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeHTTPRequest.tscn" type="PackedScene" id=7]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/VirtualBadvertisement.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeSKUListDialog.tscn" type="PackedScene" id=9]
 
 [node name="Tebenge" type="Node"]
 script = ExtResource( 2 )
@@ -42,6 +43,8 @@ margin_top = 461.0
 margin_right = 1670.0
 margin_bottom = 738.0
 dialog_text = "Accept dialog"
+
+[node name="TebengeSKUListDialog" parent="CanvasLayer" instance=ExtResource( 9 )]
 
 [node name="InternalSpeaker" type="AudioStreamPlayer" parent="."]
 pause_mode = 2

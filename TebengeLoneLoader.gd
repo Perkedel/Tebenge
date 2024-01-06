@@ -377,7 +377,7 @@ func _processPurchases(purchases):
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
 	
 	_updateAdmobioStatus()
-	___tebengeItself.askedWhatPurchases(String(purchases))
+	___tebengeItself.askedWhatPurchases(String(purchases), purchases.purchases)
 	pass
 
 func _shangTsungErrorHorroscope(code:int = 0):
@@ -477,6 +477,7 @@ var purchasable_inapp:Dictionary
 var purchasable_subs:Dictionary
 var subs:bool = false
 func _on_GP_IAP_sku_details_query_completed(sku_details):
+	
 	for available_sku in sku_details:
 		purchasable_inapp[available_sku.sku] = available_sku
 		pass
@@ -491,10 +492,12 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 	else: #or if subs:
 		for available_sku in sku_details:
 			if available_sku.sku == "remove_ad":
-				___tebengeItself.adDisablePriceResponse(available_sku.price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+#				___tebengeItself.adDisablePriceResponse(available_sku.price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 				pass
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
+	___tebengeItself.adDisablePriceResponse(sku_details['remove_ad'].price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+	___tebengeItself.listSKUs(sku_details.values)
 	_debugAlert(JSONBeautifier.beautify_json(to_json(purchasable_inapp)),'SKU DETAILS') # DEBUG
 #	print(sku_details)
 	pass
@@ -535,6 +538,7 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 			pass
 	"Global._save_game()"
+#	_queryPurchases('subs')
 	_updateAdmobioStatus()
 	pass
 
@@ -638,12 +642,12 @@ func _on_Tebenge_Shutdown_Exec():
 
 
 func _on_Tebenge_AdInterstitial_Exec() -> void:
-	if adInited:
+	if adInited and not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
 		$BuiltInSystemer/AdMob.load_interstitial()
 	pass # Replace with function body.
 
 func _on_Tebenge_AdRewarded_Exec() -> void:
-	if adInited:
+	if adInited and not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
 		$BuiltInSystemer/AdMob.load_rewarded_video()
 	pass # Replace with function body.
 
@@ -671,7 +675,7 @@ func _on_Tebenge_AdBanner_Terminate() -> void:
 
 
 func _on_Tebenge_AdBanner_Reshow() -> void:
-	if adInited:
+	if adInited and not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
 		$BuiltInSystemer/AdMob.show_banner()
 	pass # Replace with function body.
 
@@ -684,7 +688,7 @@ func _on_Tebenge_AdBanner_Exec() -> void:
 
 func _on_Tebenge_AdRewarded_Reshow() -> void:
 	if not ___interstitialDestroyed:
-		if adInited:
+		if adInited and not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
 			$BuiltInSystemer/AdMob.show_rewarded_video()
 	else:
 		_on_AdMob_rewarded('pts',1)
@@ -693,7 +697,7 @@ func _on_Tebenge_AdRewarded_Reshow() -> void:
 
 func _on_Tebenge_AdInterstitial_Reshow() -> void:
 	if not ___interstitialDestroyed:
-		if adInited:
+		if adInited and not ___yourSoulsBelongsToShangTsungInsteadOfGoogle:
 			$BuiltInSystemer/AdMob.show_interstitial()
 		pass
 	pass # Replace with function body.
