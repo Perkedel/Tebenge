@@ -497,7 +497,8 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
 	___tebengeItself.adDisablePriceResponse(sku_details['remove_ad'].price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
-	___tebengeItself.listSKUs(sku_details.values)
+#	___tebengeItself.listSKUs(sku_details.values)
+	___tebengeItself.askedWhatSKUs(sku_details.values)
 	_debugAlert(JSONBeautifier.beautify_json(to_json(purchasable_inapp)),'SKU DETAILS') # DEBUG
 #	print(sku_details)
 	pass
