@@ -11,9 +11,9 @@ onready var placeheldIcon:Texture = preload("res://GameDVDCardtridge/Tebenge/Ass
 func _ready() -> void:
 	pass # Replace with function body.
 
-func readSKULists(items:Array = []):
+func readSKULists(items:Array = [],section:String=''):
 	theItemList.clear()
-	window_title = 'Items on shelf'
+	window_title = 'Items on shelf for ' + section
 	for item in items:
 		# http request image is async process!
 		theItemList.add_item(item.sku + ' ('+ item.price + ')',placeheldIcon,true)
@@ -21,9 +21,9 @@ func readSKULists(items:Array = []):
 	popup_centered()
 	pass
 
-func readPurchasedLists(purchases:Array = []):
+func readPurchasedLists(purchases:Array = [],section:String=''):
 	theItemList.clear()
-	window_title = 'Bought Items'
+	window_title = 'Bought Items in ' + section
 	for item in purchases:
 		theItemList.add_item(item.sku + ' ('+ item.price + ')',placeheldIcon,true)
 		pass

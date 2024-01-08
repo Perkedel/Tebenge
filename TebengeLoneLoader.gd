@@ -185,7 +185,7 @@ func _readAdmobio():
 			$BuiltInSystemer/AdMob.load_interstitial()
 			$BuiltInSystemer/AdMob.load_rewarded_video()
 		
-		_debugAlert('You have subscription!' if ___yourSoulsBelongsToShangTsungInsteadOfGoogle else 'No subscription')
+#		_debugAlert('You have subscription!' if ___yourSoulsBelongsToShangTsungInsteadOfGoogle else 'No subscription')
 	adInited = true
 	pass
 
@@ -253,6 +253,7 @@ func _checkAcknowledge():
 var listQueryBoughtItem:Dictionary
 var listQueryBoughtSubs:Dictionary
 func _queryPurchases(whichAre:String = 'subs'):
+	to_querySection = whichAre
 	if !shangTsung:
 		___tebengeItself._acceptDialog('Missing Billing! Querying: ' + whichAre,'404 Google Play Billing Not found!')
 		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
@@ -317,6 +318,7 @@ func _queryPurchases(whichAre:String = 'subs'):
 	pass
 
 func _querySKUs(ofWhat):
+	to_querySection = ofWhat
 	print('query sku of '+ofWhat)
 	if shangTsung:
 		shangTsung.querySkuDetails(ITEM_SKU,ofWhat)
@@ -326,7 +328,7 @@ func _processPurchases(purchases):
 	
 	if purchases.status == OK:
 #		listQueryBoughtItem = purchases
-		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
+#		_debugAlert('Your Purchases:\n'+JSONBeautifier.beautify_json(to_json(purchases)),'Result')
 		for purchase in purchases.purchases:
 #			_process_purchase(purchase)
 			listQueryBoughtItem[purchase.sku] = purchase
@@ -368,7 +370,8 @@ func _processPurchases(purchases):
 #		_debugAlert('Your Purchases:\n'+String(JSONBeautifier.beautify_json(listQueryBoughtItem)),'Result')
 #		___tebengeItself.adDisableResponse(___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 	else:
-		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
+#		_debugAlert("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
+		___tebengeItself._acceptDialog("queryPurchases failed, response code: "+String(purchases.response_code)+"\ndebug message:\n"+purchases.debug_message,'WERROR FAILE QUERY')
 		print("queryPurchases failed, response code: ",
 				purchases.response_code,
 				" debug message: ", purchases.debug_message)
@@ -377,7 +380,7 @@ func _processPurchases(purchases):
 		___testShangTsungMight = purchases[purchases.size() - 1].purchase_token
 	
 	_updateAdmobioStatus()
-	___tebengeItself.askedWhatPurchases(String(purchases), purchases.purchases)
+	___tebengeItself.askedWhatPurchases(String(purchases), purchases.purchases,to_querySection)
 	pass
 
 func _shangTsungErrorHorroscope(code:int = 0):
@@ -471,13 +474,14 @@ func _on_GP_IAP_purchases_updated(purchases):
 #
 #	___tebengeItself.askedWhatPurchases(String(purchases))
 	_processPurchases(purchases)
+	_queryPurchases('subs')
 	pass
 
 var purchasable_inapp:Dictionary
 var purchasable_subs:Dictionary
 var subs:bool = false
 func _on_GP_IAP_sku_details_query_completed(sku_details):
-	
+	purchasable_inapp.clear()
 	for available_sku in sku_details:
 		purchasable_inapp[available_sku.sku] = available_sku
 		pass
@@ -496,10 +500,10 @@ func _on_GP_IAP_sku_details_query_completed(sku_details):
 				pass
 #		shangTsung.querySkuDetails(ITEM_SKU,'inapp')
 		"Loading.hide()"
-	___tebengeItself.adDisablePriceResponse(sku_details['remove_ad'].price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
+	___tebengeItself.adDisablePriceResponse(purchasable_inapp['remove_ad'].price,___yourSoulsBelongsToShangTsungInsteadOfGoogle)
 #	___tebengeItself.listSKUs(sku_details.values)
-	___tebengeItself.askedWhatSKUs(sku_details.values)
-	_debugAlert(JSONBeautifier.beautify_json(to_json(purchasable_inapp)),'SKU DETAILS') # DEBUG
+	___tebengeItself.askedWhatSKUs(String(purchasable_inapp),purchasable_inapp.values(),to_querySection)
+#	_debugAlert(JSONBeautifier.beautify_json(to_json(purchasable_inapp)),'SKU DETAILS') # DEBUG
 #	print(sku_details)
 	pass
 
@@ -562,7 +566,9 @@ func _on_GP_IAP_query_purchases_response(purchases):
 	pass
 
 var to_buy_item:String
+var to_querySection:String = 'inapp'
 func commencePurchase(whichIs:String = '', sellSoul:bool = false):
+	to_querySection = whichIs
 	purchased_subs = true
 	to_buy_item = whichIs
 	if shangTsung:

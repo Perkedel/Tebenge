@@ -609,12 +609,12 @@ func adDisablePriceResponse(howMuch:String,subbed:bool=false):
 		pass
 	pass
 
-func listSKUs(items:Array):
-	$CanvasLayer/TebengeSKUListDialog.readSKULists(items)
+func listSKUs(items:Array=[], section:String=''):
+	$CanvasLayer/TebengeSKUListDialog.readSKULists(items,section)
 	pass
 
-func listPurchases(items:Array):
-	$CanvasLayer/TebengeSKUListDialog.readPurchasedLists(items)
+func listPurchases(items:Array=[], section:String=''):
+	$CanvasLayer/TebengeSKUListDialog.readPurchasedLists(items,section)
 	pass
 
 func _checkWhatDidWeBuy():
@@ -622,17 +622,18 @@ func _checkWhatDidWeBuy():
 	emit_signal("PlayBilling_Update")
 	pass
 
-func askedWhatPurchases(rawSay:String = '???', data:Array = []):
+func askedWhatPurchases(rawSay:String = '???', data:Array = [], forWhat:String='inapp'):
 	if checkingBought:
 #		_acceptDialog('Your Bought info:\n'+rawSay, 'Purchased items')
-		listPurchases(data)
+		listPurchases(data,forWhat)
 		pass
 	checkingBought = false
 	pass
 
-func askedWhatSKUs(rawSay:String = '???', data:Array = []):
+func askedWhatSKUs(rawSay:String = '???', data:Array = [], forWhat:String='inapp'):
+#	OS.alert('SKUs:\n'+String(data),'SKU thing')
 	if checkingSKUs:
-		listSKUs(data)
+		listSKUs(data,forWhat)
 		pass
 	checkingSKUs = false
 
