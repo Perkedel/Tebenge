@@ -591,7 +591,7 @@ func adDisableResponse(subbed:bool=false,price:String='???'):
 		pass
 	if adDisableBeingChecked:
 		
-		_acceptDialog("Thank you for subscribing! Keep up!!" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
+		_acceptDialog("Thank you for subscribing! Keep up!!\n\nNote: if you still see ad, you may want to restart the application" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
 		pass
 	adDisableBeingChecked = false
 	pass
