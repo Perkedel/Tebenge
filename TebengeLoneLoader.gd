@@ -539,7 +539,7 @@ func _on_GP_IAP_purchase_acknowledged(purchase_token):
 			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 			pass
 		"remove_ad":
-			___tebengeItself._acceptDialog('Ad Disabled\nThank you for your purchase', 'Ad Disabled')
+#			___tebengeItself._acceptDialog('Ad Disabled\nThank you for your purchase', 'Ad Disabled')
 			___yourSoulsBelongsToShangTsungInsteadOfGoogle = true
 			pass
 	"Global._save_game()"

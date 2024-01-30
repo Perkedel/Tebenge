@@ -1655,3 +1655,13 @@ func _on_GetStuckTimer_timeout() -> void:
 func _on_UIField_outOfWelcome() -> void:
 	$GetStuckTimer.stop()
 	pass # Replace with function body.
+
+
+func _on_TebengeSKUListDialog_popup_hide() -> void:
+	emit_signal("AdBanner_Reshow")
+	pass # Replace with function body.
+
+
+func _on_TebengeSKUListDialog_about_to_show() -> void:
+	emit_signal("AdBanner_Terminate")
+	pass # Replace with function body.
