@@ -5,6 +5,7 @@ const savePath:String = "user://Simpan/Tebenge/Simpan.json"
 const saveDir:String = "Simpan/Tebenge/"
 const updateCheckDownloadMeURL:String = "https://raw.githubusercontent.com/Perkedel/Tebenge/main/version.downloadMe"
 const downloadLatestVersionURL:String = "https://play.google.com/store/apps/details?id=com.Perkedel.tebenge"
+const githubIssueURL:String = "https://github.com/Perkedel/Tebenge/issues"
 const hiScoreArcadeId:String = "CgkIhru1tYoQEAIQAQ"
 const hiScoreEndlessId:String = "CgkIhru1tYoQEAIQAw"
 const startMeAchievement:String = "CgkIhru1tYoQEAIQAg"
@@ -20,7 +21,7 @@ const fortyOfThemAchievment:String = "CgkIhru1tYoQEAIQDA"
 const eikSerkatAmDeddAchievement:String = "CgkIhru1tYoQEAIQCw"
 const tooLateContinueZeroAchievement:String = "CgkIhru1tYoQEAIQDw"
 const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
-const VERSION:String = "2022.08.1"
+const VERSION:String = "2024.02.0"
 var loadSays:PoolStringArray = ['-', '\\', '|', '/']
 
 var _saveTemplate:Dictionary = {
@@ -37,6 +38,8 @@ var _saveTemplate:Dictionary = {
 
 signal ChangeDVD_Exec()
 signal Shutdown_Exec()
+signal saveOK()
+signal saveFailed()
 signal UseCoinCheck_Exec()
 signal AdInterstitial_Exec()
 signal AdInterstitial_Reshow()
@@ -58,11 +61,18 @@ signal PlayService_UnlockAchievement(achievedId)
 signal PlayService_RevealAchievement(achievedId)
 signal PlayService_IncrementAchievement(achievedId,stepNum)
 signal PlayService_SetStepAchievement(achievedId,stepsTo)
+signal PlayBilling_Subscribe(toWhat)
+signal PlayBilling_Buy(what)
+signal PlayBilling_Query(what) # Query the purchases
+signal PlayBilling_SKU(what) # Query the SKU
+signal PlayBilling_Consume(what)
+signal PlayBilling_Update() # update what purchased
 export(TebengePlayField.gameModes) var gameMode = TebengePlayField.gameModes.Arcade
 export(float) var arcadeTimeLimit = 120
 export(AudioStream) var pauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseOpen.wav")
 export(AudioStream) var unpauseSound = load("res://GameDVDCardtridge/Tebenge/Assets/audio/sounds/PauseClose.wav")
 onready var loadedHexagonEngine:bool = true
+onready var disableAdsMenus = [$CanvasLayer/UIField/GameplayLagrange/DisableAdsOD, $CanvasLayer/UIField/MenuLagrange/DisableAdsOD]
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -87,6 +97,9 @@ var manuallyUploadSaveSoBeNoisy:bool= false
 var commercialMode:bool = false
 var updateVerLog:PoolStringArray = ["2022","-idk"]
 var manualUpdateCheck:bool = false
+var adDisableBeingChecked:bool = false
+var checkingBought:bool = false
+var checkingSKUs:bool = false
 
 func _releaseDelay():
 	if !appStarted:
@@ -127,13 +140,84 @@ func _getHTTPResult(purpose:int = 0, result: int = 0, response_code: int=0, head
 				# Update check
 				var daStringe = body.get_string_from_utf8()
 				updateVerLog = daStringe.split(";",true,1)
-				if updateVerLog[0] != VERSION:
-					confirmActionIdFor = "NewVersion"
-					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the software you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\nIgnore if you are testing cutting edge (nightly, beta, alpha, special) branch.","NewVersion", "New Update!")
+				var granularVerLog:PoolStringArray = updateVerLog[0].split(".",true,3) # This one was my idea.
+				# splited the version says so
+				var granularVersion:PoolStringArray = VERSION.split(".",true,3)
+				var datedStatus:int = 0
+				# -1 out of date
+				# 0 latest
+				# 1 cutting edge
+				var granularVersionNum:PoolIntArray
+				for thei in granularVersion:
+					# Right now this instance
+					granularVersionNum.push_back(thei)
+					pass
+				var granularVerLogNum:PoolIntArray # nope, PoolIntArray you see, is 32-bit int. we want 64-bit!
+				for thei in granularVerLog:
+					# Latest from repo
+					granularVerLogNum.push_back(thei)
+					pass
+				print("Latest: " + String(granularVerLogNum))
+				print("Right here: "+  String(granularVersionNum))
+				# check Year, Month, Patch.
+				if granularVerLogNum[0] > granularVersionNum[0]:
+					# Year out of date
+					datedStatus = -1
+					print('Year out of date')
+					pass
+				elif granularVerLogNum[0] < granularVersionNum[0]:
+					# Year beyond date
+					datedStatus = 1
+					print('Year beyond date')
 					pass
 				else:
+					# Year latest
+					print('Year latest')
+					if granularVerLogNum[1] > granularVersionNum[1]:
+						# Month out of date
+						datedStatus = -1
+						print('Month out of date')
+						print('latest month = ' + String(granularVerLogNum[1]))
+						print('latest month = ' + String(granularVerLogNum[1]))
+						pass
+					elif granularVerLogNum[1] < granularVersionNum[1]:
+						# Month beyond date
+						datedStatus = 1
+						print('Month beyond date')
+						pass
+					else:
+						# Month latest
+						print('Month latest')
+						if granularVerLogNum[2] > granularVersionNum[2]:
+							# Patch out of date
+							datedStatus = -1
+							print('Patch out of date')
+							pass
+						elif granularVerLogNum[2] < granularVersionNum[2]:
+							# Patch beyond date
+							datedStatus = 1
+							print('Patch beyond date')
+							pass
+						else:
+							# Patch latest
+							datedStatus = 0
+							print('Latest version')
+							pass
+						pass
+					pass
+				
+#				if updateVerLog[0] != VERSION:
+				if datedStatus < 0:
+					confirmActionIdFor = "NewVersion"
+					_confirmationDialog("A New version has been detected! sorta?\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nThere must be an update here\n as this version of the firmware you are running (v" + VERSION + ") \nis different than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up Google Play or app repository you had installed this software from.\n\n","NewVersion", "New Firware Update!")
+					# "Ignore if you are testing cutting edge (nightly, beta, alpha, special) branch."
+					pass
+				elif datedStatus > 0:
+					confirmActionIdFor = "BeyondVersion"
+					_confirmationDialog("You are using cutting edge version!\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs (from that latest, not here):\n"+ updateVerLog[1] +"\n\nYour firmware (v" + VERSION + ") \nis beyond than what we've checked on the source code repo which is (v" + updateVerLog[0] + ").\n\nPress "+ $CanvasLayer/ConfirmationDialog.get_ok_say() +" to open up GitHub issue, & please report any issues you find.\n\nUnlike competitors, we are leading technology company that does not create litigation lawsuits\njust because customers leaked unfinished & unreleased firmware software.\nAs long that the leak does not affect reputation in bad way, we are always fine with such leaks.\nBeware though, you will find alot of bugs! So if you found one,\nit'd be helpful to report those at\n"+githubIssueURL+" .\nThank you!","BeyondVersion", "Leaked firmware software")
+				else:
 					if manualUpdateCheck:
-						_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n")
+						_acceptDialog("Your software firmware looks like up to date.\nYour version is v" + VERSION + "\nLatest version is v" + updateVerLog[0] + "\nwith Changelogs:\n"+ updateVerLog[1] +"\n\nReport issues at "+githubIssueURL+"")
 						manualUpdateCheck = false
 				pass
 			_:
@@ -375,7 +459,7 @@ func theCloudSaveIndeedExist(theJSON:String, working:bool = false):
 		_acceptDialog("Sorry, Download / Upload backup failed. Try again at setting","Werror")
 		_saveSave()
 #		$CanvasLayer/UIField.theOOBEhasBeenDone()
-		$CanvasLayer/UIField.checkGetStuck()
+#		$CanvasLayer/UIField.checkGetStuck()
 		pass
 	pass
 
@@ -413,6 +497,7 @@ func _saveSave():
 	
 	thing.close()
 #	_interpretHiScore()
+	emit_signal('saveOK')
 	pass
 
 func _uploadOverwriteSave(confirmed:bool = false):
@@ -486,6 +571,89 @@ func _enter_tree():
 	
 	pass
 
+func _checkAdDisableSubscription():
+	checkingBought = true
+	adDisableBeingChecked = true
+	emit_signal("PlayBilling_Query",'subs')
+	pass
+
+func _checkJustDonate():
+	checkingBought = true
+	emit_signal("PlayBilling_Query",'inapp')
+	pass
+
+func adDisableResponse(subbed:bool=false,price:String='???'):
+	for theraig in disableAdsMenus:
+		if theraig is DisableAdsOD:
+			theraig.congratulationAdDisabled(subbed)
+			
+			pass
+		pass
+	if adDisableBeingChecked:
+		
+		_acceptDialog("Thank you for subscribing! Keep up!!\n\nNote: if you still see ad, you may want to restart the application" if subbed else "Your subscription is inactive!\nYou can renew with 'Buy 1 Month' buttons below.", 'Ad Disabler Status')
+		pass
+	adDisableBeingChecked = false
+	pass
+
+func adDisablePriceResponse(howMuch:String,subbed:bool=false):
+	for theraig in disableAdsMenus:
+		if theraig is DisableAdsOD:
+			theraig.adPriceInfo(
+				{
+					price=howMuch,
+					subbed=subbed,
+				}
+			)
+			pass
+		pass
+	pass
+
+func listSKUs(items:Array=[], section:String=''):
+	$CanvasLayer/TebengeSKUListDialog.readSKULists(items,section)
+	pass
+
+func listPurchases(items:Array=[], section:String=''):
+	$CanvasLayer/TebengeSKUListDialog.readPurchasedLists(items,section)
+	pass
+
+func _checkWhatDidWeBuy():
+	checkingBought = true
+	emit_signal("PlayBilling_Update")
+	pass
+
+func askedWhatPurchases(rawSay:String = '???', data:Array = [], forWhat:String='inapp'):
+	if checkingBought:
+#		_acceptDialog('Your Bought info:\n'+rawSay, 'Purchased items')
+		listPurchases(data,forWhat)
+		pass
+	checkingBought = false
+	pass
+
+func askedWhatSKUs(rawSay:String = '???', data:Array = [], forWhat:String='inapp'):
+#	OS.alert('SKUs:\n'+String(data),'SKU thing')
+	if checkingSKUs:
+		listSKUs(data,forWhat)
+		pass
+	checkingSKUs = false
+
+func _buySubscription():
+	emit_signal("PlayBilling_Subscribe",'remove_ad')
+	pass
+
+func _buyUseless():
+	emit_signal("PlayBilling_Buy",'just_donate')
+	pass
+
+func _consumeUseless():
+	emit_signal("PlayBilling_Consume",'just_donate')
+	pass
+
+func _SKUquery(what):
+	checkingSKUs = true
+	emit_signal("PlayBilling_SKU",what)
+	pass
+
 func murderAdNow():
 	emit_signal("PlayService_UnlockAchievement",adMurderedAchievement)
 	emit_signal("AdBanner_Terminate")
@@ -499,6 +667,7 @@ func _mainMenuPls():
 	pass
 
 func _settingPls(inGame:bool = false):
+	print('huuuuuuuuuuuuu')
 	$CanvasLayer/UIField.settingPls(inGame)
 	pass
 
@@ -536,6 +705,9 @@ func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
 			print("Let's open " + downloadLatestVersionURL)
 			OS.shell_open(downloadLatestVersionURL)
 			pass
+		"BeyondVersion":
+			print("Let's open " + githubIssueURL)
+			OS.shell_open(githubIssueURL)
 		_:
 			pass
 	emit_signal("AdBanner_Reshow")
@@ -544,7 +716,8 @@ func _confirmedDialogTo(doThis:String = "", customAction:String = ""):
 func _cancelDialog(forConfirmation:String = ""):
 	emit_signal("AdBanner_Reshow")
 	confirmActionIdFor = ""
-	$CanvasLayer/UIField.checkGetStuck()
+#	$CanvasLayer/UIField.checkGetStuck()
+	$GetStuckTimer.stop()
 	theUploadSaveForCloudCheck = false
 	pass
 
@@ -798,6 +971,18 @@ func _openGooglePlayOd(inGame:bool = false):
 	$CanvasLayer/UIField.openGooglePlayOd(inGame)
 	pass
 
+func _openDisableAdsOd(inGame:bool = false):
+	$CanvasLayer/UIField.openDisableAdsOd(inGame)
+	pass
+
+func _openGoogleSectionOd(inGame:bool = false):
+	$CanvasLayer/UIField.openGoogleSectionOd(inGame)
+	pass
+	
+func _openInfoSectionOd(inGame:bool = false):
+	$CanvasLayer/UIField.openInfoSectionOd(inGame)
+	pass
+
 func _changeLoginGooglePlay(into:bool = true):
 	if Engine.has_singleton("GodotPlayGamesServices"):
 		if($PlayField.gameplayStarted):
@@ -905,9 +1090,22 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(false)
+							pass
 						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(false)
+							pass
+						"Info":
+							# DONE: info section
+							_openInfoSectionOd()
+							pass
+						"Google":
+							# DONE: Google section
+							_openGoogleSectionOd()
 							pass
 						"Check Update":
 							_checkUpdate(true)
@@ -948,11 +1146,70 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_downloadOverwriteSave(false)
 							pass
 						"Back":
-							_settingPls()
+#							_settingPls()
+							_openGoogleSectionOd()
 							pass
 						_:
 							pass
 					pass
+				"DisableAdsOD":
+					match(nameToDo):
+						"Query Purchases":
+							_checkAdDisableSubscription()
+							pass
+						"Query Items":
+							_checkJustDonate()
+							pass
+						"Buy 1 Month":
+							_buySubscription()
+							pass
+						"Test Buy Useless":
+							_buyUseless()
+							pass
+						"Consume Useless":
+							_consumeUseless()
+							pass
+						"SKU Subs":
+							_SKUquery('subs')
+							pass
+						"SKU Items":
+							_SKUquery('inapp')
+							pass
+						"Back":
+#							_settingPls()
+							_openGoogleSectionOd()
+							pass
+						_:
+							pass
+					pass
+				"GoogleSectionOD":
+					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(false)
+							pass
+						"Google Play Games":
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(false)
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
+				"InfoSectionOD":
+					match(nameToDo):
+						"Check Update":
+							_checkUpdate(true)
+							pass
+						"About":
+							_aboutDialog()
+							pass
+						"Back":
+							_settingPls()
+							pass
+						_:
+							pass
 				"QuitDialogOD":
 					match(nameToDo):
 						"Shutdown":
@@ -1014,9 +1271,22 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 					pass
 				"SettingOD":
 					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(true)
+							pass
 						"Google Play Games":
 #							_justCheckGooglePlay()
 							_openGooglePlayOd(true)
+							pass
+						"Info":
+							# DONE: info section
+							_openInfoSectionOd(true)
+							pass
+						"Google":
+							# DONE: Google section
+							_openGoogleSectionOd(true)
 							pass
 						"Check Update":
 							_checkUpdate(true)
@@ -1056,11 +1326,69 @@ func readUISignalWantsTo(nameToDo:String, ODNameOf:String,lagrangeNameOf:String)
 							_downloadOverwriteSave(false)
 							pass
 						"Back":
-							_settingPls(true)
+#							_settingPls(true)
+							_openGoogleSectionOd(true)
 							pass
 						_:
 							pass
 					pass
+				"DisableAdsOD":
+					match(nameToDo):
+						"Query Purchases":
+							_checkAdDisableSubscription()
+							pass
+						"Query Items":
+							_checkJustDonate()
+							pass
+						"Buy 1 Month":
+							_buySubscription()
+							pass
+						"Test Buy Useless":
+							_buyUseless()
+							pass
+						"Consume Useless":
+							_consumeUseless()
+							pass
+						"SKU Subs":
+							_SKUquery('subs')
+							pass
+						"SKU Items":
+							_SKUquery('inapp')
+							pass
+						"Back":
+#							_settingPls(true)
+							_openGoogleSectionOd(true)
+							pass
+						_:
+							pass
+				"GoogleSectionOD":
+					match(nameToDo):
+						"Disable Ads":
+							# Check Subscription for Disable ad button
+#							_checkAdDisableSubscription()
+							_openDisableAdsOd(true)
+							pass
+						"Google Play Games":
+#							_justCheckGooglePlay()
+							_openGooglePlayOd(true)
+						"Back":
+							_settingPls(true)
+							pass
+						_:
+							pass
+				"InfoSectionOD":
+					match(nameToDo):
+						"Check Update":
+							_checkUpdate(true)
+							pass
+						"About":
+							_aboutDialog()
+							pass
+						"Back":
+							_settingPls(true)
+							pass
+						_:
+							pass
 				"AbortDialogOD":
 					match(nameToDo):
 						"Yes":
@@ -1284,6 +1612,7 @@ func _on_AboutDialog_popup_hide() -> void:
 
 
 func _on_PlayField_continueExpired() -> void:
+	_continueExpired()
 	pass # Replace with function body.
 
 
@@ -1315,4 +1644,24 @@ func _on_HTTPRequest_request_doned(purpose, result, response_code, headers, body
 
 func _on_PlayField_forcedPressContinue(whichIs:bool) -> void:
 	_iWantToContinue(whichIs)
+	pass # Replace with function body.
+
+
+func _on_GetStuckTimer_timeout() -> void:
+	$CanvasLayer/UIField.checkGetStuck()
+	pass # Replace with function body.
+
+
+func _on_UIField_outOfWelcome() -> void:
+	$GetStuckTimer.stop()
+	pass # Replace with function body.
+
+
+func _on_TebengeSKUListDialog_popup_hide() -> void:
+	emit_signal("AdBanner_Reshow")
+	pass # Replace with function body.
+
+
+func _on_TebengeSKUListDialog_about_to_show() -> void:
+	emit_signal("AdBanner_Terminate")
 	pass # Replace with function body.

@@ -7,8 +7,14 @@
 
 [node name="TebengePositionedTouchScreenButton" type="CenterContainer"]
 modulate = Color( 1, 1, 1, 0.27451 )
-margin_right = 304.0
-margin_bottom = 316.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -331.0
+margin_top = -347.0
+margin_right = -76.0
+margin_bottom = -97.0
 script = ExtResource( 1 )
 normal = ExtResource( 2 )
 pressed = ExtResource( 3 )

@@ -23,6 +23,21 @@ func openGooglePlayOd():
 	$GooglePlayOD.show()
 	pass
 
+func openDisableAdsOd():
+	hideAllODs()
+	$DisableAdsOD.show()
+	pass
+
+func openGoogleSectionOd():
+	hideAllODs()
+	$GoogleSectionOD.show()
+	pass
+
+func openInfoSectionOd():
+	hideAllODs()
+	$InfoSectionOD.show()
+	pass
+
 func attemptAbortGame():
 	hideAllODs()
 	$AbortDialogOD.show()

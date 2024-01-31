@@ -1,0 +1,5 @@
+[gd_scene format=2]
+
+[node name="TebengeHSlider" type="HSlider"]
+margin_right = 618.0
+margin_bottom = 139.0

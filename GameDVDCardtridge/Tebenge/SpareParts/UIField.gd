@@ -3,6 +3,7 @@ extends Control
 signal wantsToPlay
 signal wantsToQuit
 signal wantsToShutdown
+signal outOfWelcome
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -35,6 +36,7 @@ func mainMenuPls():
 
 func settingPls(inGame:bool = false):
 	_hideAllLagranges()
+	print('haaaaaaaaaaaaaaaaaa')
 #	$MenuLagrange.show()
 	if !inGame:
 #		_hideAllLagranges()
@@ -56,6 +58,42 @@ func openGooglePlayOd(inGame:bool = false):
 	else:
 		$MenuLagrange.show()
 		$MenuLagrange.openGooglePlayOd()
+		pass
+	pass
+
+func openDisableAdsOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openDisableAdsOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openDisableAdsOd()
+		pass
+	pass
+
+func openInfoSectionOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openInfoSectionOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openInfoSectionOd()
+		pass
+	pass
+
+func openGoogleSectionOd(inGame:bool = false):
+	_hideAllLagranges()
+	if inGame:
+		$GameplayLagrange.show()
+		$GameplayLagrange.openGoogleSectionOd()
+		pass
+	else:
+		$MenuLagrange.show()
+		$MenuLagrange.openGoogleSectionOd()
 		pass
 	pass
 
@@ -139,4 +177,9 @@ func _on_MenuLagrange_LagrangeWantsTo(nameOf:String,fromOD:String, fromLagrange:
 func _on_GameplayLangrange_LagrangeWantsTo(nameOf, fromOD, fromLagrange):
 	print("UI wants to %s from OD %s Lagrange %s" % [nameOf, fromOD, fromLagrange])
 	emit_signal("uiWantsTo",nameOf,fromOD,fromLagrange)
+	pass # Replace with function body.
+
+
+func _on_MenuLagrange_OutOfWelcome() -> void:
+	emit_signal("outOfWelcome")
 	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/UIField.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Tebenge.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=6]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeHTTPRequest.tscn" type="PackedScene" id=7]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/VirtualBadvertisement.tscn" type="PackedScene" id=8]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeSKUListDialog.tscn" type="PackedScene" id=9]
 
 [node name="Tebenge" type="Node"]
 script = ExtResource( 2 )
@@ -43,6 +44,8 @@ margin_right = 1670.0
 margin_bottom = 738.0
 dialog_text = "Accept dialog"
 
+[node name="TebengeSKUListDialog" parent="CanvasLayer" instance=ExtResource( 9 )]
+
 [node name="InternalSpeaker" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 bus = "SoundEffect"
@@ -50,6 +53,12 @@ bus = "SoundEffect"
 [node name="AppearAdAgainTimer" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true
+
+[node name="GetStuckTimer" type="Timer" parent="."]
+pause_mode = 2
+wait_time = 120.0
+one_shot = true
+autostart = true
 
 [node name="HTTPRequest" parent="." instance=ExtResource( 7 )]
 
@@ -66,6 +75,7 @@ one_shot = true
 [connection signal="pointItIsNow" from="PlayField" to="." method="_on_PlayField_pointItIsNow"]
 [connection signal="tickedArcadeTimer" from="PlayField" to="." method="_on_PlayField_tickedArcadeTimer"]
 [connection signal="tickedEndlessTimer" from="PlayField" to="." method="_on_PlayField_tickedEndlessTimer"]
+[connection signal="outOfWelcome" from="CanvasLayer/UIField" to="." method="_on_UIField_outOfWelcome"]
 [connection signal="uiWantsTo" from="CanvasLayer/UIField" to="." method="_on_UIField_uiWantsTo"]
 [connection signal="wantsToPlay" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToPlay"]
 [connection signal="wantsToQuit" from="CanvasLayer/UIField" to="." method="_on_UIField_wantsToQuit"]
@@ -80,6 +90,9 @@ one_shot = true
 [connection signal="popup_hide" from="CanvasLayer/ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_hide"]
 [connection signal="confirmed" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
 [connection signal="popup_hide" from="CanvasLayer/AcceptDialog" to="." method="_on_AcceptDialog_popup_hide"]
+[connection signal="about_to_show" from="CanvasLayer/TebengeSKUListDialog" to="." method="_on_TebengeSKUListDialog_about_to_show"]
+[connection signal="popup_hide" from="CanvasLayer/TebengeSKUListDialog" to="." method="_on_TebengeSKUListDialog_popup_hide"]
 [connection signal="timeout" from="AppearAdAgainTimer" to="." method="_on_AppearAdAgainTimer_timeout"]
+[connection signal="timeout" from="GetStuckTimer" to="." method="_on_GetStuckTimer_timeout"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="request_doned" from="HTTPRequest" to="." method="_on_HTTPRequest_request_doned"]

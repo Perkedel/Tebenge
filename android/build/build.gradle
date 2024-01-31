@@ -123,9 +123,6 @@ android {
         missingDimensionStrategy 'products', 'template'
 //CHUNK_ANDROID_DEFAULTCONFIG_BEGIN
 //CHUNK_ANDROID_DEFAULTCONFIG_END
-
-        // Shin-nil's enable multiDex to prevent mergeDex error
-        multiDexEnabled = true
     }
 
     lintOptions {

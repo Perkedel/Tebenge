@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=2]
@@ -12,20 +12,38 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/updateCheckIcon.png" type="Texture" id=10]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/soundSpeakerIcon.png" type="Texture" id=11]
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/soundSpeakerMuteIcon.png" type="Texture" id=12]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/ad_murdered_icon.png" type="Texture" id=13]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/infoIcon.png" type="Texture" id=14]
 
 [node name="SettingOD" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 startQueryFromSelectionNum = 1
 
 [node name="SoundOnOffDT" parent="." index="0" instance=ExtResource( 3 )]
-margin_left = 202.0
-margin_right = 502.0
+margin_left = 354.0
+margin_right = 654.0
 margin_bottom = 150.0
 title = "Sound (Master)"
 icon = ExtResource( 11 )
 iconOff = ExtResource( 12 )
 
-[node name="GooglePlayGamesButton" parent="." index="1" instance=ExtResource( 7 )]
+[node name="CheckDisableAdsButton" parent="." index="1" instance=ExtResource( 7 )]
+visible = false
+margin_left = 354.0
+margin_right = 654.0
+margin_bottom = 150.0
+text = "Disable Ads"
+icon = ExtResource( 13 )
+
+[node name="DisableAdDT" parent="." index="2" instance=ExtResource( 3 )]
+visible = false
+margin_left = 354.0
+margin_right = 654.0
+margin_bottom = 150.0
+title = "Disable Ads"
+
+[node name="GooglePlayGamesButton" parent="." index="3" instance=ExtResource( 7 )]
+visible = false
 margin_left = 506.0
 margin_right = 806.0
 margin_bottom = 150.0
@@ -33,26 +51,44 @@ hint_tooltip = "Opens your Google Play profile dashboard"
 text = "Google Play Games"
 icon = ExtResource( 9 )
 
-[node name="TebengeMenuButton" parent="." index="2" instance=ExtResource( 7 )]
-margin_left = 810.0
-margin_right = 1110.0
+[node name="GoogleSectionButton" parent="." index="4" instance=ExtResource( 7 )]
+margin_left = 658.0
+margin_right = 958.0
+margin_bottom = 150.0
+hint_tooltip = "Open Google Play settings (Disable Ads & Google Play Games)"
+text = "Google"
+icon = ExtResource( 9 )
+
+[node name="CheckUpdateButton" parent="." index="5" instance=ExtResource( 7 )]
+visible = false
+margin_left = 658.0
+margin_right = 958.0
 margin_bottom = 150.0
 text = "Check Update"
 icon = ExtResource( 10 )
 
-[node name="AboutButton" parent="." index="3" instance=ExtResource( 7 )]
-margin_left = 1114.0
-margin_right = 1414.0
+[node name="AboutButton" parent="." index="6" instance=ExtResource( 7 )]
+visible = false
+margin_left = 810.0
+margin_right = 1110.0
 margin_bottom = 150.0
 text = "About"
 icon = ExtResource( 8 )
 
-[node name="BackButton" parent="." index="4" instance=ExtResource( 2 )]
-margin_left = 1418.0
-margin_right = 1718.0
+[node name="InfoSectionButton" parent="." index="7" instance=ExtResource( 7 )]
+margin_left = 962.0
+margin_right = 1262.0
+margin_bottom = 150.0
+hint_tooltip = "View informations, credits, & check update"
+text = "Info"
+icon = ExtResource( 14 )
+
+[node name="BackButton" parent="." index="8" instance=ExtResource( 2 )]
+margin_left = 1266.0
+margin_right = 1566.0
 margin_bottom = 150.0
 
-[node name="TestSpeaker" parent="." index="5" instance=ExtResource( 6 )]
+[node name="TestSpeaker" parent="." index="9" instance=ExtResource( 6 )]
 stream = ExtResource( 5 )
 
 [connection signal="changeState" from="SoundOnOffDT" to="." method="_on_SoundOnOffDT_changeState"]

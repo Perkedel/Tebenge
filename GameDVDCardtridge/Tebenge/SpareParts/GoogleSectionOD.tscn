@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/BaseOD.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/GoogleSectionOD.gd" type="Script" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuBackButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeMenuButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/cloudGameIcon.png" type="Texture" id=5]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/ad_murdered_icon.png" type="Texture" id=6]
+
+[node name="GoogleSectionOD" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="CheckDisableAdsButton" parent="." index="0" instance=ExtResource( 4 )]
+margin_left = 506.0
+margin_right = 806.0
+margin_bottom = 150.0
+hint_tooltip = "Buy & Check Disable Ad"
+text = "Disable Ads"
+icon = ExtResource( 6 )
+
+[node name="GooglePlayGamesButton" parent="." index="1" instance=ExtResource( 4 )]
+margin_left = 810.0
+margin_right = 1110.0
+margin_bottom = 150.0
+hint_tooltip = "Opens your Google Play profile dashboard"
+text = "Google Play Games"
+icon = ExtResource( 5 )
+
+[node name="TebengeMenuBackButton" parent="." index="2" instance=ExtResource( 3 )]
+margin_left = 1114.0
+margin_right = 1414.0
+margin_bottom = 150.0

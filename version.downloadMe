@@ -1,4 +1,8 @@
-2022.04.3;
-- First Release
-- installed hoping to make quick bucks
-- added a few more functions
+2024.02.0;
+- Shrank Pause Button
+- Endless mode HP starts from 5 instead of 3
+- Fix version year error logic
+- Fix Continue Expired achievement forgot connect
+- Improved Getstuck detection maybe
+- Ad destroyer
+- Other bugfix

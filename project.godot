@@ -29,6 +29,41 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://GameDVDCardtridge/Tebenge/SpareParts/ComplexDT.gd"
 }, {
+"base": "Button",
+"class": "ControllerButton",
+"language": "GDScript",
+"path": "res://addons/controller_icons/objects/Button.gd"
+}, {
+"base": "Node",
+"class": "ControllerMapper",
+"language": "GDScript",
+"path": "res://addons/controller_icons/Mapper.gd"
+}, {
+"base": "Resource",
+"class": "ControllerSettings",
+"language": "GDScript",
+"path": "res://addons/controller_icons/Settings.gd"
+}, {
+"base": "Sprite",
+"class": "ControllerSprite",
+"language": "GDScript",
+"path": "res://addons/controller_icons/objects/Sprite.gd"
+}, {
+"base": "Sprite3D",
+"class": "ControllerSprite3D",
+"language": "GDScript",
+"path": "res://addons/controller_icons/objects/Sprite3D.gd"
+}, {
+"base": "TextureRect",
+"class": "ControllerTextureRect",
+"language": "GDScript",
+"path": "res://addons/controller_icons/objects/TextureRect.gd"
+}, {
+"base": "BaseOD",
+"class": "DisableAdsOD",
+"language": "GDScript",
+"path": "res://GameDVDCardtridge/Tebenge/SpareParts/DisableAdsOD.gd"
+}, {
 "base": "",
 "class": "GitAPI",
 "language": "NativeScript",
@@ -99,6 +134,13 @@ _global_script_class_icons={
 "BaseLagrange": "",
 "BaseOD": "",
 "ComplexDT": "",
+"ControllerButton": "",
+"ControllerMapper": "",
+"ControllerSettings": "",
+"ControllerSprite": "",
+"ControllerSprite3D": "",
+"ControllerTextureRect": "",
+"DisableAdsOD": "",
 "GitAPI": "",
 "JSONBeautifier": "",
 "Tebenge": "",
@@ -129,6 +171,7 @@ config/quit_on_go_back=false
 [autoload]
 
 TebengeGlobals="*res://GameDVDCardtridge/Tebenge/TebengeGlobals.gd"
+ControllerIcons="*res://addons/controller_icons/ControllerIcons.gd"
 
 [display]
 
@@ -142,7 +185,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/ActionIcon/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/ActionIcon/plugin.cfg", "res://addons/controller_icons/plugin.cfg" )
 
 [gdnative]
 

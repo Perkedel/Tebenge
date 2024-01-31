@@ -4,6 +4,6 @@
 [ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/font/ubuntu-font-family-0.83/Ubuntu-R.ttf" type="DynamicFontData" id=2]
 
 [resource]
-size = 38
+size = 72
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 2 )

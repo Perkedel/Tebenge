@@ -17,4 +17,5 @@ script = ExtResource( 3 )
 visible = false
 
 [connection signal="LagrangeWantsTo" from="MenuLagrange" to="." method="_on_MenuLagrange_LagrangeWantsTo"]
+[connection signal="OutOfWelcome" from="MenuLagrange" to="." method="_on_MenuLagrange_OutOfWelcome"]
 [connection signal="LagrangeWantsTo" from="GameplayLagrange" to="." method="_on_GameplayLangrange_LagrangeWantsTo"]

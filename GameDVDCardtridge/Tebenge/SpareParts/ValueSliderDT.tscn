@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ComplexDT.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeHSlider.tscn" type="PackedScene" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/ValueSliderDT.gd" type="Script" id=4]
+
+[node name="ValueSliderDT" instance=ExtResource( 1 )]
+margin_right = 304.0
+margin_bottom = 234.0
+script = ExtResource( 4 )
+title = "Value Slider"
+value = 50.0
+
+[node name="ContainsWextra" type="HBoxContainer" parent="." index="0"]
+margin_right = 304.0
+margin_bottom = 50.0
+alignment = 1
+
+[node name="ValueName" parent="ContainsWextra" index="0" instance=ExtResource( 2 )]
+margin_right = 200.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+text = "Value Slider"
+align = 0
+
+[node name="ValueOfIt" parent="ContainsWextra" index="1" instance=ExtResource( 2 )]
+margin_left = 204.0
+margin_right = 304.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 12
+text = "50"
+align = 2
+
+[node name="TebengeHSlider" parent="." index="1" instance=ExtResource( 3 )]
+margin_top = 54.0
+margin_right = 304.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 50.0

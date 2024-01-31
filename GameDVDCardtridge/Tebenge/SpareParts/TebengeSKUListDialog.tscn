@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeAcceptDialog.tscn" type="PackedScene" id=1]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/ArcadeIcon.png" type="Texture" id=2]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/Assets/images/appIcon.png" type="Texture" id=3]
+[ext_resource path="res://GameDVDCardtridge/Tebenge/SpareParts/TebengeSKUListDialog.gd" type="Script" id=4]
+
+[node name="TebengeSKUListDialog" instance=ExtResource( 1 )]
+margin_right = 1432.0
+margin_bottom = 932.0
+window_title = "SKU lists"
+script = ExtResource( 4 )
+
+[node name="SKUItemsLists" type="ItemList" parent="." index="3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -64.0
+items = [ "HA\\ns", ExtResource( 3 ), false, "hU", ExtResource( 2 ), false ]
+auto_height = true
+fixed_icon_size = Vector2( 250, 250 )

@@ -1,6 +1,6 @@
 extends BaseLagrange
 
-
+signal OutOfWelcome
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -23,6 +23,7 @@ func mainMenuPls():
 	hideAllODs()
 	$MainMenuOD.show()
 #	$QuitDialogOD.hide()
+	emit_signal("OutOfWelcome")
 	pass
 
 func settingPls():
@@ -33,6 +34,21 @@ func settingPls():
 func openGooglePlayOd():
 	hideAllODs()
 	$GooglePlayOD.show()
+	pass
+
+func openDisableAdsOd():
+	hideAllODs()
+	$DisableAdsOD.show()
+	pass
+
+func openGoogleSectionOd():
+	hideAllODs()
+	$GoogleSectionOD.show()
+	pass
+
+func openInfoSectionOd():
+	hideAllODs()
+	$InfoSectionOD.show()
 	pass
 
 func quitPls():

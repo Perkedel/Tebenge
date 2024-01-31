@@ -9,12 +9,13 @@
 
 [node name="BoolDT" instance=ExtResource( 1 )]
 margin_right = 460.0
-margin_bottom = 135.0
+margin_bottom = 328.0
 script = ExtResource( 4 )
 title = "True False"
 value = "ON / OFF"
 icon = ExtResource( 5 )
 iconOff = ExtResource( 6 )
+state = true
 
 [node name="BoolLabel" parent="." index="0" instance=ExtResource( 2 )]
 margin_right = 460.0
@@ -24,7 +25,7 @@ text = "True False"
 [node name="CheckButton" parent="." index="1" instance=ExtResource( 3 )]
 margin_top = 54.0
 margin_right = 460.0
-margin_bottom = 135.0
+margin_bottom = 328.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 pressed = true
