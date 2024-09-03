@@ -124,7 +124,9 @@
 
         <!-- Admobio -->
         <!-- Shin-NiL https://github.com/Shin-NiL/Godot-Android-Admob-Plugin -->
+        <!-- Poing Studios https://github.com/poingstudios/godot-admob-android/ -->
         <meta-data
+            tools:replace="android:value"
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id"/>
         <!-- Play Service -->

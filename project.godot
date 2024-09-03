@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/json_beautifier/json_beautifier.gd"
 }, {
+"base": "Object",
+"class": "PoingAdMobVersionHelper",
+"language": "GDScript",
+"path": "res://addons/admob/version_helper.gd"
+}, {
 "base": "Node",
 "class": "Tebenge",
 "language": "GDScript",
@@ -143,6 +148,7 @@ _global_script_class_icons={
 "DisableAdsOD": "",
 "GitAPI": "",
 "JSONBeautifier": "",
+"PoingAdMobVersionHelper": "",
 "Tebenge": "",
 "TebengeAboutDialog": "",
 "TebengeAcceptDialog": "",
@@ -154,6 +160,65 @@ _global_script_class_icons={
 "TitledValueLabelDT": "",
 "VirtualBadvertisement": "",
 "VirtualJoystick": ""
+}
+
+[admob]
+
+config={
+"banner": {
+"position": 1,
+"respect_safe_area": true,
+"show_instantly": true,
+"size": "BANNER",
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/6300978111"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/2934735716"
+}
+}
+},
+"debug": {
+"is_debug_on_release": false,
+"is_real": true,
+"is_test_europe_user_consent": false
+},
+"general": {
+"is_enabled": true,
+"is_for_child_directed_treatment": false,
+"max_ad_content_rating": "PG"
+},
+"interstitial": {
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/1033173712"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/4411468910"
+}
+}
+},
+"rewarded": {
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/5224354917"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/1712485313"
+}
+}
+},
+"rewarded_interstitial": {
+"unit_ids": {
+"Android": {
+"standard": "ca-app-pub-3940256099942544/5354046379"
+},
+"iOS": {
+"standard": "ca-app-pub-3940256099942544/6978759866"
+}
+}
+}
 }
 
 [application]

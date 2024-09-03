@@ -19,12 +19,28 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
+    
     <!-- Android TV / Google TV optionalizers -->
     <uses-feature android:name="android.software.leanback"
-            android:required="false" />
+        android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen"
-                  android:required="false" />
+        android:required="false" />
+    <uses-feature android:name="android.hardware.faketouch"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.nfc"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.microphone"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.sensor"
+        android:required="false"/>
+    <!-- Some TV devices have an ethernet connection only: WIFI on automotive -->
+
 
     <!-- Android Automotive optionalizers -->
     <uses-feature
@@ -112,10 +128,6 @@
                 <!-- <action android:name="android.intent.action.MAIN" /> -->
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
-
-            <!-- Android Automotive allow distraction -->
-            <!-- Quite dangerous, make sure it is the passenger using this app -->
-            <meta-data android:name="distractionOptimized" android:value="false"/>
         </activity>
 
 <!-- Custom application XML added by add-ons. -->
@@ -124,7 +136,10 @@
 
         <!-- Admobio -->
         <!-- Shin-NiL https://github.com/Shin-NiL/Godot-Android-Admob-Plugin -->
+        <!-- Poing Studios https://github.com/poingstudios/godot-admob-android/ -->
+        <!-- tools:replace="android:value" -->
         <meta-data
+            
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id"/>
         <!-- Play Service -->

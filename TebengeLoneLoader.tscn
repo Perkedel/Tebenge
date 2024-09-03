@@ -37,6 +37,7 @@ script = ExtResource( 1 )
 [connection signal="PlayService_DownloadSave" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_DownloadSave"]
 [connection signal="PlayService_IncrementAchievement" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_IncrementAchievement"]
 [connection signal="PlayService_JustCheck" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_JustCheck"]
+[connection signal="PlayService_RetrieveScore" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_RetrieveScore"]
 [connection signal="PlayService_RevealAchievement" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_RevealAchievement"]
 [connection signal="PlayService_SetStepAchievement" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_SetStepAchievement"]
 [connection signal="PlayService_UnlockAchievement" from="DVDsolder/Tebenge" to="." method="_on_Tebenge_PlayService_UnlockAchievement"]

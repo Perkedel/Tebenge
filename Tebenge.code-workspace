@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"godot_tools.editor_path": "c:\\Users\\joelr\\Documents\\kolmorotzzet (kolmorotshitt)\\Artistic Setups\\Godot\\Godot_v3.4.3-stable_win64.exe"
+		"godot_tools.editor_path": "c:\\Users\\joelr\\Documents\\kolmorotzzet (kolmorotshitt)\\Artistic Setups\\Godot\\Godot_v3.4.3-stable_win64.exe",
+		"godotTools.editorPath.godot3": "c:\\Users\\Joel Robert Justiawa\\Documents\\Kolmorotzzet (kolmorotshitt)\\Artistic Setups\\Godot\\Godot_v3.5.3-stable_win64.exe"
 	}
 }

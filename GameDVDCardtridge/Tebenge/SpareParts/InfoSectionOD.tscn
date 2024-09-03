@@ -16,7 +16,7 @@ script = ExtResource( 4 )
 margin_left = 191.0
 margin_right = 491.0
 margin_bottom = 150.0
-value = "v2024.02.0"
+value = "v2024.09.0"
 
 [node name="TitledValueLabelDT" parent="." index="1" instance=ExtResource( 8 )]
 margin_left = 495.0

@@ -630,6 +630,7 @@ func _on_Tebenge_ChangeDVD_Exec():
 
 func _readyToQuitNow():
 	if iWantToQuit:
+		print('Let us quit now!')
 		___tebengeItself.queue_free()
 		
 		if OS.get_name() == "iOS" || OS.get_name() == "HTML5":
@@ -1029,4 +1030,8 @@ func _on_Tebenge_saveOK() -> void:
 
 
 func _on_Tebenge_saveFailed() -> void:
+	pass # Replace with function body.
+
+
+func _on_Tebenge_PlayService_RetrieveScore(leaderID, timeSpanOf, collectionOf) -> void:
 	pass # Replace with function body.

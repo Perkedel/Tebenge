@@ -250,3 +250,17 @@ The following are tab links opened during this development. Some of which are as
 - https://github.com/m4gr3d/Godot-Android-Samples/issues/11
 - https://www.youtube.com/watch?v=gSd2U8LAkyw&list=PLQhQEGkwKZUobJyaYz2pQz8KWm-Pkv3rp&index=8
 - https://github.com/rsubtil/controller_icons/ **PLEASE NEW CONTROLLER GLYPHS!!!**
+- https://github.com/Shin-NiL/Godot-Android-Admob-Plugin 
+- alert! billing hasn't been updated!
+- https://github.com/godotengine/godot-google-play-billing/issues/65 you must update Billing before you can push update to Play, but the official hasn't been updated
+- https://github.com/godotengine/godot-google-play-billing/issues/65#issuecomment-2150903234
+- https://github.com/201949/godot-google-play-billing-6 reupdated google play billing
+- https://github.com/code-with-max/godot-google-play-iapp you can use this but it's too different codebase!
+- https://github.com/poingstudios/godot-admob-android/tree/v2?tab=readme-ov-file
+- https://github.com/poingstudios/godot-admob-plugin
+- https://www.youtube.com/watch?v=ZnlH3INcAGs    
+- https://docs.godotengine.org/en/stable/tutorials/platform/android/android_in_app_purchases.html
+- https://github.com/diasurgical/devilutionX    
+- https://developer.android.com/training/tv/get-started/controllers
+- https://stackoverflow.com/questions/49713825/androidtv-missing-dpad-functionality
+- https://github.com/diasurgical/devilutionX/issues/6210
