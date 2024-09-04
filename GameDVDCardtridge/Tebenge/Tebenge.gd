@@ -1665,3 +1665,11 @@ func _on_TebengeSKUListDialog_popup_hide() -> void:
 func _on_TebengeSKUListDialog_about_to_show() -> void:
 	emit_signal("AdBanner_Terminate")
 	pass # Replace with function body.
+
+
+func _on_AboutDialog_confirmed() -> void:
+	pass # Replace with function body.
+
+
+func _on_TebengeSKUListDialog_confirmed() -> void:
+	pass # Replace with function body.

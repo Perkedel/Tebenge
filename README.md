@@ -264,3 +264,5 @@ The following are tab links opened during this development. Some of which are as
 - https://developer.android.com/training/tv/get-started/controllers
 - https://stackoverflow.com/questions/49713825/androidtv-missing-dpad-functionality
 - https://github.com/diasurgical/devilutionX/issues/6210
+- https://godotengine.org/asset-library/asset/3286
+- https://forum.godotengine.org/t/read-exported-version-code-from-gdscript/17920/3

@@ -253,6 +253,7 @@ func _checkAcknowledge():
 var listQueryBoughtItem:Dictionary
 var listQueryBoughtSubs:Dictionary
 func _queryPurchases(whichAre:String = 'subs'):
+	print('query purchases ' + whichAre)
 	to_querySection = whichAre
 	if !shangTsung:
 		___tebengeItself._acceptDialog('Missing Billing! Querying: ' + whichAre,'404 Google Play Billing Not found!')
@@ -568,6 +569,7 @@ func _on_GP_IAP_query_purchases_response(purchases):
 var to_buy_item:String
 var to_querySection:String = 'inapp'
 func commencePurchase(whichIs:String = '', sellSoul:bool = false):
+	print('try purchase haha ' + whichIs + (' (subscription)' if sellSoul else ''))
 	to_querySection = whichIs
 	purchased_subs = true
 	to_buy_item = whichIs
@@ -585,6 +587,7 @@ func checkPurchase(whichIs:String = '', sellSoul:bool = false):
 	pass
 
 func consumePurchase(whichIs:String = ''):
+	print('Consume purchase ' + whichIs)
 	if shangTsung:
 		var token = listQueryBoughtItem[whichIs].purchase_token
 		_debugAlert('Consuming ' + whichIs+'\nToken = ' + token, ' COnsumption')

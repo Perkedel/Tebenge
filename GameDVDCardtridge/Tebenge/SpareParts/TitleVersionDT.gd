@@ -24,11 +24,24 @@ const wentPaidAchievement:String = "CgkIhru1tYoQEAIQEA"
 # var a: int = 2
 # var b: String = "text"
 
+func readExportVerCode() -> String:
+	# https://forum.godotengine.org/t/read-exported-version-code-from-gdscript/17920/3
+	if OS.get_name() == "Android":
+		var export_config: ConfigFile = ConfigFile.new()
+		var err = export_config.load("res://export_presets.cfg")
+		if err == OK:
+			#print(export_config.get_value("preset.1.options", 'version/code'))
+			#print(export_config.get_value("preset.1.options", 'version/name'))
+			return export_config.get_value("preset.1.options", 'version/code')
+		else:
+			#print('[engine_root] Error open export_presets.cfgs')
+			return '???'
+	return '---'
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	value = "v" + hardCodeVersion
-	$ValueLabel.text = "v" + hardCodeVersion
+	value = "v" + hardCodeVersion + ' (' + readExportVerCode() + ')'
+	$ValueLabel.text = value
 	pass # Replace with function body.
 
 

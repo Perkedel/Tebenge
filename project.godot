@@ -74,11 +74,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/json_beautifier/json_beautifier.gd"
 }, {
-"base": "Object",
-"class": "PoingAdMobVersionHelper",
-"language": "GDScript",
-"path": "res://addons/admob/version_helper.gd"
-}, {
 "base": "Node",
 "class": "Tebenge",
 "language": "GDScript",
@@ -148,7 +143,6 @@ _global_script_class_icons={
 "DisableAdsOD": "",
 "GitAPI": "",
 "JSONBeautifier": "",
-"PoingAdMobVersionHelper": "",
 "Tebenge": "",
 "TebengeAboutDialog": "",
 "TebengeAcceptDialog": "",

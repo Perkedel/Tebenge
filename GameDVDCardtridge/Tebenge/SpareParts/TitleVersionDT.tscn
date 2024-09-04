@@ -6,10 +6,10 @@
 [node name="TitleVersionDT" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 title = "Tebenge"
-value = "v2022.04.3"
+value = "v2024.09.0"
 
 [node name="TitleLabel" parent="." index="0"]
 text = "Tebenge"
 
 [node name="ValueLabel" parent="." index="1"]
-text = "v2022.04.3"
+text = "v2024.09.0"
